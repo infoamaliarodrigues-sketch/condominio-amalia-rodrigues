@@ -138,3 +138,13 @@ document.getElementById("menuBtn").addEventListener("click", () => {
     document.getElementById("sideMenu").classList.toggle("open");
 });
 
+onAuthStateChanged(auth, (user) => {
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    // Só aqui carregas a tabela
+    inicializarFracoes();
+    carregarTabela();
+});
