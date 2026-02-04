@@ -129,3 +129,12 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
     await signOut(auth);
     window.location.href = "login.html";
 });
+
+// ----------------------
+// ABRIR E FECHAR MENU
+// ----------------------
+
+document.getElementById("menuBtn").addEventListener("click", () => {
+    document.getElementById("sideMenu").classList.toggle("open");
+});
+
