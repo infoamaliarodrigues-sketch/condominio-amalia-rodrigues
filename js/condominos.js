@@ -1,94 +1,115 @@
-// Firestore
-const db = firebase.firestore();
+import { auth, db } from "./firebase-config.js";
+
+import {
+    collection,
+    doc,
+    setDoc,
+    getDoc,
+    onSnapshot
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+import {
+    signOut
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
 
 // ----------------------
-// ADICIONAR
+// FRAÇÕES FIXAS
 // ----------------------
-function adicionarCondomino() {
-    const fracao = document.getElementById("fracao").value;
-    const nome = document.getElementById("nome").value;
-    const permilagem = document.getElementById("permilagem").value;
-    const telefone = document.getElementById("telefone").value;
-    const email = document.getElementById("email").value;
+const fracoesFixas = [
+    "1A","1B","1C",
+    "2A","2B","2C",
+    "3A","3B","3C",
+    "4A","4B","4C",
+    "5A","5B","5C",
+    "LOJA 1","LOJA 2","LOJA 3",
+    "CASA DO LIXO"
+];
 
-    if (!fracao || !nome) {
-        alert("Fração e Nome são obrigatórios");
-        return;
+
+// ----------------------
+// CRIAR FRAÇÕES NO FIREBASE SE NÃO EXISTIREM
+// ----------------------
+async function inicializarFracoes() {
+    for (const fracao of fracoesFixas) {
+        const ref = doc(db, "condominos", fracao);
+        const snap = await getDoc(ref);
+
+        if (!snap.exists()) {
+            await setDoc(ref, {
+                fracao,
+                nome: "",
+                permilagem: "",
+                telefone: "",
+                email: ""
+            });
+        }
     }
+}
 
-    db.collection("condominos").add({
+inicializarFracoes();
+
+
+// ----------------------
+// LISTAR TABELA EM TEMPO REAL
+// ----------------------
+const tabela = document.querySelector("#tabela tbody");
+
+onSnapshot(collection(db, "condominos"), (snapshot) => {
+    tabela.innerHTML = "";
+
+    snapshot.forEach(docSnap => {
+        const c = docSnap.data();
+
+        tabela.innerHTML += `
+            <tr>
+                <td>${c.fracao}</td>
+                <td><input id="nome-${c.fracao}" value="${c.nome}"></td>
+                <td><input id="perm-${c.fracao}" value="${c.permilagem}"></td>
+                <td><input id="tel-${c.fracao}" value="${c.telefone}"></td>
+                <td><input id="email-${c.fracao}" value="${c.email}"></td>
+                <td>
+                    <button onclick="guardar('${c.fracao}')">Guardar</button>
+                    <button onclick="limpar('${c.fracao}')">Apagar</button>
+                </td>
+            </tr>
+        `;
+    });
+});
+
+
+// ----------------------
+// GUARDAR ALTERAÇÕES
+// ----------------------
+window.guardar = async (fracao) => {
+    await setDoc(doc(db, "condominos", fracao), {
         fracao,
-        nome,
-        permilagem,
-        telefone,
-        email
+        nome: document.getElementById(`nome-${fracao}`).value,
+        permilagem: document.getElementById(`perm-${fracao}`).value,
+        telefone: document.getElementById(`tel-${fracao}`).value,
+        email: document.getElementById(`email-${fracao}`).value
     });
+};
 
-    limparFormulario();
-}
-
-function limparFormulario() {
-    document.getElementById("fracao").value = "";
-    document.getElementById("nome").value = "";
-    document.getElementById("permilagem").value = "";
-    document.getElementById("telefone").value = "";
-    document.getElementById("email").value = "";
-}
 
 // ----------------------
-// LISTAR EM TEMPO REAL
+// LIMPAR DADOS DA FRAÇÃO
 // ----------------------
-function carregarTabela() {
-    db.collection("condominos").orderBy("fracao").onSnapshot(snapshot => {
-        const tbody = document.querySelector("#tabela tbody");
-        tbody.innerHTML = "";
-
-        snapshot.forEach(doc => {
-            const c = doc.data();
-            tbody.innerHTML += `
-                <tr>
-                    <td>${c.fracao}</td>
-                    <td>${c.nome}</td>
-                    <td>${c.permilagem}</td>
-                    <td>${c.telefone}</td>
-                    <td>${c.email}</td>
-                    <td>
-                        <button onclick="editar('${doc.id}')">Editar</button>
-                        <button onclick="apagar('${doc.id}')">Apagar</button>
-                    </td>
-                </tr>
-            `;
-        });
+window.limpar = async (fracao) => {
+    await setDoc(doc(db, "condominos", fracao), {
+        fracao,
+        nome: "",
+        permilagem: "",
+        telefone: "",
+        email: ""
     });
-}
+};
 
-carregarTabela();
-
-// ----------------------
-// APAGAR
-// ----------------------
-function apagar(id) {
-    if (confirm("Tem a certeza que deseja apagar?")) {
-        db.collection("condominos").doc(id).delete();
-    }
-}
 
 // ----------------------
-// EDITAR
+// FILTRO
 // ----------------------
-function editar(id) {
-    const novoNome = prompt("Novo nome:");
-    if (!novoNome) return;
-
-    db.collection("condominos").doc(id).update({
-        nome: novoNome
-    });
-}
-
-// ----------------------
-// FILTRAR
-// ----------------------
-function filtrar() {
+document.getElementById("filtro").addEventListener("input", () => {
     const termo = document.getElementById("filtro").value.toLowerCase();
     const linhas = document.querySelectorAll("#tabela tbody tr");
 
@@ -96,13 +117,13 @@ function filtrar() {
         const texto = linha.innerText.toLowerCase();
         linha.style.display = texto.includes(termo) ? "" : "none";
     });
-}
+});
+
 
 // ----------------------
 // LOGOUT
 // ----------------------
-document.getElementById("logoutBtn").addEventListener("click", () => {
-    firebase.auth().signOut().then(() => {
-        window.location.href = "login.html";
-    });
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "login.html";
 });
