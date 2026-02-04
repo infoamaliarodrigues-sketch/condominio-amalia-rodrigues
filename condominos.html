@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestão de Condóminos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h2>Gestão de Condóminos</h2>
+        <button id="logoutBtn">Logout</button>
+    </header>
+
+    <section class="form">
+        <input id="fracao" placeholder="Fração (ex: 1A)">
+        <input id="nome" placeholder="Nome">
+        <input id="permilagem" placeholder="Permilagem">
+        <input id="telefone" placeholder="Telefone">
+        <input id="email" placeholder="Email">
+        <button onclick="adicionarCondomino()">Adicionar</button>
+    </section>
+
+    <hr>
+
+    <input id="filtro" placeholder="Filtrar por nome ou fração" oninput="filtrar()">
+
+    <table id="tabela">
+        <thead>
+            <tr>
+                <th>Fração</th>
+                <th>Nome</th>
+                <th>Permilagem</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+    <!-- Configuração Firebase -->
+    <script src="js/firebase-config.js"></script>
+
+    <!-- CRUD Condóminos -->
+    <script src="js/condominos.js"></script>
+
+</body>
+</html>
