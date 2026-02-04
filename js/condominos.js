@@ -1,5 +1,7 @@
 import { auth, db } from "./firebase-config.js";
 
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
 import {
     collection,
     doc,
@@ -11,7 +13,6 @@ import {
 import {
     signOut
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-
 
 // ----------------------
 // FRAÇÕES FIXAS
