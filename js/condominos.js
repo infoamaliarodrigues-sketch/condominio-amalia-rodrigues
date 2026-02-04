@@ -62,18 +62,20 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
         const c = docSnap.data();
 
         tabela.innerHTML += `
-            <tr>
-                <td>${c.fracao}</td>
-                <td><input id="nome-${c.fracao}" value="${c.nome}"></td>
-                <td><input id="perm-${c.fracao}" value="${c.permilagem}"></td>
-                <td><input id="tel-${c.fracao}" value="${c.telefone}"></td>
-                <td><input id="email-${c.fracao}" value="${c.email}"></td>
-                <td>
-                    <button onclick="guardar('${c.fracao}')">Guardar</button>
-                    <button onclick="limpar('${c.fracao}')">Apagar</button>
-                </td>
-            </tr>
-        `;
+    <tr>
+        <td>${c.fracao}</td>
+        <td><input id="nome-${c.fracao}" value="${c.nome}"></td>
+        <td><input id="perm-${c.fracao}" value="${c.permilagem}"></td>
+        <td><input id="tel-${c.fracao}" value="${c.telefone}"></td>
+        <td><input id="email-${c.fracao}" value="${c.email}"></td>
+        <td>
+            <button class="btn-edit" onclick="editar('${c.fracao}')">Editar</button>
+            <button class="btn-save" onclick="guardar('${c.fracao}')">Guardar</button>
+            <button class="btn-delete" onclick="limpar('${c.fracao}')">Apagar</button>
+        </td>
+    </tr>
+`;
+
     });
 });
 
