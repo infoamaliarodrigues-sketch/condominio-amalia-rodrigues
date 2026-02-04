@@ -186,3 +186,19 @@ td input {
     cursor: pointer;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.main-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.side-menu {
+    position: fixed;
+    z-index: 999;
+}
