@@ -89,3 +89,100 @@ button:hover {
     background: #dc2626;
 }
 
+/* NAVBAR */
+.navbar {
+    display: flex;
+    align-items: center;
+    background: #1e3a8a;
+    padding: 10px 15px;
+    color: white;
+}
+
+.menu-icon {
+    font-size: 26px;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+/* MENU LATERAL */
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background: #1e3a8a;
+    color: white;
+    padding: 20px;
+    transition: 0.3s;
+}
+
+.side-menu.open {
+    left: 0;
+}
+
+.side-menu a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin: 15px 0;
+    font-size: 18px;
+}
+
+.side-menu button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background: #ef4444;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* TABELA */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 6px;
+    border-bottom: 1px solid #ddd;
+}
+
+td input {
+    width: 95%;
+    padding: 4px;
+    font-size: 14px;
+}
+
+/* BOTÕES */
+.btn-edit {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-save {
+    background: #22c55e;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-delete {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
