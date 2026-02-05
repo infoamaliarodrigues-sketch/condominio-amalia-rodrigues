@@ -22,32 +22,53 @@ h2 {
     margin-bottom: 20px;
 }
 
-input {
+/* INPUTS */
+input, select, textarea {
     width: 100%;
     padding: 10px;
     margin: 8px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box;
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    background: #0077cc;
+/* BOTÕES */
+button,
+.btn-primario {
+    background: #007bff;
     color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
 }
 
-button:hover {
-    background: #005fa3;
+button:hover,
+.btn-primario:hover {
+    background: #005fcc;
 }
 
-.error {
-    color: red;
-    margin-top: 10px;
-    text-align: center;
+/* Botão guardar (verde) */
+.btn-save,
+.guardar-btn {
+    background: #22c55e !important;
+}
+
+.btn-save:hover,
+.guardar-btn:hover {
+    background: #1a9e4b !important;
+}
+
+/* Botão apagar (vermelho) */
+.btn-delete {
+    background: #ef4444 !important;
+}
+
+.btn-delete:hover {
+    background: #c53030 !important;
 }
 
 /* NAVBAR SUPERIOR */
@@ -65,7 +86,6 @@ button:hover {
     font-size: 26px;
     cursor: pointer;
     margin-right: 15px;
-    position: relative;
     z-index: 3500;
 }
 
@@ -74,7 +94,7 @@ button:hover {
     font-weight: bold;
 }
 
-/* MENU DROPDOWN (abre para baixo e fecha) */
+/* MENU DROPDOWN */
 .side-menu {
     position: absolute;
     top: 60px;
@@ -120,14 +140,7 @@ button:hover {
     z-index: 1000;
 }
 
-#filtro {
-    max-width: 300px;
-    padding: 8px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-/* TABELA */
+/* TABELAS */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -154,14 +167,6 @@ th, td {
     font-size: 14px;
 }
 
-/* Inputs dentro da tabela */
-td input {
-    width: 95%;
-    padding: 4px;
-    font-size: 13px;
-    box-sizing: border-box;
-}
-
 td input[type="number"] {
     width: 60px;
 }
@@ -171,10 +176,8 @@ td input[type="checkbox"] {
     cursor: pointer;
 }
 
-/* BOTÕES CRUD */
+/* BOTÕES CRUD NA TABELA */
 td button {
-    display: inline-block;
-    vertical-align: middle;
     font-size: 11px;
     padding: 4px 6px;
     margin-right: 4px;
@@ -183,130 +186,23 @@ td button {
     width: auto;
 }
 
-.btn-edit {
-    background: #3b82f6;
-    color: white;
-}
-
-.btn-save {
-    background: #22c55e;
-    color: white;
-}
-
-.btn-delete {
-    background: #ef4444;
-    color: white;
-}
-
-/* Largura mínima para a coluna das ações */
-th:last-child,
-td:last-child {
-    width: 220px;
-}
-
-#tabelaQuotas thead th {
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 3px;
-    line-height: 1.1;
-}
-
-/* Barra azul superior */
-.top-bar {
-    width: 100%;
-    background: #007bff;
-    color: white;
-    padding: 15px 20px;
-    font-size: 22px;
-    font-weight: bold;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-
-/* Menu lateral fixo */
-.menu-lateral {
-    width: 200px;
-    background: #f0f0f0;
-    height: 100vh;
-    position: fixed;
-    top: 60px;
-    left: 0;
-    padding-top: 20px;
-    border-right: 1px solid #ccc;
-}
-
-.menu-lateral a {
-    display: block;
-    padding: 12px 20px;
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-}
-
-.menu-lateral a:hover {
-    background: #ddd;
-}
-
-.menu-lateral .ativo {
-    background: #007bff;
-    color: white;
-}
-
-/* Conteúdo principal deslocado */
-.conteudo {
-    margin-left: 220px;
-    padding: 20px;
-}
-
-/* Linha do topo (ano + botão) */
-.linha-topo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-/* Botão azul */
-.btn-primario {
-    background: #007bff;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.btn-primario:hover {
-    background: #005fcc;
-}
-
-/* Caixa dos totais */
-.caixa-total {
-    margin-top: 40px;
-    padding: 15px;
-    background: #e8e8e8;
-    border-radius: 6px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* BLOCO DE CADA FRAÇÃO */
+/* FRAÇÕES (quotas + configurar) */
 .fracao-bloco {
     background: white;
     border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 25px;
+    padding: 20px;
+    margin-top: 25px;
     border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* Título QUOTAS / EXTRAS */
+.secao-titulo,
 .linha-titulo {
     font-weight: bold;
     margin-bottom: 10px;
     font-size: 15px;
 }
 
-/* Grelha dos 12 meses */
 .linha-meses {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -314,7 +210,12 @@ td:last-child {
     margin-bottom: 10px;
 }
 
-/* Quadrado de cada mês */
+.linha-meses input {
+    padding: 6px;
+    text-align: center;
+    background: #fafafa;
+}
+
 .mes {
     padding: 10px;
     text-align: center;
@@ -325,50 +226,26 @@ td:last-child {
     background: #f8f8f8;
 }
 
-/* Pago */
 .mes.pago {
     background: #4CAF50;
     color: white;
 }
 
-/* Não pago */
 .mes.nao-pago {
     background: #ff4d4d;
     color: white;
 }
 
-/* Linha de totais da fração */
-.linha-info {
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-/* Observações */
 .obs-box {
     width: 100%;
-    padding: 6px;
-    margin-top: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-}
-
-/* Botão guardar */
-.guardar-btn {
-    margin-top: 10px;
-    padding: 8px 14px;
-    font-size: 14px;
-    background: #007bff;
-    color: white;
-    border: none;
+    padding: 8px;
     border-radius: 6px;
-    cursor: pointer;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    background: #fafafa;
 }
 
-.guardar-btn:hover {
-    background: #005fcc;
-}
-
-/* Caixa total do condomínio */
+/* TOTAL DO CONDOMÍNIO */
 .caixa-total {
     margin-top: 40px;
     padding: 15px;
@@ -376,114 +253,4 @@ td:last-child {
     border-radius: 6px;
     font-size: 18px;
     font-weight: bold;
-}
-
-/* BLOCO DE CADA FRAÇÃO (igual ao estilo das linhas da tabela) */
-.fracao-bloco {
-    background: white;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 6px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-/* Título QUOTAS / EXTRAS */
-.secao-titulo {
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    font-size: 15px;
-}
-
-/* Grelha dos 12 meses */
-.linha-meses {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 6px;
-    margin-bottom: 10px;
-}
-
-/* Inputs dos meses */
-.linha-meses input {
-    width: 100%;
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: center;
-    background: #fafafa;
-}
-
-/* Checkbox isenção */
-.fracao-bloco input[type="checkbox"] {
-    transform: scale(1.3);
-    margin-left: 8px;
-}
-
-/* Observações */
-.obs-box {
-    width: 100%;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    margin-top: 10px;
-    background: #fafafa;
-}
-
-/* Botão guardar */
-#guardarBtn {
-    padding: 12px 20px;
-    font-size: 16px;
-}
-
-/* Bloco de cada fração (igual ao estilo da tabela) */
-.fracao-bloco {
-    background: white;
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-top: 25px;
-    border-radius: 6px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-/* Títulos QUOTAS / EXTRAS */
-.secao-titulo {
-    font-weight: bold;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    font-size: 15px;
-}
-
-/* Grelha dos 12 meses */
-.linha-meses {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 6px;
-    margin-bottom: 10px;
-}
-
-/* Inputs dos meses */
-.linha-meses input {
-    width: 100%;
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: center;
-    background: #fafafa;
-}
-
-/* Checkbox isenção */
-.fracao-bloco input[type="checkbox"] {
-    transform: scale(1.3);
-    margin-left: 8px;
-}
-
-/* Observações */
-.obs-box {
-    width: 100%;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    margin-top: 10px;
-    background: #fafafa;
 }
