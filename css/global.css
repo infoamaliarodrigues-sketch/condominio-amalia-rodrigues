@@ -207,5 +207,7 @@ td:last-child {
 #tabelaQuotas thead th {
     font-size: 10px;
     font-weight: 600;
-    padding: 3px;
+    padding: 2px 3px;
+    line-height: 1.1;
 }
+
