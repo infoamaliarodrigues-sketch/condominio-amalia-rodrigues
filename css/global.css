@@ -164,3 +164,10 @@ td input {
     border-radius: 4px;
     cursor: pointer;
 }
+
+.btn-edit,
+.btn-save,
+.btn-delete {
+    width: auto !important;
+}
+
