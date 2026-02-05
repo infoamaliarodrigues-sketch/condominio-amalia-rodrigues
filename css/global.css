@@ -203,3 +203,9 @@ th:last-child,
 td:last-child {
     width: 220px;
 }
+
+#tabelaQuotas thead th {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px;
+}
