@@ -201,5 +201,5 @@ td button {
 /* Largura mínima para a coluna das ações */
 th:last-child,
 td:last-child {
-    width: 160px;
+    width: 220px;
 }
