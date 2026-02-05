@@ -89,7 +89,7 @@ button:hover {
 }
 
 .side-menu.open {
-    left: 0;
+    left: 0 !important; /* força abertura */
 }
 
 .side-menu a {
@@ -122,8 +122,8 @@ button:hover {
 }
 
 /* deslocar conteúdo quando menu abre */
-.side-menu.open ~ .main-container {
-    margin-left: 250px;
+.side-menu.open + .main-container {
+    margin-left: 250px !important; /* força deslocamento */
 }
 
 /* TABELA */
@@ -134,6 +134,7 @@ table {
     position: relative;
     z-index: 3000;
     background: white;
+    table-layout: fixed; /* evita desalinhamento */
 }
 
 thead {
@@ -147,6 +148,7 @@ th, td {
     padding: 6px;
     border-bottom: 1px solid #ddd;
     text-align: left;
+    white-space: nowrap; /* evita quebra estranha */
 }
 
 td input {
@@ -168,6 +170,11 @@ td input[type="checkbox"] {
 }
 
 /* BOTÕES DA TABELA */
+td button {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .btn-edit {
     background: #3b82f6;
     color: white;
@@ -205,12 +212,3 @@ td input[type="checkbox"] {
 .btn-delete {
     width: auto !important;
 }
-
-.side-menu.open {
-    left: 0 !important;
-}
-
-.side-menu.open + .main-container {
-    margin-left: 250px !important;
-}
-
