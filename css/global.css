@@ -66,7 +66,7 @@ button:hover {
     cursor: pointer;
     margin-right: 15px;
     position: relative;
-    z-index: 3000;
+    z-index: 3500;
 }
 
 .logo {
@@ -74,41 +74,41 @@ button:hover {
     font-weight: bold;
 }
 
-/* MENU LATERAL */
+/* MENU DROPDOWN (abre para baixo e fecha) */
 .side-menu {
-    position: fixed;
-    top: 0;
-    left: -250px; /* escondido */
-    width: 250px;
-    height: 100%;
+    position: absolute;
+    top: 60px;          /* logo abaixo da navbar */
+    left: 20px;
     background: #1e3a8a;
     color: white;
-    padding: 20px;
-    transition: 0.3s;
-    z-index: 1500;
+    padding: 8px 0;
+    width: 220px;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: none;      /* escondido por padrão */
+    z-index: 3000;
 }
 
 .side-menu.open {
-    left: 0 !important; /* força abertura */
+    display: block;     /* aparece quando clicas no menu */
 }
 
-.side-menu a {
+.side-menu a,
+.side-menu button {
     display: block;
+    padding: 10px 18px;
     color: white;
     text-decoration: none;
-    margin: 15px 0;
-    font-size: 18px;
+    font-size: 15px;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-.side-menu button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 10px;
-    background: #ef4444;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
+.side-menu a:hover,
+.side-menu button:hover {
+    background: rgba(255,255,255,0.15);
 }
 
 /* CONTEÚDO CENTRAL */
@@ -116,169 +116,84 @@ button:hover {
     max-width: 1100px;
     margin: 0 auto;
     padding: 20px;
-    transition: margin-left 0.3s;
     position: relative;
-    z-index: 2500;
+    z-index: 1000;
 }
 
-/* deslocar conteúdo quando menu abre */
-.side-menu.open + .main-container {
-    margin-left: 250px !important; /* força deslocamento */
+#filtro {
+    max-width: 300px;
+    padding: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 /* TABELA */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    position: relative;
-    z-index: 3000;
+    margin-top: 10px;
     background: white;
-    table-layout: fixed; /* evita desalinhamento */
+    border: 1px solid #ddd;
+    table-layout: fixed;       /* colunas estáveis */
 }
 
 thead {
     position: sticky;
     top: 0;
-    background: white;
-    z-index: 3500;
+    background: #f9fafb;
+    z-index: 1500;
 }
 
 th, td {
-    padding: 6px;
+    padding: 8px;
     border-bottom: 1px solid #ddd;
     text-align: left;
-    white-space: nowrap; /* evita quebra estranha */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
 }
 
+/* Inputs dentro da tabela */
 td input {
     width: 95%;
     padding: 4px;
-    font-size: 14px;
+    font-size: 13px;
+    box-sizing: border-box;
 }
 
-/* INPUTS ESPECIAIS */
 td input[type="number"] {
     width: 60px;
-    padding: 4px;
-    font-size: 14px;
 }
 
 td input[type="checkbox"] {
-    transform: scale(1.3);
+    transform: scale(1.2);
     cursor: pointer;
 }
 
-/* BOTÕES DA TABELA */
+/* BOTÕES CRUD DENTRO DA TABELA */
 td button {
     display: inline-block;
     vertical-align: middle;
+    font-size: 11px;
+    padding: 4px 6px;
+    margin-right: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto; /* não ocupar 100% na tabela */
 }
 
 .btn-edit {
     background: #3b82f6;
     color: white;
-    border: none;
-    padding: 4px 6px;
-    font-size: 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 4px;
 }
 
 .btn-save {
     background: #22c55e;
     color: white;
-    border: none;
-    padding: 4px 6px;
-    font-size: 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 4px;
 }
 
 .btn-delete {
     background: #ef4444;
     color: white;
-    border: none;
-    padding: 4px 6px;
-    font-size: 12px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.btn-edit,
-.btn-save,
-.btn-delete {
-    width: auto !important;
-}
-
-/* Forçar deslocamento do conteúdo mesmo com nós invisíveis */
-.side-menu.open + .main-container {
-    margin-left: 250px !important;
-}
-
-/* Evitar que a tabela encolha e desalinha botões */
-table {
-    table-layout: fixed;
-}
-
-/* Impedir que o texto quebre e empurre botões para fora */
-th, td {
-    white-space: nowrap;
-}
-
-/* Botões mais pequenos e alinhados */
-td button {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 11px;
-    padding: 3px 5px;
-}
-
-.side-menu.open + .main-container {
-    margin-left: 250px !important;
-}
-
-/* Forçar deslocamento do conteúdo mesmo com nós invisíveis */
-.side-menu.open + .main-container {
-    margin-left: 250px !important;
-}
-
-/* Evitar que a tabela encolha e desalinha botões */
-table {
-    table-layout: fixed;
-}
-
-/* Impedir que o texto quebre e empurre botões para fora */
-th, td {
-    white-space: nowrap;
-}
-
-/* Botões mais pequenos e alinhados */
-td button {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 11px;
-    padding: 3px 5px;
-}
-
-.side-menu.open ~ .main-container,
-.side-menu.open + .main-container {
-    margin-left: 250px !important;
-}
-
-table {
-    table-layout: fixed;
-}
-
-th, td {
-    white-space: nowrap;
-}
-
-td button {
-    font-size: 11px;
-    padding: 3px 5px;
-    display: inline-block;
-    vertical-align: middle;
 }
