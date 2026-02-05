@@ -74,12 +74,11 @@ async function carregarTabela(ano) {
 
         let linha = `
         <tr id="linha-${fracao}">
-            <td>${reg.letra}</td>
-            <td>${fracao}</td>
-            <td>${reg.nome}</td>
-
-            <td><input type="number" id="quota-${fracao}" value="${reg.quotaMensal}" disabled></td>
+        <td>${reg.letra}</td>
+        <td>${fracao}</td>
+        <td><input type="number" id="quota-${fracao}" value="${reg.quotaMensal}" disabled></td>
         `;
+
 
         MESES.forEach(m => {
             const classe = reg.meses[m] ? "pago" : "falta";
