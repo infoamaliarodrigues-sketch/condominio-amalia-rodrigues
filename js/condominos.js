@@ -147,5 +147,6 @@ onAuthStateChanged(auth, (user) => {
 
     // Só aqui carregas a tabela
     inicializarFracoes();
-    carregarTabela();
+    iniciarTabela();
+
 });
