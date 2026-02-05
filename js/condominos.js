@@ -12,32 +12,54 @@ import {
 
 
 // ----------------------
-// FRAÇÕES FIXAS
+// DADOS FIXOS: LETRA, PERMILAGEM, NOME
 // ----------------------
-const fracoesFixas = [
-    "1A","1B","1C",
-    "2A","2B","2C",
-    "3A","3B","3C",
-    "4A","4B","4C",
-    "5A","5B","5C",
-    "LOJA 1","LOJA 2","LOJA 3",
-    "CASA DO LIXO"
-];
+const dadosIniciais = {
+    "LOJA 1": { letra: "A", permilagem: 30, nome: "Gonçalo Faísca – Mediação de Seguros, Unipessoal" },
+    "LOJA 2": { letra: "B", permilagem: 21, nome: "Princesses Unipessoal, Lda." },
+    "LOJA 3": { letra: "C", permilagem: 39, nome: "OdivelbrindeSul, Lda." },
+
+    "1A": { letra: "D", permilagem: 83, nome: "José Martins Marques" },
+    "1B": { letra: "E", permilagem: 48, nome: "Bruno Branco" },
+    "1C": { letra: "F", permilagem: 61, nome: "Joana da Costa Maurício" },
+
+    "2A": { letra: "G", permilagem: 80, nome: "Aida Maria Gonçalves Ferreira Pena" },
+    "2B": { letra: "H", permilagem: 43, nome: "António Martins Francisco" },
+    "2C": { letra: "I", permilagem: 55, nome: "João Vieira" },
+
+    "3A": { letra: "J", permilagem: 80, nome: "Samuel Afonso Lima Ramos" },
+    "3B": { letra: "K", permilagem: 43, nome: "Luísa Gonçalves da Almeida" },
+    "3C": { letra: "L", permilagem: 55, nome: "Filipe Boaventura" },
+
+    "4A": { letra: "M", permilagem: 84, nome: "Paulo Jorge Oliveira" },
+    "4B": { letra: "N", permilagem: 36, nome: "Maria João Caetano Branco" },
+    "4C": { letra: "O", permilagem: 58, nome: "Hugo Ricardo Miguens Machado" },
+
+    "5A": { letra: "P", permilagem: 87, nome: "António Fernando Pereira Santos" },
+    "5B": { letra: "Q", permilagem: 38, nome: "David Alexandre de Azoia Ferreira Prescott" },
+    "5C": { letra: "R", permilagem: 59, nome: "Torcato José Fernandes Duarte" },
+
+    "CASA DO LIXO": { letra: "–", permilagem: "–", nome: "" }
+};
 
 
 // ----------------------
 // CRIAR FRAÇÕES NO FIREBASE SE NÃO EXISTIREM
 // ----------------------
 async function inicializarFracoes() {
-    for (const fracao of fracoesFixas) {
+    for (const fracao of Object.keys(dadosIniciais)) {
+
         const ref = doc(db, "condominos", fracao);
         const snap = await getDoc(ref);
 
         if (!snap.exists()) {
+            const info = dadosIniciais[fracao];
+
             await setDoc(ref, {
                 fracao,
-                nome: "",
-                permilagem: "",
+                letra: info.letra,
+                permilagem: info.permilagem,
+                nome: info.nome,
                 telefone: "",
                 email: ""
             });
@@ -72,11 +94,14 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
 
         tabela.innerHTML += `
             <tr>
+                <td>${c.letra}</td>
                 <td>${c.fracao}</td>
+                <td>${c.permilagem}</td>
+
                 <td><input id="nome-${c.fracao}" value="${c.nome}" disabled></td>
-                <td><input id="perm-${c.fracao}" value="${c.permilagem}" disabled></td>
                 <td><input id="tel-${c.fracao}" value="${c.telefone}" disabled></td>
                 <td><input id="email-${c.fracao}" value="${c.email}" disabled></td>
+
                 <td>
                     <button class="btn-edit" onclick="editar('${c.fracao}')">Editar</button>
                     <button class="btn-save" onclick="guardar('${c.fracao}')">Guardar</button>
@@ -93,7 +118,6 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
 // ----------------------
 window.editar = (fracao) => {
     document.getElementById(`nome-${fracao}`).disabled = false;
-    document.getElementById(`perm-${fracao}`).disabled = false;
     document.getElementById(`tel-${fracao}`).disabled = false;
     document.getElementById(`email-${fracao}`).disabled = false;
 };
@@ -106,14 +130,14 @@ window.guardar = async (fracao) => {
 
     await setDoc(doc(db, "condominos", fracao), {
         fracao,
+        letra: dadosIniciais[fracao].letra,
+        permilagem: dadosIniciais[fracao].permilagem,
         nome: document.getElementById(`nome-${fracao}`).value,
-        permilagem: document.getElementById(`perm-${fracao}`).value,
         telefone: document.getElementById(`tel-${fracao}`).value,
         email: document.getElementById(`email-${fracao}`).value
     });
 
     document.getElementById(`nome-${fracao}`).disabled = true;
-    document.getElementById(`perm-${fracao}`).disabled = true;
     document.getElementById(`tel-${fracao}`).disabled = true;
     document.getElementById(`email-${fracao}`).disabled = true;
 };
@@ -126,19 +150,18 @@ window.limpar = async (fracao) => {
 
     await setDoc(doc(db, "condominos", fracao), {
         fracao,
+        letra: dadosIniciais[fracao].letra,
+        permilagem: dadosIniciais[fracao].permilagem,
         nome: "",
-        permilagem: "",
         telefone: "",
         email: ""
     });
 
     document.getElementById(`nome-${fracao}`).value = "";
-    document.getElementById(`perm-${fracao}`).value = "";
     document.getElementById(`tel-${fracao}`).value = "";
     document.getElementById(`email-${fracao}`).value = "";
 
     document.getElementById(`nome-${fracao}`).disabled = true;
-    document.getElementById(`perm-${fracao}`).disabled = true;
     document.getElementById(`tel-${fracao}`).disabled = true;
     document.getElementById(`email-${fracao}`).disabled = true;
 };
