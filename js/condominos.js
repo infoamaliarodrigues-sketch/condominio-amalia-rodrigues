@@ -1,6 +1,6 @@
 import { auth, db } from "./firebase-config.js";
 
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
 import {
     collection,
@@ -10,9 +10,6 @@ import {
     onSnapshot
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-import {
-    signOut
-} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
 // ----------------------
 // FRAÇÕES FIXAS
@@ -48,7 +45,18 @@ async function inicializarFracoes() {
     }
 }
 
-inicializarFracoes();
+
+// ----------------------
+// VERIFICAR LOGIN
+// ----------------------
+onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    await inicializarFracoes();
+});
 
 
 // ----------------------
@@ -63,25 +71,25 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
         const c = docSnap.data();
 
         tabela.innerHTML += `
-    <tr>
-        <td>${c.fracao}</td>
-        <td><input id="nome-${c.fracao}" value="${c.nome}" disabled></td>
-        <td><input id="perm-${c.fracao}" value="${c.permilagem}"></td>
-        <td><input id="tel-${c.fracao}" value="${c.telefone}"></td>
-        <td><input id="email-${c.fracao}" value="${c.email}"></td>
-        <td>
-            <button class="btn-edit" onclick="editar('${c.fracao}')">Editar</button>
-            <button class="btn-save" onclick="guardar('${c.fracao}')">Guardar</button>
-            <button class="btn-delete" onclick="limpar('${c.fracao}')">Apagar</button>
-        </td>
-    </tr>
-`;
-
+            <tr>
+                <td>${c.fracao}</td>
+                <td><input id="nome-${c.fracao}" value="${c.nome}" disabled></td>
+                <td><input id="perm-${c.fracao}" value="${c.permilagem}" disabled></td>
+                <td><input id="tel-${c.fracao}" value="${c.telefone}" disabled></td>
+                <td><input id="email-${c.fracao}" value="${c.email}" disabled></td>
+                <td>
+                    <button class="btn-edit" onclick="editar('${c.fracao}')">Editar</button>
+                    <button class="btn-save" onclick="guardar('${c.fracao}')">Guardar</button>
+                    <button class="btn-delete" onclick="limpar('${c.fracao}')">Apagar</button>
+                </td>
+            </tr>
+        `;
     });
 });
 
+
 // ----------------------
-// EDITAR
+// EDITAR (ativa inputs)
 // ----------------------
 window.editar = (fracao) => {
     document.getElementById(`nome-${fracao}`).disabled = false;
@@ -89,6 +97,7 @@ window.editar = (fracao) => {
     document.getElementById(`tel-${fracao}`).disabled = false;
     document.getElementById(`email-${fracao}`).disabled = false;
 };
+
 
 // ----------------------
 // GUARDAR ALTERAÇÕES
@@ -103,13 +112,11 @@ window.guardar = async (fracao) => {
         email: document.getElementById(`email-${fracao}`).value
     });
 
-    // Desativar inputs novamente
     document.getElementById(`nome-${fracao}`).disabled = true;
     document.getElementById(`perm-${fracao}`).disabled = true;
     document.getElementById(`tel-${fracao}`).disabled = true;
     document.getElementById(`email-${fracao}`).disabled = true;
 };
-
 
 
 // ----------------------
@@ -137,7 +144,6 @@ window.limpar = async (fracao) => {
 };
 
 
-
 // ----------------------
 // FILTRO
 // ----------------------
@@ -158,25 +164,12 @@ document.getElementById("filtro").addEventListener("input", () => {
 document.getElementById("logoutBtn").addEventListener("click", async () => {
     await signOut(auth);
     window.location.href = "index.html";
-
 });
 
-// ----------------------
-// ABRIR E FECHAR MENU
-// ----------------------
 
+// ----------------------
+// MENU LATERAL
+// ----------------------
 document.getElementById("menuBtn").addEventListener("click", () => {
     document.getElementById("sideMenu").classList.toggle("open");
-});
-
-onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        window.location.href = "login.html";
-        return;
-    }
-
-    // Só aqui carregas a tabela
-    inicializarFracoes();
-    iniciarTabela();
-
 });
