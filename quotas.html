@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapa de Quotas</title>
+    <link rel="stylesheet" href="css/global.css">
+    <style>
+        .pago { background-color: #b6f2b6; }
+        .falta { background-color: #f7b5b5; }
+        .total-condominio { font-size: 20px; font-weight: bold; margin: 20px 0; }
+        .total-fracao { font-weight: bold; background: #eee; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 6px; text-align: center; }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">Condomínio Amália Rodrigues</div>
+</header>
+
+<div class="main-container">
+
+    <h2>Mapa de Quotas</h2>
+
+    <label for="anoSelect">Ano:</label>
+    <select id="anoSelect"></select>
+
+    <div id="totalCondominioTopo" class="total-condominio"></div>
+
+    <table id="tabelaQuotas">
+        <thead>
+            <tr>
+                <th>Letra</th>
+                <th>Fração</th>
+                <th>Nome</th>
+                <th>Quota (€)</th>
+                <th>jan</th>
+                <th>fev</th>
+                <th>mar</th>
+                <th>abr</th>
+                <th>mai</th>
+                <th>jun</th>
+                <th>jul</th>
+                <th>ago</th>
+                <th>set</th>
+                <th>out</th>
+                <th>nov</th>
+                <th>dez</th>
+                <th>Quota Extra (€)</th>
+                <th>Valor Pago (€)</th>
+                <th>Saldo (€)</th>
+                <th>Isenção 50%</th>
+                <th>Observações</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div id="totalCondominioFundo" class="total-condominio"></div>
+
+</div>
+
+<script type="module" src="js/quotas.js"></script>
+</body>
+</html>
