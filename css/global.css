@@ -171,3 +171,12 @@ td input {
     width: auto !important;
 }
 
+.navbar {
+    position: relative;
+    z-index: 2000;
+}
+
+.menu-icon {
+    position: relative;
+    z-index: 3000;
+}
