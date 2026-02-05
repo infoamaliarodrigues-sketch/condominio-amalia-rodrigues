@@ -1,146 +1,278 @@
 import { db } from "./firebase-config.js";
-
 import {
     collection,
+    doc,
     getDocs,
-    setDoc,
-    updateDoc,
-    doc
+    getDoc,
+    setDoc
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const anoSelect = document.getElementById("anoSelect");
-const tabela = document.querySelector("#tabelaQuotas tbody");
-const totalTopo = document.getElementById("totalCondominioTopo");
-const totalFundo = document.getElementById("totalCondominioFundo");
+const fracoesContainer = document.getElementById("fracoesContainer");
+const totalCondominioDiv = document.getElementById("totalCondominio");
 
 const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
 
-async function carregarAnos() {
-    for (let ano = 2010; ano <= 2050; ano++) {
+// estado em memória
+let estado = {
+    ano: new Date().getFullYear(),
+    fracoes: {} // fracao -> { quotasValores, extrasValores, quotasPagas, extrasPagas, obs }
+};
+
+// ------------------------------------------------------------
+// 1) Carregar anos no seletor
+// ------------------------------------------------------------
+function carregarAnos() {
+    for (let ano = 2020; ano <= 2050; ano++) {
         const opt = document.createElement("option");
         opt.value = ano;
         opt.textContent = ano;
         anoSelect.appendChild(opt);
     }
+    anoSelect.value = estado.ano;
 }
 
-async function carregarTabela(ano) {
-    tabela.innerHTML = "";
-    totalTopo.textContent = "";
-    totalFundo.textContent = "";
+// ------------------------------------------------------------
+// 2) Criar blocos por fração (a partir de condominos + config_ano + pagamentos)
+// ------------------------------------------------------------
+async function criarBlocos(ano) {
+    fracoesContainer.innerHTML = "";
+    estado.ano = ano;
+    estado.fracoes = {};
 
     const condSnap = await getDocs(collection(db, "condominos"));
-    const quotasSnap = await getDocs(collection(db, "quotas_ano"));
+    const configSnap = await getDocs(collection(db, `config_ano/${ano}/fracoes`));
+    const pagSnap = await getDocs(collection(db, `pagamentos/${ano}/fracoes`));
 
-    let quotasAno = {};
-    quotasSnap.forEach(q => {
-        const dados = q.data();
-        if (dados.ano === ano) quotasAno[dados.fracao] = dados;
-    });
+    const configMap = {};
+    configSnap.forEach(d => configMap[d.id] = d.data());
 
-    let totalCondominio = 0;
+    const pagMap = {};
+    pagSnap.forEach(d => pagMap[d.id] = d.data());
 
-    for (const c of condSnap.docs) {
-        const dados = c.data();
+    for (const docSnap of condSnap.docs) {
+        const dados = docSnap.data();
         const fracao = dados.fracao;
+        const letra = dados.letra;
 
-        let reg = quotasAno[fracao];
+        const config = configMap[fracao] || null;
+        if (!config) continue; // se não tiver configuração, ignora
 
-        if (!reg) {
-            reg = {
-                ano,
-                fracao,
-                letra: dados.letra,
-                nome: dados.nome,
-                quotaMensal: 0,
-                quotaExtra: 0,
-                valorPago: 0,
-                isencao50: false,
-                observacoes: "",
-                meses: {
-                    jan:false, fev:false, mar:false, abr:false, mai:false, jun:false,
-                    jul:false, ago:false, set:false, out:false, nov:false, dez:false
-                }
-            };
+        const quotasValores = config.quotas || {};
+        const extrasValores = config.extras || {};
 
-            await setDoc(doc(db, "quotas_ano", `${ano}_${fracao}`), reg);
-        }
+        const pagamentos = pagMap[fracao] || {};
+        const quotasPagas = pagamentos.quotas || {};
+        const extrasPagas = pagamentos.extras || {};
+        const obs = pagamentos.obs || "";
 
-        const totalFracao = (reg.quotaMensal * MESES.filter(m => reg.meses[m]).length)
-                          + reg.quotaExtra
-                          - reg.valorPago;
+        estado.fracoes[fracao] = {
+            quotasValores,
+            extrasValores,
+            quotasPagas,
+            extrasPagas,
+            obs
+        };
 
-        totalCondominio += totalFracao;
+        const bloco = document.createElement("div");
+        bloco.className = "fracao-bloco";
+        bloco.id = `bloco-${fracao}`;
 
-        let linha = `
-        <tr id="linha-${fracao}">
-        <td>${reg.letra}</td>
-        <td>${fracao}</td>
-        <td><input type="number" id="quota-${fracao}" value="${reg.quotaMensal}" disabled></td>
+        bloco.innerHTML = `
+            <div class="linha-titulo">Fração ${fracao} (${letra}) — QUOTAS</div>
+            <div class="linha-meses" id="linha-q-${fracao}"></div>
+            <div class="linha-info" id="info-q-${fracao}"></div>
+
+            <div class="linha-titulo">Fração ${fracao} (${letra}) — EXTRAS</div>
+            <div class="linha-meses" id="linha-e-${fracao}"></div>
+            <div class="linha-info" id="info-e-${fracao}"></div>
+
+            <textarea id="obs-${fracao}" class="obs-box" placeholder="Observações da fração">${obs}</textarea>
+
+            <button class="guardar-btn" id="guardar-${fracao}">Guardar fração</button>
         `;
 
+        fracoesContainer.appendChild(bloco);
 
-        MESES.forEach(m => {
-            const classe = reg.meses[m] ? "pago" : "falta";
-            linha += `<td class="${classe}" onclick="toggleMes('${fracao}','${m}')">${reg.meses[m] ? "✔" : "✘"}</td>`;
-        });
+        criarLinhaMeses(fracao, "quotas");
+        criarLinhaMeses(fracao, "extras");
+        atualizarInfoFracao(fracao);
 
-        linha += `
-            <td><input type="number" id="extra-${fracao}" value="${reg.quotaExtra}" disabled></td>
-            <td><input type="number" id="pago-${fracao}" value="${reg.valorPago}" disabled></td>
-            <td class="total-fracao">${totalFracao.toFixed(2)}</td>
-            <td><input type="checkbox" id="isen-${fracao}" ${reg.isencao50 ? "checked" : ""} disabled></td>
-            <td><input id="obs-${fracao}" value="${reg.observacoes}" disabled></td>
-
-            <td>
-                <button onclick="editar('${fracao}')">Editar</button>
-                <button onclick="guardar('${fracao}', ${ano})">Guardar</button>
-            </td>
-        </tr>
-        `;
-
-        tabela.innerHTML += linha;
+        document
+            .getElementById(`guardar-${fracao}`)
+            .addEventListener("click", () => guardarFracao(fracao));
     }
-
-    totalTopo.textContent = `TOTAL DO CONDOMÍNIO: ${totalCondominio.toFixed(2)} €`;
-    totalFundo.textContent = `TOTAL DO CONDOMÍNIO: ${totalCondominio.toFixed(2)} €`;
 }
 
-window.toggleMes = async function(fracao, mes) {
-    const ano = Number(anoSelect.value);
-    const ref = doc(db, "quotas_ano", `${ano}_${fracao}`);
-    const snap = await getDocs(collection(db, "quotas_ano"));
-    let reg;
+// ------------------------------------------------------------
+// 3) Criar linha de meses (quotas ou extras)
+// ------------------------------------------------------------
+function criarLinhaMeses(fracao, tipo) {
+    const linhaId = tipo === "quotas" ? `linha-q-${fracao}` : `linha-e-${fracao}`;
+    const linhaDiv = document.getElementById(linhaId);
+    linhaDiv.innerHTML = "";
 
-    snap.forEach(d => {
-        if (d.id === `${ano}_${fracao}`) reg = d.data();
+    const valores = tipo === "quotas"
+        ? estado.fracoes[fracao].quotasValores
+        : estado.fracoes[fracao].extrasValores;
+
+    const pagos = tipo === "quotas"
+        ? estado.fracoes[fracao].quotasPagas
+        : estado.fracoes[fracao].extrasPagas;
+
+    MESES.forEach(m => {
+        const valor = valores[m] || 0;
+        const pago = pagos[m] === true;
+
+        const mesDiv = document.createElement("div");
+        mesDiv.className = "mes " + (pago ? "pago" : "nao-pago");
+        mesDiv.dataset.fracao = fracao;
+        mesDiv.dataset.tipo = tipo;
+        mesDiv.dataset.mes = m;
+        mesDiv.textContent = valor;
+
+        mesDiv.addEventListener("click", onClickMes);
+
+        linhaDiv.appendChild(mesDiv);
+    });
+}
+
+// ------------------------------------------------------------
+// 4) Clique num mês (toggle pago/não pago + gravação imediata)
+// ------------------------------------------------------------
+async function onClickMes(e) {
+    const div = e.currentTarget;
+    const fracao = div.dataset.fracao;
+    const tipo = div.dataset.tipo; // "quotas" ou "extras"
+    const mes = div.dataset.mes;
+
+    const fr = estado.fracoes[fracao];
+    if (!fr) return;
+
+    if (tipo === "quotas") {
+        fr.quotasPagas[mes] = !fr.quotasPagas[mes];
+    } else {
+        fr.extrasPagas[mes] = !fr.extrasPagas[mes];
+    }
+
+    const pago = tipo === "quotas" ? fr.quotasPagas[mes] : fr.extrasPagas[mes];
+    div.classList.toggle("pago", pago);
+    div.classList.toggle("nao-pago", !pago);
+
+    atualizarInfoFracao(fracao);
+    await guardarFracao(fracao, true); // true = auto-save silencioso
+}
+
+// ------------------------------------------------------------
+// 5) Atualizar info (Pago / Dívida) de uma fração
+// ------------------------------------------------------------
+function atualizarInfoFracao(fracao) {
+    const fr = estado.fracoes[fracao];
+    if (!fr) return;
+
+    let pagoQuotas = 0;
+    let dividaQuotas = 0;
+    let pagoExtras = 0;
+    let dividaExtras = 0;
+
+    MESES.forEach(m => {
+        const vQ = Number(fr.quotasValores[m] || 0);
+        const vE = Number(fr.extrasValores[m] || 0);
+
+        if (fr.quotasPagas[m]) pagoQuotas += vQ;
+        else dividaQuotas += vQ;
+
+        if (fr.extrasPagas[m]) pagoExtras += vE;
+        else dividaExtras += vE;
     });
 
-    reg.meses[mes] = !reg.meses[mes];
+    const infoQ = document.getElementById(`info-q-${fracao}`);
+    const infoE = document.getElementById(`info-e-${fracao}`);
 
-    await updateDoc(ref, { meses: reg.meses });
-    carregarTabela(ano);
-};
+    infoQ.textContent = `Pago: ${pagoQuotas.toFixed(2)} € | Dívida: ${dividaQuotas.toFixed(2)} €`;
+    infoE.textContent = `Pago: ${pagoExtras.toFixed(2)} € | Dívida: ${dividaExtras.toFixed(2)} €`;
+}
 
-window.editar = function(fracao) {
-    document.querySelectorAll(`#linha-${fracao} input`).forEach(i => i.disabled = false);
-};
+// ------------------------------------------------------------
+// 6) Guardar fração no Firestore
+// ------------------------------------------------------------
+async function guardarFracao(fracao, silencioso = false) {
+    const fr = estado.fracoes[fracao];
+    if (!fr) return;
 
-window.guardar = async function(fracao, ano) {
-    const ref = doc(db, "quotas_ano", `${ano}_${fracao}`);
+    const ano = estado.ano;
+    const obs = document.getElementById(`obs-${fracao}`).value;
 
-    await updateDoc(ref, {
-        quotaMensal: Number(document.getElementById(`quota-${fracao}`).value),
-        quotaExtra: Number(document.getElementById(`extra-${fracao}`).value),
-        valorPago: Number(document.getElementById(`pago-${fracao}`).value),
-        isencao50: document.getElementById(`isen-${fracao}`).checked,
-        observacoes: document.getElementById(`obs-${fracao}`).value
-    });
+    await setDoc(
+        doc(db, `pagamentos/${ano}/fracoes`, fracao),
+        {
+            quotas: fr.quotasPagas,
+            extras: fr.extrasPagas,
+            obs
+        },
+        { merge: true }
+    );
 
-    carregarTabela(ano);
-};
+    if (!silencioso) {
+        alert(`Fração ${fracao} guardada com sucesso.`);
+    }
+}
 
-anoSelect.onchange = () => carregarTabela(Number(anoSelect.value));
+// ------------------------------------------------------------
+// 7) Recalcular total do condomínio (só quando chamado)
+// ------------------------------------------------------------
+async function recalcularTotalCondominio() {
+    const ano = estado.ano;
+    let totalPago = 0;
+    let totalDivida = 0;
 
-await carregarAnos();
-await carregarTabela(2025);
+    const configSnap = await getDocs(collection(db, `config_ano/${ano}/fracoes`));
+    const pagSnap = await getDocs(collection(db, `pagamentos/${ano}/fracoes`));
+
+    const configMap = {};
+    configSnap.forEach(d => configMap[d.id] = d.data());
+
+    const pagMap = {};
+    pagSnap.forEach(d => pagMap[d.id] = d.data());
+
+    for (const fracao in configMap) {
+        const cfg = configMap[fracao];
+        const pag = pagMap[fracao] || { quotas:{}, extras:{} };
+
+        MESES.forEach(m => {
+            const vQ = Number(cfg.quotas[m] || 0);
+            const vE = Number(cfg.extras[m] || 0);
+
+            if (pag.quotas && pag.quotas[m]) totalPago += vQ;
+            else totalDivida += vQ;
+
+            if (pag.extras && pag.extras[m]) totalPago += vE;
+            else totalDivida += vE;
+        });
+    }
+
+    totalCondominioDiv.innerHTML = `
+        Total Pago: ${totalPago.toFixed(2)} €<br>
+        Total em Dívida: ${totalDivida.toFixed(2)} €
+    `;
+}
+
+// ------------------------------------------------------------
+// 8) Botão para recalcular total do condomínio
+// ------------------------------------------------------------
+(function criarBotaoRecalcular() {
+    const btn = document.createElement("button");
+    btn.textContent = "Recalcular Totais do Condomínio";
+    btn.style.marginTop = "15px";
+    btn.addEventListener("click", recalcularTotalCondominio);
+    totalCondominioDiv.parentNode.insertBefore(btn, totalCondominioDiv.nextSibling);
+})();
+
+// ------------------------------------------------------------
+// Eventos
+// ------------------------------------------------------------
+anoSelect.addEventListener("change", () => criarBlocos(anoSelect.value));
+
+// Inicialização
+carregarAnos();
+criarBlocos(estado.ano);
