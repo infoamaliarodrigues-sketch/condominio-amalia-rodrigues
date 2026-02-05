@@ -267,3 +267,18 @@ td button {
 .side-menu.open + .main-container {
     margin-left: 250px !important;
 }
+
+table {
+    table-layout: fixed;
+}
+
+th, td {
+    white-space: nowrap;
+}
+
+td button {
+    font-size: 11px;
+    padding: 3px 5px;
+    display: inline-block;
+    vertical-align: middle;
+}
