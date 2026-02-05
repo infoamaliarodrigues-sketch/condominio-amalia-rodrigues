@@ -211,3 +211,82 @@ td:last-child {
     line-height: 1.1;
 }
 
+/* Barra azul superior */
+.top-bar {
+    width: 100%;
+    background: #007bff;
+    color: white;
+    padding: 15px 20px;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Menu lateral fixo */
+.menu-lateral {
+    width: 200px;
+    background: #f0f0f0;
+    height: 100vh;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    padding-top: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.menu-lateral a {
+    display: block;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+}
+
+.menu-lateral a:hover {
+    background: #ddd;
+}
+
+.menu-lateral .ativo {
+    background: #007bff;
+    color: white;
+}
+
+/* Conteúdo principal deslocado */
+.conteudo {
+    margin-left: 220px;
+    padding: 20px;
+}
+
+/* Linha do topo (ano + botão) */
+.linha-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Botão azul */
+.btn-primario {
+    background: #007bff;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-primario:hover {
+    background: #005fcc;
+}
+
+/* Caixa dos totais */
+.caixa-total {
+    margin-top: 40px;
+    padding: 15px;
+    background: #e8e8e8;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
