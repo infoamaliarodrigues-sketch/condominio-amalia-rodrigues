@@ -212,3 +212,26 @@ td button {
 .btn-delete {
     width: auto !important;
 }
+
+/* Forçar deslocamento do conteúdo mesmo com nós invisíveis */
+.side-menu.open + .main-container {
+    margin-left: 250px !important;
+}
+
+/* Evitar que a tabela encolha e desalinha botões */
+table {
+    table-layout: fixed;
+}
+
+/* Impedir que o texto quebre e empurre botões para fora */
+th, td {
+    white-space: nowrap;
+}
+
+/* Botões mais pequenos e alinhados */
+td button {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 11px;
+    padding: 3px 5px;
+}
