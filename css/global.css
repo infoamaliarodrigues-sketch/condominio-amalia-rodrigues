@@ -6,7 +6,7 @@ body {
     padding: 0;
 }
 
-/* LOGIN CONTAINER (mantido) */
+/* LOGIN CONTAINER */
 .container {
     width: 350px;
     margin: 80px auto;
@@ -57,12 +57,16 @@ button:hover {
     background: #1e3a8a;
     padding: 12px 20px;
     color: white;
+    position: relative;
+    z-index: 2000;
 }
 
 .menu-icon {
     font-size: 26px;
     cursor: pointer;
     margin-right: 15px;
+    position: relative;
+    z-index: 3000;
 }
 
 .logo {
@@ -70,7 +74,7 @@ button:hover {
     font-weight: bold;
 }
 
-/* MENU LATERAL (ESCONDIDO POR DEFEITO) */
+/* MENU LATERAL */
 .side-menu {
     position: fixed;
     top: 0;
@@ -81,11 +85,11 @@ button:hover {
     color: white;
     padding: 20px;
     transition: 0.3s;
-    z-index: 999;
+    z-index: 1500;
 }
 
 .side-menu.open {
-    left: 0; /* aparece */
+    left: 0;
 }
 
 .side-menu a {
@@ -112,6 +116,12 @@ button:hover {
     max-width: 1100px;
     margin: 0 auto;
     padding: 20px;
+    transition: margin-left 0.3s;
+}
+
+/* deslocar conteúdo quando menu abre */
+.side-menu.open ~ .main-container {
+    margin-left: 250px;
 }
 
 /* TABELA */
@@ -169,14 +179,4 @@ td input {
 .btn-save,
 .btn-delete {
     width: auto !important;
-}
-
-.navbar {
-    position: relative;
-    z-index: 2000;
-}
-
-.menu-icon {
-    position: relative;
-    z-index: 3000;
 }
