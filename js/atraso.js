@@ -9,9 +9,6 @@ import {
     doc
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-import { db } from "./firebase-config.js";
-
-
 const tabela = document.querySelector("#tabelaAtrasos tbody");
 
 let cond = {}; // mapa de condóminos
