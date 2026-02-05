@@ -65,7 +65,7 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
         tabela.innerHTML += `
     <tr>
         <td>${c.fracao}</td>
-        <td><input id="nome-${c.fracao}" value="${c.nome}"></td>
+        <td><input id="nome-${c.fracao}" value="${c.nome}" disabled></td>
         <td><input id="perm-${c.fracao}" value="${c.permilagem}"></td>
         <td><input id="tel-${c.fracao}" value="${c.telefone}"></td>
         <td><input id="email-${c.fracao}" value="${c.email}"></td>
@@ -80,11 +80,21 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
     });
 });
 
+// ----------------------
+// EDITAR
+// ----------------------
+window.editar = (fracao) => {
+    document.getElementById(`nome-${fracao}`).disabled = false;
+    document.getElementById(`perm-${fracao}`).disabled = false;
+    document.getElementById(`tel-${fracao}`).disabled = false;
+    document.getElementById(`email-${fracao}`).disabled = false;
+};
 
 // ----------------------
 // GUARDAR ALTERAÇÕES
 // ----------------------
 window.guardar = async (fracao) => {
+
     await setDoc(doc(db, "condominos", fracao), {
         fracao,
         nome: document.getElementById(`nome-${fracao}`).value,
@@ -92,13 +102,21 @@ window.guardar = async (fracao) => {
         telefone: document.getElementById(`tel-${fracao}`).value,
         email: document.getElementById(`email-${fracao}`).value
     });
+
+    // Desativar inputs novamente
+    document.getElementById(`nome-${fracao}`).disabled = true;
+    document.getElementById(`perm-${fracao}`).disabled = true;
+    document.getElementById(`tel-${fracao}`).disabled = true;
+    document.getElementById(`email-${fracao}`).disabled = true;
 };
+
 
 
 // ----------------------
 // LIMPAR DADOS DA FRAÇÃO
 // ----------------------
 window.limpar = async (fracao) => {
+
     await setDoc(doc(db, "condominos", fracao), {
         fracao,
         nome: "",
@@ -106,7 +124,18 @@ window.limpar = async (fracao) => {
         telefone: "",
         email: ""
     });
+
+    document.getElementById(`nome-${fracao}`).value = "";
+    document.getElementById(`perm-${fracao}`).value = "";
+    document.getElementById(`tel-${fracao}`).value = "";
+    document.getElementById(`email-${fracao}`).value = "";
+
+    document.getElementById(`nome-${fracao}`).disabled = true;
+    document.getElementById(`perm-${fracao}`).disabled = true;
+    document.getElementById(`tel-${fracao}`).disabled = true;
+    document.getElementById(`email-${fracao}`).disabled = true;
 };
+
 
 
 // ----------------------
@@ -128,7 +157,8 @@ document.getElementById("filtro").addEventListener("input", () => {
 // ----------------------
 document.getElementById("logoutBtn").addEventListener("click", async () => {
     await signOut(auth);
-    window.location.href = "login.html";
+    window.location.href = "index.html";
+
 });
 
 // ----------------------
