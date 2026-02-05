@@ -1,8 +1,16 @@
 import { db } from "./firebase-config.js";
 
 import {
-    collection, getDocs, addDoc, updateDoc, deleteDoc, doc
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    collection,
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    doc
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+import { db } from "./firebase-config.js";
+
 
 const tabela = document.querySelector("#tabelaAtrasos tbody");
 
