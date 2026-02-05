@@ -235,3 +235,8 @@ td button {
     font-size: 11px;
     padding: 3px 5px;
 }
+
+.side-menu.open + .main-container {
+    margin-left: 250px !important;
+}
+
