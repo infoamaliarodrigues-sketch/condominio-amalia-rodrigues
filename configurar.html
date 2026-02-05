@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Configurar Ano</title>
+    <link rel="stylesheet" href="css/global.css">
+
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h2 { margin-top: 40px; }
+        .fracao-bloco {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+        .secao-titulo {
+            font-weight: bold;
+            margin: 15px 0 5px 0;
+            font-size: 15px;
+        }
+        .linha-meses {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+        .linha-meses label {
+            font-size: 12px;
+            display: block;
+            text-align: center;
+        }
+        .linha-meses input {
+            width: 100%;
+            padding: 4px;
+            text-align: center;
+        }
+        .obs-box {
+            width: 100%;
+            padding: 6px;
+            margin-top: 5px;
+        }
+        .guardar-btn {
+            margin-top: 30px;
+            padding: 12px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Configuração do Ano</h1>
+
+    <label for="anoSelect">Ano:</label>
+    <select id="anoSelect"></select>
+
+    <div id="fracoesContainer"></div>
+
+    <button id="guardarBtn" class="guardar-btn">Guardar Configuração do Ano</button>
+
+    <script type="module" src="js/configurar.js"></script>
+</body>
+</html>
