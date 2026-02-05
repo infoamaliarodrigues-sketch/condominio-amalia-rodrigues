@@ -10,6 +10,10 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const tabela = document.querySelector("#tabelaAtrasos tbody");
+const btnAdd = document.createElement("button");
+btnAdd.textContent = "Adicionar Dívida";
+btnAdd.classList.add("btn-edit");
+document.querySelector(".main-container").prepend(btnAdd);
 
 let cond = {}; // mapa de condóminos
 
@@ -74,6 +78,31 @@ window.guardar = async function(id) {
 window.apagar = async function(id) {
     await deleteDoc(doc(db, "dividas_registo", id));
     document.querySelector(`#linha-${id}`).remove();
+};
+
+btnAdd.onclick = async function() {
+    const fracao = prompt("Fração (ex: 1A):");
+    if (!fracao || !cond[fracao]) {
+        alert("Fração inválida ou inexistente.");
+        return;
+    }
+
+    const tipo = prompt("Tipo (mensal / extra):");
+    const anoInicio = Number(prompt("Ano início:"));
+    const anoFim = Number(prompt("Ano fim:"));
+    const valor = Number(prompt("Valor total (€):"));
+    const observacoes = prompt("Observações:");
+
+    await addDoc(collection(db, "dividas_registo"), {
+        fracao,
+        tipo,
+        anoInicio,
+        anoFim,
+        valor,
+        observacoes
+    });
+
+    carregarAtrasos();
 };
 
 async function iniciar() {
