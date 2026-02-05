@@ -8,13 +8,11 @@
 
 <body>
 
-    <!-- NAVBAR SUPERIOR -->
     <div class="navbar">
         <span class="menu-icon" onclick="toggleMenu()">☰</span>
         <span class="logo">Condomínio Amália Rodrigues</span>
     </div>
 
-    <!-- MENU DROPDOWN -->
     <div id="sideMenu" class="side-menu">
         <a href="index.html">🏠 Início</a>
         <a href="condominos.html">👥 Condóminos</a>
@@ -22,22 +20,17 @@
         <a href="configurar.html" class="ativo">⚙️ Configurar Ano</a>
     </div>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <div class="main-container">
 
         <h2>Configuração do Ano</h2>
 
-        <div class="linha-topo">
-            <div>
-                <label for="anoSelect">Ano:</label>
-                <select id="anoSelect"></select>
-            </div>
-        </div>
+        <label for="anoSelect">Ano:</label>
+        <select id="anoSelect"></select>
 
         <div id="fracoesContainer"></div>
 
         <button id="guardarBtn" class="btn-primario" style="margin-top:20px;">
-            Guardar Configuração do Ano
+            Guardar Configuração
         </button>
 
     </div>
