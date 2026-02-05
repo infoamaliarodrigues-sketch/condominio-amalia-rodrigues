@@ -2,66 +2,101 @@
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <title>Mapa de Quotas</title>
+    <title>Quotas do Condomínio</title>
     <link rel="stylesheet" href="css/global.css">
+
     <style>
-        .pago { background-color: #b6f2b6; }
-        .falta { background-color: #f7b5b5; }
-        .total-condominio { font-size: 20px; font-weight: bold; margin: 20px 0; }
-        .total-fracao { font-weight: bold; background: #eee; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ccc; padding: 6px; text-align: center; }
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { margin-bottom: 20px; }
+
+        #anoSelect {
+            padding: 6px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .fracao-bloco {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+
+        .linha-titulo {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .linha-meses {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .mes {
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 1px solid #999;
+        }
+
+        .mes.pago {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .mes.nao-pago {
+            background: #ff4d4d;
+            color: white;
+        }
+
+        .linha-info {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .obs-box {
+            width: 100%;
+            padding: 6px;
+            margin-top: 5px;
+        }
+
+        .guardar-btn {
+            margin-top: 10px;
+            padding: 8px 14px;
+            font-size: 14px;
+        }
+
+        #totalCondominio {
+            margin-top: 40px;
+            padding: 15px;
+            background: #e8e8e8;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+        }
     </style>
 </head>
 
 <body>
 
-<header class="navbar">
-    <div class="logo">Condomínio Amália Rodrigues</div>
-</header>
-
-<div class="main-container">
-
-    <h2>Mapa de Quotas</h2>
+    <h1>Quotas do Condomínio</h1>
 
     <label for="anoSelect">Ano:</label>
     <select id="anoSelect"></select>
 
-    <div id="totalCondominioTopo" class="total-condominio"></div>
+    <div id="fracoesContainer"></div>
 
-    <table id="tabelaQuotas">
-        <thead>
-            <tr>
-                <th>Letra</th>
-                <th>Fração</th>
-                <th>Quota (€)</th>
-                <th>jan</th>
-                <th>fev</th>
-                <th>mar</th>
-                <th>abr</th>
-                <th>mai</th>
-                <th>jun</th>
-                <th>jul</th>
-                <th>ago</th>
-                <th>set</th>
-                <th>out</th>
-                <th>nov</th>
-                <th>dez</th>
-                <th>Quota Extra (€)</th>
-                <th>Valor Pago (€)</th>
-                <th>Saldo (€)</th>
-                <th>Isenção 50%</th>
-                <th>Observações</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <div id="totalCondominio">
+        Total Pago: 0 €<br>
+        Total em Dívida: 0 €
+    </div>
 
-    <div id="totalCondominioFundo" class="total-condominio"></div>
-
-</div>
-
-<script type="module" src="js/quotas.js"></script>
+    <script type="module" src="js/quotas.js"></script>
 </body>
 </html>
