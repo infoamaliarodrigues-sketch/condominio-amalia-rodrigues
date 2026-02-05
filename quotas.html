@@ -8,31 +8,32 @@
 
 <body>
 
-    <!-- Barra azul superior -->
-    <div class="top-bar">
-        Sistema de Gestão de Quotas do Condomínio
+    <!-- NAVBAR SUPERIOR -->
+    <div class="navbar">
+        <span class="menu-icon" onclick="toggleMenu()">☰</span>
+        <span class="logo">Condomínio Amália Rodrigues</span>
     </div>
 
-    <!-- Menu lateral (usa as classes do teu global.css) -->
-    <div class="menu-lateral">
+    <!-- MENU DROPDOWN -->
+    <div id="sideMenu" class="side-menu">
         <a href="index.html">🏠 Início</a>
         <a href="condominos.html">👥 Condóminos</a>
         <a href="quotas.html" class="ativo">💰 Quotas</a>
         <a href="configurar.html">⚙️ Configurar Ano</a>
     </div>
 
-    <!-- Conteúdo principal -->
-    <div class="conteudo">
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="main-container">
 
-        <div class="linha-topo">
+        <h2>Gestão de Quotas</h2>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
             <div>
                 <label for="anoSelect">Ano:</label>
                 <select id="anoSelect"></select>
             </div>
 
-            <a href="configurar.html" class="btn-primario">
-                Configurar Ano
-            </a>
+            <a href="configurar.html" class="btn-primario">Configurar Ano</a>
         </div>
 
         <div id="fracoesContainer"></div>
@@ -43,6 +44,12 @@
         </div>
 
     </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("sideMenu").classList.toggle("open");
+        }
+    </script>
 
     <script type="module" src="js/quotas.js"></script>
 </body>
