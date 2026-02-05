@@ -290,3 +290,92 @@ td:last-child {
     font-weight: bold;
 }
 
+/* BLOCO DE CADA FRAÇÃO */
+.fracao-bloco {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 25px;
+    border-radius: 6px;
+}
+
+/* Título QUOTAS / EXTRAS */
+.linha-titulo {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+/* Grelha dos 12 meses */
+.linha-meses {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+/* Quadrado de cada mês */
+.mes {
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    border: 1px solid #999;
+    background: #f8f8f8;
+}
+
+/* Pago */
+.mes.pago {
+    background: #4CAF50;
+    color: white;
+}
+
+/* Não pago */
+.mes.nao-pago {
+    background: #ff4d4d;
+    color: white;
+}
+
+/* Linha de totais da fração */
+.linha-info {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Observações */
+.obs-box {
+    width: 100%;
+    padding: 6px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* Botão guardar */
+.guardar-btn {
+    margin-top: 10px;
+    padding: 8px 14px;
+    font-size: 14px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.guardar-btn:hover {
+    background: #005fcc;
+}
+
+/* Caixa total do condomínio */
+.caixa-total {
+    margin-top: 40px;
+    padding: 15px;
+    background: #e8e8e8;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
