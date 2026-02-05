@@ -117,6 +117,8 @@ button:hover {
     margin: 0 auto;
     padding: 20px;
     transition: margin-left 0.3s;
+    position: relative;
+    z-index: 2500;
 }
 
 /* deslocar conteúdo quando menu abre */
@@ -129,17 +131,40 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    position: relative;
+    z-index: 3000;
+    background: white;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 3500;
 }
 
 th, td {
     padding: 6px;
     border-bottom: 1px solid #ddd;
+    text-align: left;
 }
 
 td input {
     width: 95%;
     padding: 4px;
     font-size: 14px;
+}
+
+/* INPUTS ESPECIAIS */
+td input[type="number"] {
+    width: 60px;
+    padding: 4px;
+    font-size: 14px;
+}
+
+td input[type="checkbox"] {
+    transform: scale(1.3);
+    cursor: pointer;
 }
 
 /* BOTÕES DA TABELA */
@@ -153,18 +178,6 @@ td input {
     cursor: pointer;
     margin-right: 4px;
 }
-
-td input[type="number"] {
-    width: 60px;
-    padding: 4px;
-    font-size: 14px;
-}
-
-td input[type="checkbox"] {
-    transform: scale(1.3);
-    cursor: pointer;
-}
-
 
 .btn-save {
     background: #22c55e;
