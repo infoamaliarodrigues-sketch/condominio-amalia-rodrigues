@@ -81,16 +81,15 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-// ----------------------
 // LISTAR TABELA EM TEMPO REAL
-// ----------------------
-const tabela = document.querySelector("#tabela tbody");
-
 onSnapshot(collection(db, "condominos"), (snapshot) => {
     tabela.innerHTML = "";
 
     snapshot.forEach(docSnap => {
         const c = docSnap.data();
+
+        const isento = c.isento === true;
+        const perc = c.percentagemIsencao ?? 0;
 
         tabela.innerHTML += `
             <tr>
@@ -103,6 +102,14 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
                 <td><input id="email-${c.fracao}" value="${c.email}" disabled></td>
 
                 <td>
+                    <input type="checkbox" id="isento-${c.fracao}" ${isento ? "checked" : ""} disabled>
+                </td>
+
+                <td>
+                    <input type="number" id="perc-${c.fracao}" value="${perc}" min="0" max="100" disabled>
+                </td>
+
+                <td>
                     <button class="btn-edit" onclick="editar('${c.fracao}')">Editar</button>
                     <button class="btn-save" onclick="guardar('${c.fracao}')">Guardar</button>
                     <button class="btn-delete" onclick="limpar('${c.fracao}')">Apagar</button>
@@ -113,33 +120,54 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
 });
 
 
-// ----------------------
-// EDITAR (ativa inputs)
-// ----------------------
+// EDITAR
 window.editar = (fracao) => {
     document.getElementById(`nome-${fracao}`).disabled = false;
     document.getElementById(`tel-${fracao}`).disabled = false;
     document.getElementById(`email-${fracao}`).disabled = false;
+
+    document.getElementById(`isento-${fracao}`).disabled = false;
+    document.getElementById(`perc-${fracao}`).disabled = false;
 };
 
 
-// ----------------------
-// GUARDAR ALTERAÇÕES
-// ----------------------
+// GUARDAR
 window.guardar = async (fracao) => {
+
+    const nome = document.getElementById(`nome-${fracao}`).value;
+    const telefone = document.getElementById(`tel-${fracao}`).value;
+    const email = document.getElementById(`email-${fracao}`).value;
+
+    const isento = document.getElementById(`isento-${fracao}`).checked;
+    let perc = Number(document.getElementById(`perc-${fracao}`).value);
+
+    // REGRAS LÓGICAS (opção B)
+    if (isento && perc === 0) {
+        alert("Se o condómino está isento, a percentagem deve ser maior que 0.");
+        return;
+    }
+
+    if (!isento && perc !== 0) {
+        alert("Se o condómino não está isento, a percentagem deve ser 0.");
+        return;
+    }
 
     await setDoc(doc(db, "condominos", fracao), {
         fracao,
         letra: dadosIniciais[fracao].letra,
         permilagem: dadosIniciais[fracao].permilagem,
-        nome: document.getElementById(`nome-${fracao}`).value,
-        telefone: document.getElementById(`tel-${fracao}`).value,
-        email: document.getElementById(`email-${fracao}`).value
+        nome,
+        telefone,
+        email,
+        isento,
+        percentagemIsencao: perc
     });
 
     document.getElementById(`nome-${fracao}`).disabled = true;
     document.getElementById(`tel-${fracao}`).disabled = true;
     document.getElementById(`email-${fracao}`).disabled = true;
+    document.getElementById(`isento-${fracao}`).disabled = true;
+    document.getElementById(`perc-${fracao}`).disabled = true;
 };
 
 
