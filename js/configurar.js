@@ -57,8 +57,12 @@ async function criarBlocos(ano) {
             <div class="secao-titulo">Quotas Mensais</div>
             <div class="linha-meses" id="q-${fracao}">
                 ${MESES.map(m => `
-                    <input type="number" id="q-${fracao}-${m}" value="0">
-                `).join("")}
+    <div>
+        <label>${m.toUpperCase()}</label>
+        <input type="number" id="q-${fracao}-${m}" value="0">
+    </div>
+`).join("")}
+
             </div>
 
             <!-- Isenção -->
@@ -77,9 +81,13 @@ async function criarBlocos(ano) {
             <!-- EXTRAS -->
             <div class="secao-titulo">Extras</div>
             <div class="linha-meses" id="e-${fracao}">
-                ${MESES.map(m => `
-                    <input type="number" id="e-${fracao}-${m}" value="0">
-                `).join("")}
+               ${MESES.map(m => `
+    <div>
+        <label>${m.toUpperCase()}</label>
+        <input type="number" id="e-${fracao}-${m}" value="0">
+    </div>
+`).join("")}
+
             </div>
 
             <textarea id="obsE-${fracao}" class="obs-box" placeholder="Observações dos extras"></textarea>
