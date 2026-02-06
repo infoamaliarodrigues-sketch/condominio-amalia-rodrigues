@@ -217,35 +217,45 @@ td button {
 }
 
 .mes {
-    padding: 6px;
+    width: 55px;
+    min-height: 55px;
+    padding: 4px;
     text-align: center;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
-    border: 1px solid #999;
-    background: #f8f8f8;
+    border: 1px solid #ccc;
+    background: #fafafa;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
+
 .mes-label {
     font-size: 11px;
-    margin-bottom: 2px; 
+    margin-bottom: 2px;
+    color: #333;
 }
 
-.mes-valor { 
-    font-size: 12px; 
+.mes-valor {
+    font-size: 12px;
+    color: #1e3a8a; /* azul igual à barra */
 }
+
 .mes.pago {
-    background: #4CAF50;
-    color: white;
+    background: #c8f7c5;
+    border-color: #8cd98c;
+    color: #1e3a8a;
 }
 
 .mes.nao-pago {
-    background: #ff4d4d;
-    color: white;
+    background: #f7c5c5;
+    border-color: #d98c8c;
+    color: #1e3a8a;
 }
+
 
 .obs-box {
     width: 100%;
