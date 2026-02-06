@@ -188,18 +188,26 @@ window.limpar = async (fracao) => {
         letra: dadosIniciais[fracao].letra,
         permilagem: dadosIniciais[fracao].permilagem,
         nome: "",
-        nif,
+        nif: "",
         telefone: "",
-        email: ""
+        email: "",
+        isento: false,
+        percentagemIsencao: 0
     });
 
     document.getElementById(`nome-${fracao}`).value = "";
+    document.getElementById(`nif-${fracao}`).value = "";
     document.getElementById(`tel-${fracao}`).value = "";
     document.getElementById(`email-${fracao}`).value = "";
+    document.getElementById(`isento-${fracao}`).checked = false;
+    document.getElementById(`perc-${fracao}`).value = 0;
 
     document.getElementById(`nome-${fracao}`).disabled = true;
+    document.getElementById(`nif-${fracao}`).disabled = true;
     document.getElementById(`tel-${fracao}`).disabled = true;
     document.getElementById(`email-${fracao}`).disabled = true;
+    document.getElementById(`isento-${fracao}`).disabled = true;
+    document.getElementById(`perc-${fracao}`).disabled = true;
 };
 
 
