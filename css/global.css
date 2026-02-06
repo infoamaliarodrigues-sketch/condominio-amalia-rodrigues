@@ -500,3 +500,31 @@ table th {
     margin-top: 15px;
 }
 
+/* Fração mais estreita */
+#tabelaRecibos th:nth-child(3),
+#tabelaRecibos td:nth-child(3) {
+    width: 60px;
+    text-align: center;
+}
+
+/* Estado mais estreito */
+#tabelaRecibos th:nth-child(7),
+#tabelaRecibos td:nth-child(7) {
+    width: 80px;
+    text-align: center;
+}
+
+/* Coluna Ações com largura fixa e sem quebras */
+#tabelaRecibos th:nth-child(8),
+#tabelaRecibos td:nth-child(8) {
+    width: 150px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* Botões mais compactos */
+#tabelaRecibos button {
+    padding: 3px 6px;
+    font-size: 12px;
+    margin: 0 3px;
+}
