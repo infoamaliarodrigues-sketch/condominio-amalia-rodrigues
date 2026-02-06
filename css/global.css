@@ -345,3 +345,12 @@ td:nth-child(3) {
     font-size: 11px !important;
 }
 
+td:last-child {
+    overflow: visible !important;
+}
+
+th:nth-child(10),
+td:nth-child(10) {
+    width: 200px !important;
+}
+
