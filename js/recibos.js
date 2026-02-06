@@ -146,11 +146,10 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
         if (!cfgSnap.exists()) continue;
         const cfg = cfgSnap.data();
 
-       // LER PAGAMENTOS (meses)
-        const pagRef = doc(db, `pagamentos/${ano}/fracoes/${fracao}`);
+        // LER PAGAMENTOS (quotas e extras)
+        const pagRef = doc(db, `pagamentos/${ano}/fracao/${fracao}`);
         const pagSnap = await getDoc(pagRef);
-        const pag = pagSnap.exists() ? pagSnap.data() : { meses:{} };
-
+        const pag = pagSnap.exists() ? pagSnap.data() : { quotas:{}, extras:{} };
 
         const isento = cfg.isencao === true;
         const percent = Number(cfg.isencaoPercent || 0);
@@ -166,11 +165,10 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
             const vQ = Number(cfg.quotas[mesNome] || 0) * fator;
             const vE = Number(cfg.extras[mesNome] || 0) * fator;
 
-            const pago = pag.meses && pag.meses[mesNome] === true;
+            const pagouQuota = pag.quotas && pag.quotas[mesNome] === true;
+            const pagouExtra = pag.extras && pag.extras[mesNome] === true;
 
-            if (!pago) continue;
-
-            if (chkQuota.checked && vQ > 0) {
+            if (chkQuota.checked && pagouQuota && vQ > 0) {
                 linhas.push({
                     descricao: `Quota ${mesNome.toUpperCase()} ${ano}`,
                     valor: vQ
@@ -178,7 +176,7 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
                 total += vQ;
             }
 
-            if (chkExtra.checked && vE > 0) {
+            if (chkExtra.checked && pagouExtra && vE > 0) {
                 linhas.push({
                     descricao: `Extra ${mesNome.toUpperCase()} ${ano}`,
                     valor: vE
