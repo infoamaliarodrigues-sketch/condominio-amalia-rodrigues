@@ -46,14 +46,12 @@ async function criarBlocos(ano) {
         bloco.innerHTML = `
             <h2>Fração ${fracao} (${letra})</h2>
 
-            <!-- Valor base -->
             <label>Valor mensal base (€):</label>
             <div style="display:flex; gap:10px; align-items:center; margin-bottom:15px;">
                 <input type="number" id="valorBase-${fracao}" min="0" value="0" style="width:120px;">
                 <button class="btn-primario" onclick="aplicarValorBase('${fracao}')">Aplicar a todos os meses</button>
             </div>
 
-            <!-- QUOTAS -->
             <div class="secao-titulo">Quotas Mensais</div>
             <div class="linha-meses" id="q-${fracao}">
                 ${MESES.map(m => `
@@ -64,7 +62,6 @@ async function criarBlocos(ano) {
                 `).join("")}
             </div>
 
-            <!-- Isenção -->
             <div style="display:flex; align-items:center; gap:10px; margin-top:10px;">
                 <label style="display:flex; align-items:center; gap:6px;">
                     <input type="checkbox" id="isen-${fracao}">
@@ -77,7 +74,6 @@ async function criarBlocos(ano) {
 
             <textarea id="obsQ-${fracao}" class="obs-box" placeholder="Observações das quotas"></textarea>
 
-            <!-- EXTRAS -->
             <div class="secao-titulo">Extras</div>
             <div class="linha-meses" id="e-${fracao}">
                 ${MESES.map(m => `
@@ -94,11 +90,13 @@ async function criarBlocos(ano) {
         fracoesContainer.appendChild(bloco);
     });
 
+    // 1) Carregar valores do Firestore
     await carregarValoresExistentes(ano);
 
+    // 2) Agora que os inputs existem e têm valores → calcular totais
     calcularTotais();
 
-    // ✔ Agora sim: inputs já existem → eventos funcionam
+    // 3) Ligar eventos a todos os inputs criados dinamicamente
     document.querySelectorAll("input").forEach(inp => {
         inp.addEventListener("input", calcularTotais);
     });
