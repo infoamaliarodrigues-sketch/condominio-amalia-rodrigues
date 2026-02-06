@@ -357,3 +357,10 @@ table th {
     font-size: 10px !important;
     padding: 6px !important;
 }
+
+#filtro {
+    width: 400px;
+    padding: 6px 8px;
+    font-size: 12px;
+}
+
