@@ -297,17 +297,19 @@ th, td {
     font-weight: bold;
 }
 
-/* AJUSTES FINAIS — TABELA DE CONDÓMINOS */
+/* AJUSTES FINAIS — TABELA DE CONDÓMINOS (VERSÃO OTIMIZADA) */
 
-/* Cabeçalho e células com fonte mais pequena e uniforme */
-th, td {
-    font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+/* Fonte mais pequena nas 3 primeiras colunas */
+th:nth-child(1),
+th:nth-child(2),
+th:nth-child(3),
+td:nth-child(1),
+td:nth-child(2),
+td:nth-child(3) {
+    font-size: 11px;
 }
 
-/* Inputs dentro da tabela — compactos e legíveis */
+/* Inputs dentro da tabela */
 td input {
     padding: 3px 4px;
     font-size: 11px;
@@ -316,10 +318,21 @@ td input {
     box-sizing: border-box;
 }
 
-/* Inputs de texto (nome, email, telefone) */
+/* Campo Telefone — largura para 9–10 dígitos */
+td input.telefone-input {
+    width: 95px;
+    font-size: 11px;
+}
+
+/* Campo NIF — largura para 9–10 dígitos */
+td input.nif-input {
+    width: 95px;
+    font-size: 11px;
+}
+
+/* Inputs de texto (nome, email) */
 td input[type="text"],
-td input[type="email"],
-td input[type="tel"] {
+td input[type="email"] {
     width: 150px;
     font-size: 11px;
 }
@@ -337,7 +350,7 @@ td input[type="checkbox"] {
     cursor: pointer;
 }
 
-/* Botões CRUD — tamanho ideal para caber Editar / Guardar / Apagar */
+/* Botões CRUD */
 td button {
     font-size: 10px;
     padding: 3px 5px;
@@ -347,13 +360,14 @@ td button {
     min-width: 60px;
 }
 
-/* Largura das colunas — agora todas proporcionais e com espaço para os botões */
-th:nth-child(1) { width: 60px; }   /* Letra */
-th:nth-child(2) { width: 70px; }   /* Fração */
-th:nth-child(3) { width: 90px; }   /* Permilagem */
+/* Largura das colunas — ajustadas para caber tudo incluindo NIF */
+th:nth-child(1) { width: 45px; }   /* Letra */
+th:nth-child(2) { width: 55px; }   /* Fração */
+th:nth-child(3) { width: 70px; }   /* Permilagem */
 th:nth-child(4) { width: 180px; }  /* Nome */
-th:nth-child(5) { width: 140px; }  /* Telefone */
-th:nth-child(6) { width: 180px; }  /* Email */
-th:nth-child(7) { width: 70px; }   /* Isento */
-th:nth-child(8) { width: 90px; }   /* % Isenção */
-th:nth-child(9) { width: 180px; }  /* Ações */
+th:nth-child(5) { width: 100px; }  /* Telefone */
+th:nth-child(6) { width: 100px; }  /* NIF (nova coluna) */
+th:nth-child(7) { width: 160px; }  /* Email */
+th:nth-child(8) { width: 60px; }   /* Isento */
+th:nth-child(9) { width: 80px; }   /* % Isenção */
+th:nth-child(10) { width: 180px; } /* Ações */
