@@ -127,25 +127,26 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
 // EDITAR
 window.editar = (fracao) => {
     document.getElementById(`nome-${fracao}`).disabled = false;
+    document.getElementById(`nif-${fracao}`).disabled = false;
     document.getElementById(`tel-${fracao}`).disabled = false;
     document.getElementById(`email-${fracao}`).disabled = false;
-
     document.getElementById(`isento-${fracao}`).disabled = false;
     document.getElementById(`perc-${fracao}`).disabled = false;
 };
+
 
 
 // GUARDAR
 window.guardar = async (fracao) => {
 
     const nome = document.getElementById(`nome-${fracao}`).value;
+    const nif = document.getElementById(`nif-${fracao}`).value;
     const telefone = document.getElementById(`tel-${fracao}`).value;
     const email = document.getElementById(`email-${fracao}`).value;
 
     const isento = document.getElementById(`isento-${fracao}`).checked;
     let perc = Number(document.getElementById(`perc-${fracao}`).value);
 
-    // REGRAS LÓGICAS (opção B)
     if (isento && perc === 0) {
         alert("Se o condómino está isento, a percentagem deve ser maior que 0.");
         return;
@@ -161,6 +162,7 @@ window.guardar = async (fracao) => {
         letra: dadosIniciais[fracao].letra,
         permilagem: dadosIniciais[fracao].permilagem,
         nome,
+        nif,
         telefone,
         email,
         isento,
@@ -168,7 +170,7 @@ window.guardar = async (fracao) => {
     });
 
     document.getElementById(`nome-${fracao}`).disabled = true;
-    const nif = document.getElementById(`nif-${fracao}`).value;
+    document.getElementById(`nif-${fracao}`).disabled = true;
     document.getElementById(`tel-${fracao}`).disabled = true;
     document.getElementById(`email-${fracao}`).disabled = true;
     document.getElementById(`isento-${fracao}`).disabled = true;
