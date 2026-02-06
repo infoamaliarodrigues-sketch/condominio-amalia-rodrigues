@@ -364,3 +364,11 @@ table th {
     font-size: 12px;
 }
 
+#tabela-dashboard th,
+#tabela-dashboard td {
+    padding: 8px;
+    font-size: 13px;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+}
+
