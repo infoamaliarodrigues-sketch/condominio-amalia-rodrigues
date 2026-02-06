@@ -35,7 +35,7 @@ input, select, textarea {
 /* BOTÕES */
 button,
 .btn-primario {
-    background: #007bff;
+    background: #1e3a8a;
     color: white;
     padding: 10px 16px;
     border-radius: 6px;
@@ -48,7 +48,7 @@ button,
 
 button:hover,
 .btn-primario:hover {
-    background: #005fcc;
+    background: #162c6a;
 }
 
 /* Botão guardar (verde) */
