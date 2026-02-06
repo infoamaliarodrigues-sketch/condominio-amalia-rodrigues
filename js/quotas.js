@@ -263,21 +263,30 @@ async function recalcularTotalCondominio() {
 }
 
 // ------------------------------------------------------------
-// 8) Botão para recalcular total do condomínio
+// 8) Botão para recalcular total do condomínio (em baixo)
 // ------------------------------------------------------------
 (function criarBotaoRecalcular() {
     const btn = document.createElement("button");
     btn.textContent = "Recalcular Totais do Condomínio";
+    btn.className = "btn-primario";
     btn.style.marginTop = "15px";
     btn.addEventListener("click", recalcularTotalCondominio);
     totalCondominioDiv.parentNode.insertBefore(btn, totalCondominioDiv.nextSibling);
 })();
 
 // ------------------------------------------------------------
-// Eventos
+// 9) Botão de recalcular no topo
+// ------------------------------------------------------------
+document.getElementById("btnRecalcularTopo")
+    .addEventListener("click", recalcularTotalCondominio);
+
+// ------------------------------------------------------------
+// 10) Alteração do ano
 // ------------------------------------------------------------
 anoSelect.addEventListener("change", () => criarBlocos(anoSelect.value));
 
-// Inicialização
+// ------------------------------------------------------------
+// 11) Inicialização
+// ------------------------------------------------------------
 carregarAnos();
 criarBlocos(estado.ano);
