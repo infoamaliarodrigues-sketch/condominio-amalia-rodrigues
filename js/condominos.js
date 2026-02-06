@@ -221,9 +221,3 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
 });
 
 
-// ----------------------
-// MENU LATERAL
-// ----------------------
-document.getElementById("menuBtn").addEventListener("click", () => {
-    document.getElementById("sideMenu").classList.toggle("open");
-});
