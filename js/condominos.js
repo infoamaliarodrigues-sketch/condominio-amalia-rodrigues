@@ -101,6 +101,7 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
                 <td>${c.permilagem}</td>
 
                 <td><input id="nome-${c.fracao}" value="${c.nome}" disabled></td>
+                <td><input id="nif-${c.fracao}" class="nif-input" value="${c.nif ?? ""}" disabled></td>
                 <td><input id="tel-${c.fracao}" value="${c.telefone}" disabled></td>
                 <td><input id="email-${c.fracao}" value="${c.email}" disabled></td>
 
@@ -167,6 +168,7 @@ window.guardar = async (fracao) => {
     });
 
     document.getElementById(`nome-${fracao}`).disabled = true;
+    const nif = document.getElementById(`nif-${fracao}`).value;
     document.getElementById(`tel-${fracao}`).disabled = true;
     document.getElementById(`email-${fracao}`).disabled = true;
     document.getElementById(`isento-${fracao}`).disabled = true;
@@ -184,6 +186,7 @@ window.limpar = async (fracao) => {
         letra: dadosIniciais[fracao].letra,
         permilagem: dadosIniciais[fracao].permilagem,
         nome: "",
+        nif,
         telefone: "",
         email: ""
     });
