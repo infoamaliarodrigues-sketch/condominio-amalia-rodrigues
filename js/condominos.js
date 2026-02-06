@@ -212,12 +212,5 @@ document.getElementById("filtro").addEventListener("input", () => {
 });
 
 
-// ----------------------
-// LOGOUT
-// ----------------------
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-    await signOut(auth);
-    window.location.href = "index.html";
-});
 
 
