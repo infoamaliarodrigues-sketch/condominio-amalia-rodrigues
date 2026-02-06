@@ -22,6 +22,9 @@ const reciboOriginal = document.getElementById("reciboOriginal");
 const reciboDuplicado = document.getElementById("reciboDuplicado");
 const tabelaRecibosBody = document.querySelector("#tabelaRecibos tbody");
 
+const chkQuota = document.getElementById("chkQuota");
+const chkExtra = document.getElementById("chkExtra");
+
 const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
 
 let ultimoReciboGerado = null;
@@ -129,7 +132,7 @@ async function obterNumeroRecibo() {
 }
 
 // ------------------------------------------------------------
-// Calcular linhas (apenas meses pagos)
+// Calcular linhas (pagos + checkboxes)
 // ------------------------------------------------------------
 async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
     const linhas = [];
@@ -142,7 +145,7 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
         if (!cfg) continue;
 
         const pagSnap = await getDocs(collection(db, `pagamentos/${ano}/fracoes`));
-        const pag = pagSnap.docs.find(d => d.id === fracao)?.data() || { quotas:{}, extras:{} };
+        const pag = pagSnap.docs.find(d => d.id === fracao)?.data() || { meses:{} };
 
         const isento = cfg.isencao === true;
         const percent = Number(cfg.isencaoPercent || 0);
@@ -158,10 +161,11 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
             const vQ = Number(cfg.quotas[mesNome] || 0) * fator;
             const vE = Number(cfg.extras[mesNome] || 0) * fator;
 
-            const pagoQ = pag.quotas && pag.quotas[mesNome] === true;
-            const pagoE = pag.extras && pag.extras[mesNome] === true;
+            const pago = pag.meses && pag.meses[mesNome] === true;
 
-            if (pagoQ && vQ > 0) {
+            if (!pago) continue;
+
+            if (chkQuota.checked && vQ > 0) {
                 linhas.push({
                     descricao: `Quota ${mesNome.toUpperCase()} ${ano}`,
                     valor: vQ
@@ -169,7 +173,7 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
                 total += vQ;
             }
 
-            if (pagoE && vE > 0) {
+            if (chkExtra.checked && vE > 0) {
                 linhas.push({
                     descricao: `Extra ${mesNome.toUpperCase()} ${ano}`,
                     valor: vE
@@ -331,7 +335,7 @@ async function gerarRecibo() {
 }
 
 // ------------------------------------------------------------
-// Imprimir PDF (via janela de impressão)
+// Imprimir PDF
 // ------------------------------------------------------------
 btnImprimir.addEventListener("click", () => {
     if (!ultimoReciboGerado) return;
@@ -380,7 +384,7 @@ btnImprimir.addEventListener("click", () => {
 });
 
 // ------------------------------------------------------------
-// Enviar por email (mailto)
+// Enviar por email
 // ------------------------------------------------------------
 btnEnviar.addEventListener("click", async () => {
     const fracao = fracaoSelect.value;
