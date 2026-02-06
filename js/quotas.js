@@ -125,15 +125,20 @@ function criarLinhaMeses(fracao, tipo) {
         const pago = pagos[m] === true;
 
         const mesDiv = document.createElement("div");
-        mesDiv.className = "mes " + (pago ? "pago" : "nao-pago");
-        mesDiv.dataset.fracao = fracao;
-        mesDiv.dataset.tipo = tipo;
-        mesDiv.dataset.mes = m;
-        mesDiv.textContent = valor;
+mesDiv.className = "mes " + (pago ? "pago" : "nao-pago");
+mesDiv.dataset.fracao = fracao;
+mesDiv.dataset.tipo = tipo;
+mesDiv.dataset.mes = m;
 
-        mesDiv.addEventListener("click", onClickMes);
+mesDiv.innerHTML = `
+    <div class="mes-label">${m.toUpperCase()}</div>
+    <div class="mes-valor">${valor}</div>
+`;
 
-        linhaDiv.appendChild(mesDiv);
+mesDiv.addEventListener("click", onClickMes);
+
+linhaDiv.appendChild(mesDiv);
+
     });
 }
 
