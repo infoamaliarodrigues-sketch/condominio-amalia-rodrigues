@@ -53,6 +53,7 @@
         <!-- BOTÕES -->
         <div style="margin-top:20px; display:flex; gap:15px;">
             <button id="btnGerar" class="btn-primario">Gerar Recibo</button>
+            <button id="btnImprimir" class="btn-primario" disabled>Imprimir PDF</button>
             <button id="btnEnviar" class="btn-primario" disabled>Enviar por Email</button>
         </div>
 
@@ -72,6 +73,25 @@
             </div>
 
         </div>
+
+        <!-- TABELA DE RECIBOS EMITIDOS -->
+        <h3 style="margin-top:40px;">Recibos emitidos</h3>
+
+        <table id="tabelaRecibos">
+            <thead>
+                <tr>
+                    <th>Nº</th>
+                    <th>Data</th>
+                    <th>Fração</th>
+                    <th>Titular</th>
+                    <th>Período</th>
+                    <th>Valor</th>
+                    <th>Estado</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
     </div>
 
