@@ -25,13 +25,6 @@ const tabelaRecibosBody = document.querySelector("#tabelaRecibos tbody");
 const chkQuota = document.getElementById("chkQuota");
 const chkExtra = document.getElementById("chkExtra");
 
-const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
-
-let ultimoReciboGerado = null;
-
-// -----------------------------------------
-// FORMA DE PAGAMENTO (mostrar/esconder data)
-// -----------------------------------------
 const formaPagamentoSelect = document.getElementById("formaPagamento");
 const dataTransferenciaBox = document.getElementById("dataTransferenciaBox");
 
@@ -39,6 +32,10 @@ formaPagamentoSelect.addEventListener("change", () => {
     dataTransferenciaBox.style.display =
         formaPagamentoSelect.value === "transferencia" ? "block" : "none";
 });
+
+const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+
+let ultimoReciboGerado = null;
 
 // ------------------------------------------------------------
 // Carregar frações
@@ -143,7 +140,7 @@ async function obterNumeroRecibo() {
 }
 
 // ------------------------------------------------------------
-// Calcular linhas (pagos + checkboxes)
+// Calcular linhas (apenas configuração + checkboxes)
 // ------------------------------------------------------------
 async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
     const linhas = [];
@@ -151,14 +148,13 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
 
     for (let ano = anoI; ano <= anoF; ano++) {
 
-        // LER CONFIGURAÇÃO (quotas e extras)
         const cfgRef = doc(db, `config_ano/${ano}/fracoes/${fracao}`);
         const cfgSnap = await getDoc(cfgRef);
         if (!cfgSnap.exists()) continue;
         const cfg = cfgSnap.data();
 
         const isento = cfg.isencao === true;
-        const percent = Number(cfg.isencaoPercent || 0);
+        const percent = Number(cfg.isencaoPercent || cfg.percentagemIsencao || 0);
         const fator = isento ? (1 - percent / 100) : 1;
 
         for (let m = 1; m <= 12; m++) {
@@ -168,10 +164,9 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
 
             const mesNome = MESES[m - 1];
 
-            const vQ = Number(cfg.quotas[mesNome] || 0) * fator;
-            const vE = Number(cfg.extras[mesNome] || 0) * fator;
+            const vQ = Number(cfg.quotas?.[mesNome] || 0) * fator;
+            const vE = Number(cfg.extras?.[mesNome] || 0) * fator;
 
-            // QUOTAS
             if (chkQuota.checked && vQ > 0) {
                 linhas.push({
                     descricao: `Quota ${mesNome.toUpperCase()} ${ano}`,
@@ -180,7 +175,6 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
                 total += vQ;
             }
 
-            // EXTRAS
             if (chkExtra.checked && vE > 0) {
                 linhas.push({
                     descricao: `Extra ${mesNome.toUpperCase()} ${ano}`,
@@ -193,7 +187,6 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
 
     return { linhas, total };
 }
-
 
 // ------------------------------------------------------------
 // Guardar recibo
@@ -223,7 +216,7 @@ async function carregarRecibosTabela() {
             <td>${r.periodo}</td>
             <td>${r.total.toFixed(2)} €</td>
             <td>${r.estado || "Válido"}</td>
-            <td>
+            <td style="white-space:nowrap;">
                 <button data-id="${docSnap.id}" class="btn-anular">Anular</button>
                 <button data-id="${docSnap.id}" class="btn-apagar">Apagar</button>
             </td>
@@ -266,6 +259,10 @@ async function gerarRecibo() {
     const condSnap = await getDoc(doc(db, "condominos", fracao));
     const cond = condSnap.data();
 
+    const formaPagamento = document.getElementById("formaPagamento").value;
+    const dataTransferencia = document.getElementById("dataTransferencia").value;
+    const nif = cond.nif && cond.nif.toString().trim() !== "" ? cond.nif : "Consumidor Final";
+
     const numero = await obterNumeroRecibo();
     const dataHoje = new Date().toLocaleDateString("pt-PT");
 
@@ -294,9 +291,30 @@ async function gerarRecibo() {
                 NIF: 901 842 931
             </td></tr>
 
-            <tr><td>Fração:</td><td colspan="2">${fracao} (${cond.letra})</td><td></td></tr>
-            <tr><td>Titular:</td><td colspan="2">${cond.nome}</td><td></td></tr>
-            <tr><td>Relativo a:</td><td colspan="2">Pagamento de quotas</td><td></td></tr>
+            <tr>
+                <td>Fração:</td>
+                <td colspan="2">${fracao} (${cond.letra})</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Titular:</td>
+                <td colspan="2">${cond.nome}</td>
+                <td>NIF: ${nif}</td>
+            </tr>
+            <tr>
+                <td>Pagamento:</td>
+                <td colspan="2">
+                    ${formaPagamento === "transferencia" ? "Transferência Bancária" : "Numerário"}
+                </td>
+                <td>
+                    ${formaPagamento === "transferencia" && dataTransferencia ? "Data: " + dataTransferencia : ""}
+                </td>
+            </tr>
+            <tr>
+                <td>Relativo a:</td>
+                <td colspan="2">Pagamento de quotas</td>
+                <td></td>
+            </tr>
 
             <tr><td>Descrição</td><td colspan="2"></td><td>Valor</td></tr>
 
@@ -327,6 +345,9 @@ async function gerarRecibo() {
         titular: cond.nome,
         periodo,
         total,
+        formaPagamento,
+        dataTransferencia: formaPagamento === "transferencia" ? dataTransferencia : "",
+        nif,
         html: htmlTabela
     };
 
@@ -337,6 +358,9 @@ async function gerarRecibo() {
         titular: cond.nome,
         periodo,
         total,
+        formaPagamento,
+        dataTransferencia: formaPagamento === "transferencia" ? dataTransferencia : "",
+        nif,
         estado: "Válido"
     });
 
