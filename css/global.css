@@ -317,7 +317,25 @@ th:nth-child(10) { width: 180px; } /* Ações */
     font-weight: bold;
 }
 
-/* CORREÇÃO FINAL — TAMANHO DAS 3 PRIMEIRAS COLUNAS */
+
+/* AJUSTE FINAL — TABELA CONDÓMINOS */
+table {
+    table-layout: fixed;
+}
+
+td button {
+    min-width: 60px;
+    font-size: 10px;
+    padding: 3px 5px;
+}
+
+/* Inputs compactos */
+td input {
+    font-size: 11px !important;
+    padding: 3px 4px !important;
+}
+
+/* 3 primeiras colunas com letra menor */
 th:nth-child(1),
 th:nth-child(2),
 th:nth-child(3),
