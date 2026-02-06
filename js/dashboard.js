@@ -37,18 +37,18 @@ async function carregarDashboard() {
 
         for (const ano of anos) {
 
-            // Configuração do ano (corrigido)
+            // Configuração do ano (CORRETO)
             const cfgRef = doc(db, `config_ano/${ano}/fracoes/${fracao}`);
             const cfgSnap = await getDoc(cfgRef);
             const cfg = cfgSnap.exists() ? cfgSnap.data() : null;
             if (!cfg) continue;
 
-            // Pagamentos do ano (corrigido)
+            // Pagamentos do ano (CORRETO)
             const pagRef = doc(db, `pagamentos/${ano}/fracoes/${fracao}`);
             const pagSnap = await getDoc(pagRef);
             const pag = pagSnap.exists() ? pagSnap.data() : { quotas:{}, extras:{} };
 
-            // Isenção (corrigido)
+            // Isenção (CORRETO)
             const isento = cfg.isento === true;
             const percent = Number(cfg.percentagemIsencao || 0);
             const fator = isento ? (1 - percent / 100) : 1;
