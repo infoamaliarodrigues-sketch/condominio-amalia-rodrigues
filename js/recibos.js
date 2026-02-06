@@ -140,12 +140,16 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
 
     for (let ano = anoI; ano <= anoF; ano++) {
 
-        const cfgSnap = await getDocs(collection(db, `config_ano/${ano}/fracoes`));
-        const cfg = cfgSnap.docs.find(d => d.id === fracao)?.data();
-        if (!cfg) continue;
+        // LER CONFIGURAÇÃO (quotas e extras)
+        const cfgRef = doc(db, `config_ano/${ano}/fracoes/${fracao}`);
+        const cfgSnap = await getDoc(cfgRef);
+        if (!cfgSnap.exists()) continue;
+        const cfg = cfgSnap.data();
 
-        const pagSnap = await getDocs(collection(db, `pagamentos/${ano}/fracoes`));
-        const pag = pagSnap.docs.find(d => d.id === fracao)?.data() || { meses:{} };
+        // LER PAGAMENTOS (meses)
+        const pagRef = doc(db, `pagamentos/${ano}/fracoes/${fracao}`);
+        const pagSnap = await getDoc(pagRef);
+        const pag = pagSnap.exists() ? pagSnap.data() : { meses:{} };
 
         const isento = cfg.isencao === true;
         const percent = Number(cfg.isencaoPercent || 0);
