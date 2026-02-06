@@ -197,24 +197,47 @@ function atualizarInfoFracao(fracao) {
     let dividaQuotas = 0;
     let pagoExtras = 0;
     let dividaExtras = 0;
+    let atraso = 0;
 
-    MESES.forEach(m => {
+    const hoje = new Date();
+    const mesAtual = hoje.getMonth() + 1; // 1–12
+    const ultimoMesAtraso = mesAtual - 1;
+
+    MESES.forEach((m, index) => {
+        const mesNumero = index + 1;
+
         const vQ = Number(fr.quotasValores[m] || 0);
         const vE = Number(fr.extrasValores[m] || 0);
 
-        if (fr.quotasPagas[m]) pagoQuotas += vQ;
+        const pagoQ = fr.quotasPagas[m] === true;
+        const pagoE = fr.extrasPagas[m] === true;
+
+        if (pagoQ) pagoQuotas += vQ;
         else dividaQuotas += vQ;
 
-        if (fr.extrasPagas[m]) pagoExtras += vE;
+        if (pagoE) pagoExtras += vE;
         else dividaExtras += vE;
+
+        if (mesNumero <= ultimoMesAtraso) {
+            if (!pagoQ) atraso += vQ;
+            if (!pagoE) atraso += vE;
+        }
     });
 
     const infoQ = document.getElementById(`info-q-${fracao}`);
     const infoE = document.getElementById(`info-e-${fracao}`);
 
-    infoQ.textContent = `Pago: ${pagoQuotas.toFixed(2)} € | Dívida: ${dividaQuotas.toFixed(2)} €`;
-    infoE.textContent = `Pago: ${pagoExtras.toFixed(2)} € | Dívida: ${dividaExtras.toFixed(2)} €`;
+    infoQ.textContent =
+        `Pago: ${pagoQuotas.toFixed(2)} € | ` +
+        `Dívida Ano: ${dividaQuotas.toFixed(2)} € | ` +
+        `Atraso: ${atraso.toFixed(2)} €`;
+
+    infoE.textContent =
+        `Pago: ${pagoExtras.toFixed(2)} € | ` +
+        `Dívida Ano: ${dividaExtras.toFixed(2)} € | ` +
+        `Atraso: ${atraso.toFixed(2)} €`;
 }
+
 
 // ------------------------------------------------------------
 // 6) Guardar fração no Firestore
