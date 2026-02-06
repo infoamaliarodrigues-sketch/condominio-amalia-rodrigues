@@ -254,3 +254,22 @@ td button {
     font-size: 18px;
     font-weight: bold;
 }
+
+.linha-meses div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.linha-meses div label {
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.linha-meses div input {
+    width: 60px;
+    text-align: center;
+}
+
