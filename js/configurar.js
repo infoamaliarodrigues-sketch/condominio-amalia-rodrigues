@@ -57,12 +57,11 @@ async function criarBlocos(ano) {
             <div class="secao-titulo">Quotas Mensais</div>
             <div class="linha-meses" id="q-${fracao}">
                 ${MESES.map(m => `
-    <div>
-        <label>${m.toUpperCase()}</label>
-        <input type="number" id="q-${fracao}-${m}" value="0">
-    </div>
-`).join("")}
-
+                    <div>
+                        <label>${m.toUpperCase()}</label>
+                        <input type="number" id="q-${fracao}-${m}" value="0">
+                    </div>
+                `).join("")}
             </div>
 
             <!-- Isenção -->
@@ -81,13 +80,12 @@ async function criarBlocos(ano) {
             <!-- EXTRAS -->
             <div class="secao-titulo">Extras</div>
             <div class="linha-meses" id="e-${fracao}">
-               ${MESES.map(m => `
-    <div>
-        <label>${m.toUpperCase()}</label>
-        <input type="number" id="e-${fracao}-${m}" value="0">
-    </div>
-`).join("")}
-
+                ${MESES.map(m => `
+                    <div>
+                        <label>${m.toUpperCase()}</label>
+                        <input type="number" id="e-${fracao}-${m}" value="0">
+                    </div>
+                `).join("")}
             </div>
 
             <textarea id="obsE-${fracao}" class="obs-box" placeholder="Observações dos extras"></textarea>
@@ -97,6 +95,13 @@ async function criarBlocos(ano) {
     });
 
     await carregarValoresExistentes(ano);
+
+    calcularTotais();
+
+    // ✔ Agora sim: inputs já existem → eventos funcionam
+    document.querySelectorAll("input").forEach(inp => {
+        inp.addEventListener("input", calcularTotais);
+    });
 }
 
 // ------------------------------------------------------------
@@ -171,6 +176,51 @@ async function guardarConfiguracao() {
 
     alert("Configuração guardada com sucesso!");
 }
+
+// ------------------------------------------------------------
+// tabelas de totais
+// ------------------------------------------------------------
+
+function calcularTotais() {
+    let totalQuotas = 0;
+    let totalExtras = 0;
+    let totalSemIsencao = 0;
+    let totalComIsencao = 0;
+
+    const snapPromise = getDocs(collection(db, "condominos"));
+
+    snapPromise.then(snap => {
+        snap.forEach(docSnap => {
+            const fracao = docSnap.data().fracao;
+
+            let somaQuotas = 0;
+            let somaExtras = 0;
+
+            MESES.forEach(m => {
+                somaQuotas += Number(document.getElementById(`q-${fracao}-${m}`).value);
+                somaExtras += Number(document.getElementById(`e-${fracao}-${m}`).value);
+            });
+
+            const isento = document.getElementById(`isen-${fracao}`).checked;
+            const percent = Number(document.getElementById(`isenPercent-${fracao}`).value);
+
+            const totalFracaoSem = somaQuotas + somaExtras;
+            const totalFracaoCom = isento ? totalFracaoSem * (1 - percent / 100) : totalFracaoSem;
+
+            totalQuotas += somaQuotas;
+            totalExtras += somaExtras;
+            totalSemIsencao += totalFracaoSem;
+            totalComIsencao += totalFracaoCom;
+        });
+
+        document.getElementById("totalQuotas").textContent = totalQuotas.toFixed(2) + " €";
+        document.getElementById("totalExtras").textContent = totalExtras.toFixed(2) + " €";
+        document.getElementById("totalGeral").textContent = (totalQuotas + totalExtras).toFixed(2) + " €";
+        document.getElementById("totalSemIsencao").textContent = totalSemIsencao.toFixed(2) + " €";
+        document.getElementById("totalComIsencao").textContent = totalComIsencao.toFixed(2) + " €";
+    });
+}
+
 
 // ------------------------------------------------------------
 // Eventos
