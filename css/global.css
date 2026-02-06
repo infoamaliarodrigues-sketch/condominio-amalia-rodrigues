@@ -297,7 +297,12 @@ th, td {
     font-weight: bold;
 }
 
-/* AJUSTES FINAIS PARA TABELAS (CONDÓMINOS / QUOTAS / CONFIGURAR) */
+/* AJUSTES FINAIS PARA TABELAS (UNIFORMIZAÇÃO TOTAL) */
+
+/* Cabeçalho e células com fonte mais pequena */
+th, td {
+    font-size: 13px;
+}
 
 /* Inputs dentro da tabela */
 td input {
@@ -312,7 +317,7 @@ td input {
 td input[type="text"],
 td input[type="email"],
 td input[type="tel"] {
-    width: 140px;
+    width: 150px;
     font-size: 11px;
 }
 
@@ -330,16 +335,16 @@ td button {
     margin-right: 3px;
     border-radius: 4px;
     cursor: pointer;
-    min-width: 55px;
+    min-width: 60px;
 }
 
 /* Largura das colunas da tabela de condóminos */
-th:nth-child(1) { width: 40px; }   /* Letra */
-th:nth-child(2) { width: 55px; }   /* Fração */
-th:nth-child(3) { width: 70px; }   /* Permilagem */
-th:nth-child(4) { width: 160px; }  /* Nome */
-th:nth-child(5) { width: 120px; }  /* Telefone */
-th:nth-child(6) { width: 160px; }  /* Email */
-th:nth-child(7) { width: 55px; }   /* Isento */
-th:nth-child(8) { width: 70px; }   /* % Isenção */
-th:nth-child(9) { width: 150px; }  /* Ações */
+th:nth-child(1) { width: 60px; }   /* Letra */
+th:nth-child(2) { width: 70px; }   /* Fração */
+th:nth-child(3) { width: 90px; }   /* Permilagem */
+th:nth-child(4) { width: 180px; }  /* Nome */
+th:nth-child(5) { width: 140px; }  /* Telefone */
+th:nth-child(6) { width: 180px; }  /* Email */
+th:nth-child(7) { width: 70px; }   /* Isento */
+th:nth-child(8) { width: 90px; }   /* % Isenção */
+th:nth-child(9) { width: 170px; }  /* Ações */
