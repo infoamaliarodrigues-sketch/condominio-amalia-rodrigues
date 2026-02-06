@@ -56,23 +56,41 @@ async function criarBlocos(ano) {
         const letra = dados.letra;
 
         const config = configMap[fracao] || null;
-        if (!config) continue; // se não tiver configuração, ignora
+if (!config) continue; // se não tiver configuração, ignora
 
-        const quotasValores = config.quotas || {};
-        const extrasValores = config.extras || {};
+// Ler isenção
+const isento = config.isencao === true;
+const percent = Number(config.isencaoPercent || 0);
+const fator = isento ? (1 - percent / 100) : 1;
 
-        const pagamentos = pagMap[fracao] || {};
-        const quotasPagas = pagamentos.quotas || {};
-        const extrasPagas = pagamentos.extras || {};
-        const obs = pagamentos.obs || "";
+// Valores originais
+const quotasValoresOrig = config.quotas || {};
+const extrasValoresOrig = config.extras || {};
 
-        estado.fracoes[fracao] = {
-            quotasValores,
-            extrasValores,
-            quotasPagas,
-            extrasPagas,
-            obs
-        };
+// Aplicar isenção aos valores
+const quotasValores = {};
+const extrasValores = {};
+
+MESES.forEach(m => {
+    quotasValores[m] = Number(quotasValoresOrig[m] || 0) * fator;
+    extrasValores[m] = Number(extrasValoresOrig[m] || 0) * fator;
+});
+
+// Pagamentos
+const pagamentos = pagMap[fracao] || {};
+const quotasPagas = pagamentos.quotas || {};
+const extrasPagas = pagamentos.extras || {};
+const obs = pagamentos.obs || "";
+
+// Guardar no estado
+estado.fracoes[fracao] = {
+    quotasValores,
+    extrasValores,
+    quotasPagas,
+    extrasPagas,
+    obs
+};
+
 
         const bloco = document.createElement("div");
         bloco.className = "fracao-bloco";
