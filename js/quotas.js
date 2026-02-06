@@ -263,8 +263,13 @@ async function recalcularTotalCondominio() {
         const pag = pagMap[fracao] || { quotas:{}, extras:{} };
 
         MESES.forEach(m => {
-            const vQ = Number(cfg.quotas[m] || 0);
-            const vE = Number(cfg.extras[m] || 0);
+            const isento = cfg.isencao === true;
+            const percent = Number(cfg.isencaoPercent || 0);
+            const fator = isento ? (1 - percent / 100) : 1;
+
+            const vQ = Number(cfg.quotas[m] || 0) * fator;
+            const vE = Number(cfg.extras[m] || 0) * fator;
+
 
             if (pag.quotas && pag.quotas[m]) totalPago += vQ;
             else totalDivida += vQ;
