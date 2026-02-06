@@ -316,3 +316,14 @@ th:nth-child(10) { width: 180px; } /* Ações */
     font-size: 18px;
     font-weight: bold;
 }
+
+/* CORREÇÃO FINAL — TAMANHO DAS 3 PRIMEIRAS COLUNAS */
+th:nth-child(1),
+th:nth-child(2),
+th:nth-child(3),
+td:nth-child(1),
+td:nth-child(2),
+td:nth-child(3) {
+    font-size: 11px !important;
+}
+
