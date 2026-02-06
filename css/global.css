@@ -296,3 +296,50 @@ th, td {
     font-size: 18px;
     font-weight: bold;
 }
+
+/* AJUSTES FINAIS PARA TABELAS (CONDÓMINOS / QUOTAS / CONFIGURAR) */
+
+/* Inputs dentro da tabela */
+td input {
+    padding: 3px 4px;
+    font-size: 11px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Inputs de texto (nome, email, telefone) */
+td input[type="text"],
+td input[type="email"],
+td input[type="tel"] {
+    width: 140px;
+    font-size: 11px;
+}
+
+/* Inputs numéricos (percentagem) */
+td input[type="number"] {
+    width: 55px;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* Botões CRUD */
+td button {
+    font-size: 10px;
+    padding: 3px 5px;
+    margin-right: 3px;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 55px;
+}
+
+/* Largura das colunas da tabela de condóminos */
+th:nth-child(1) { width: 40px; }   /* Letra */
+th:nth-child(2) { width: 55px; }   /* Fração */
+th:nth-child(3) { width: 70px; }   /* Permilagem */
+th:nth-child(4) { width: 160px; }  /* Nome */
+th:nth-child(5) { width: 120px; }  /* Telefone */
+th:nth-child(6) { width: 160px; }  /* Email */
+th:nth-child(7) { width: 55px; }   /* Isento */
+th:nth-child(8) { width: 70px; }   /* % Isenção */
+th:nth-child(9) { width: 150px; }  /* Ações */
