@@ -6,6 +6,11 @@ body {
     padding: 0;
 }
 
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 /* LOGIN CONTAINER */
 .container {
     width: 350px;
@@ -17,19 +22,33 @@ body {
     text-align: center;
 }
 
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* INPUTS */
+/* INPUTS GLOBAIS (formulários) */
 input, select, textarea {
     width: 100%;
-    padding: 10px;
-    margin: 8px 0;
+    padding: 8px;
+    margin: 6px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
+}
+
+/* INPUTS EM TABELAS */
+td input {
+    padding: 4px 6px;
+    font-size: 12px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+td input[type="number"] {
+    width: 60px;
+    text-align: center;
+}
+
+td input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
 }
 
 /* BOTÕES */
@@ -51,20 +70,37 @@ button:hover,
     background: #162c6a;
 }
 
-/* Botão guardar (verde) */
-.btn-save,
-.guardar-btn {
-    background: #22c55e !important;
+/* BOTÕES CRUD */
+td button {
+    font-size: 11px;
+    padding: 4px 6px;
+    margin-right: 4px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto;
 }
 
-.btn-save:hover,
-.guardar-btn:hover {
+.btn-edit {
+    background: #1e3a8a;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #162c6a;
+}
+
+.btn-save {
+    background: #22c55e !important;
+    color: white;
+}
+
+.btn-save:hover {
     background: #1a9e4b !important;
 }
 
-/* Botão apagar (vermelho) */
 .btn-delete {
     background: #ef4444 !important;
+    color: white;
 }
 
 .btn-delete:hover {
@@ -131,6 +167,10 @@ button:hover,
     background: rgba(255,255,255,0.15);
 }
 
+.side-menu .ativo {
+    background: rgba(255,255,255,0.25);
+}
+
 /* CONTEÚDO CENTRAL */
 .main-container {
     max-width: 1100px;
@@ -167,25 +207,6 @@ th, td {
     font-size: 14px;
 }
 
-td input[type="number"] {
-    width: 60px;
-}
-
-td input[type="checkbox"] {
-    transform: scale(1.2);
-    cursor: pointer;
-}
-
-/* BOTÕES CRUD NA TABELA */
-td button {
-    font-size: 11px;
-    padding: 4px 6px;
-    margin-right: 4px;
-    border-radius: 4px;
-    cursor: pointer;
-    width: auto;
-}
-
 /* FRAÇÕES (quotas + configurar) */
 .fracao-bloco {
     background: white;
@@ -216,6 +237,7 @@ td button {
     background: #fafafa;
 }
 
+/* QUADRADOS DOS MESES */
 .mes {
     width: 55px;
     min-height: 55px;
@@ -232,7 +254,6 @@ td button {
     align-items: center;
 }
 
-
 .mes-label {
     font-size: 11px;
     margin-bottom: 2px;
@@ -241,7 +262,7 @@ td button {
 
 .mes-valor {
     font-size: 12px;
-    color: #1e3a8a; /* azul igual à barra */
+    color: #1e3a8a;
 }
 
 .mes.pago {
@@ -256,7 +277,7 @@ td button {
     color: #1e3a8a;
 }
 
-
+/* OBSERVAÇÕES */
 .obs-box {
     width: 100%;
     padding: 8px;
@@ -275,25 +296,3 @@ td button {
     font-size: 18px;
     font-weight: bold;
 }
-
-.linha-meses div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.linha-meses div label {
-    margin-bottom: 4px;
-    color: #333;
-}
-
-.linha-meses div input {
-    width: 55px;
-    padding: 3px;
-    font-size: 10.5px;
-    text-align: center;
-}
-
-
