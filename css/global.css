@@ -132,12 +132,6 @@ th, td {
     font-size: 14px;
 }
 
-table th {
-    font-size: 10px !important;
-    padding: 6px !important;
-}
-
-
 /* BOTÕES GLOBAIS */
 button,
 .btn-primario {
@@ -359,4 +353,7 @@ th:nth-child(10),
 td:nth-child(10) {
     width: 200px !important;
 }
-
+table th {
+    font-size: 10px !important;
+    padding: 6px !important;
+}
