@@ -11,7 +11,7 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* LOGIN CONTAINER */
+/* LOGIN */
 .container {
     width: 350px;
     margin: 80px auto;
@@ -22,7 +22,7 @@ h2 {
     text-align: center;
 }
 
-/* INPUTS GLOBAIS (formulários) */
+/* INPUTS GLOBAIS */
 input, select, textarea {
     width: 100%;
     padding: 8px;
@@ -32,82 +32,7 @@ input, select, textarea {
     box-sizing: border-box;
 }
 
-/* INPUTS EM TABELAS */
-td input {
-    padding: 4px 6px;
-    font-size: 12px;
-    margin: 0;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-td input[type="number"] {
-    width: 60px;
-    text-align: center;
-}
-
-td input[type="checkbox"] {
-    transform: scale(1.2);
-    cursor: pointer;
-}
-
-/* BOTÕES */
-button,
-.btn-primario {
-    background: #1e3a8a;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-}
-
-button:hover,
-.btn-primario:hover {
-    background: #162c6a;
-}
-
-/* BOTÕES CRUD */
-td button {
-    font-size: 11px;
-    padding: 4px 6px;
-    margin-right: 4px;
-    border-radius: 4px;
-    cursor: pointer;
-    width: auto;
-}
-
-.btn-edit {
-    background: #1e3a8a;
-    color: white;
-}
-
-.btn-edit:hover {
-    background: #162c6a;
-}
-
-.btn-save {
-    background: #22c55e !important;
-    color: white;
-}
-
-.btn-save:hover {
-    background: #1a9e4b !important;
-}
-
-.btn-delete {
-    background: #ef4444 !important;
-    color: white;
-}
-
-.btn-delete:hover {
-    background: #c53030 !important;
-}
-
-/* NAVBAR SUPERIOR */
+/* NAVBAR */
 .navbar {
     display: flex;
     align-items: center;
@@ -130,7 +55,7 @@ td button {
     font-weight: bold;
 }
 
-/* MENU DROPDOWN */
+/* MENU LATERAL */
 .side-menu {
     position: absolute;
     top: 60px;
@@ -180,7 +105,7 @@ td button {
     z-index: 1000;
 }
 
-/* TABELAS */
+/* TABELAS GERAIS */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -207,7 +132,107 @@ th, td {
     font-size: 14px;
 }
 
-/* FRAÇÕES (quotas + configurar) */
+/* BOTÕES GLOBAIS */
+button,
+.btn-primario {
+    background: #1e3a8a;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+}
+
+button:hover,
+.btn-primario:hover {
+    background: #162c6a;
+}
+
+/* BOTÕES CRUD */
+td button {
+    font-size: 10px;
+    padding: 3px 5px;
+    margin-right: 3px;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 60px;
+}
+
+.btn-edit {
+    background: #1e3a8a;
+    color: white;
+}
+
+.btn-edit:hover {
+    background: #162c6a;
+}
+
+.btn-save {
+    background: #22c55e !important;
+    color: white;
+}
+
+.btn-save:hover {
+    background: #1a9e4b !important;
+}
+
+.btn-delete {
+    background: #ef4444 !important;
+    color: white;
+}
+
+.btn-delete:hover {
+    background: #c53030 !important;
+}
+
+/* INPUTS EM TABELAS */
+td input {
+    padding: 3px 4px;
+    font-size: 11px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+td input[type="number"] {
+    width: 55px;
+    text-align: center;
+}
+
+td input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* CAMPOS ESPECÍFICOS */
+td input.telefone-input,
+td input.nif-input {
+    width: 95px;
+    font-size: 11px;
+}
+
+td input[type="text"],
+td input[type="email"] {
+    width: 150px;
+    font-size: 11px;
+}
+
+/* LARGURA DAS COLUNAS — CONDÓMINOS */
+th:nth-child(1) { width: 45px; }   /* Letra */
+th:nth-child(2) { width: 55px; }   /* Fração */
+th:nth-child(3) { width: 70px; }   /* Permilagem */
+th:nth-child(4) { width: 180px; }  /* Nome */
+th:nth-child(5) { width: 100px; }  /* NIF */
+th:nth-child(6) { width: 100px; }  /* Telefone */
+th:nth-child(7) { width: 160px; }  /* Email */
+th:nth-child(8) { width: 60px; }   /* Isento */
+th:nth-child(9) { width: 80px; }   /* % Isenção */
+th:nth-child(10) { width: 180px; } /* Ações */
+
+/* QUOTAS E CONFIGURAR */
 .fracao-bloco {
     background: white;
     border: 1px solid #ddd;
@@ -237,7 +262,6 @@ th, td {
     background: #fafafa;
 }
 
-/* QUADRADOS DOS MESES */
 .mes {
     width: 55px;
     min-height: 55px;
@@ -268,16 +292,13 @@ th, td {
 .mes.pago {
     background: #c8f7c5;
     border-color: #8cd98c;
-    color: #1e3a8a;
 }
 
 .mes.nao-pago {
     background: #f7c5c5;
     border-color: #d98c8c;
-    color: #1e3a8a;
 }
 
-/* OBSERVAÇÕES */
 .obs-box {
     width: 100%;
     padding: 8px;
@@ -287,7 +308,6 @@ th, td {
     background: #fafafa;
 }
 
-/* TOTAL DO CONDOMÍNIO */
 .caixa-total {
     margin-top: 40px;
     padding: 15px;
@@ -296,78 +316,3 @@ th, td {
     font-size: 18px;
     font-weight: bold;
 }
-
-/* AJUSTES FINAIS — TABELA DE CONDÓMINOS (VERSÃO OTIMIZADA) */
-
-/* Fonte mais pequena nas 3 primeiras colunas */
-th:nth-child(1),
-th:nth-child(2),
-th:nth-child(3),
-td:nth-child(1),
-td:nth-child(2),
-td:nth-child(3) {
-    font-size: 11px;
-}
-
-/* Inputs dentro da tabela */
-td input {
-    padding: 3px 4px;
-    font-size: 11px;
-    margin: 0;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* Campo Telefone — largura para 9–10 dígitos */
-td input.telefone-input {
-    width: 95px;
-    font-size: 11px;
-}
-
-/* Campo NIF — largura para 9–10 dígitos */
-td input.nif-input {
-    width: 95px;
-    font-size: 11px;
-}
-
-/* Inputs de texto (nome, email) */
-td input[type="text"],
-td input[type="email"] {
-    width: 150px;
-    font-size: 11px;
-}
-
-/* Inputs numéricos (percentagem) */
-td input[type="number"] {
-    width: 55px;
-    font-size: 11px;
-    text-align: center;
-}
-
-/* Checkbox */
-td input[type="checkbox"] {
-    transform: scale(1.2);
-    cursor: pointer;
-}
-
-/* Botões CRUD */
-td button {
-    font-size: 10px;
-    padding: 3px 5px;
-    margin-right: 3px;
-    border-radius: 4px;
-    cursor: pointer;
-    min-width: 60px;
-}
-
-/* Largura das colunas — ajustadas para caber tudo incluindo NIF */
-th:nth-child(1) { width: 45px; }   /* Letra */
-th:nth-child(2) { width: 55px; }   /* Fração */
-th:nth-child(3) { width: 70px; }   /* Permilagem */
-th:nth-child(4) { width: 180px; }  /* Nome */
-th:nth-child(5) { width: 100px; }  /* Telefone */
-th:nth-child(6) { width: 100px; }  /* NIF (nova coluna) */
-th:nth-child(7) { width: 160px; }  /* Email */
-th:nth-child(8) { width: 60px; }   /* Isento */
-th:nth-child(9) { width: 80px; }   /* % Isenção */
-th:nth-child(10) { width: 180px; } /* Ações */
