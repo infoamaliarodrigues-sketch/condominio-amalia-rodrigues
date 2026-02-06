@@ -211,10 +211,11 @@ document.getElementById("filtro").addEventListener("input", () => {
     const linhas = document.querySelectorAll("#tabela tbody tr");
 
     linhas.forEach(linha => {
-        const texto = linha.innerText.toLowerCase();
+        const texto = linha.textContent.toLowerCase(); // ← usa textContent, não innerText
         linha.style.display = texto.includes(termo) ? "" : "none";
     });
 });
+
 
 
 
