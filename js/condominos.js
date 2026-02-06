@@ -219,10 +219,18 @@ document.getElementById("filtro").addEventListener("input", () => {
     const linhas = document.querySelectorAll("#tabela tbody tr");
 
     linhas.forEach(linha => {
-        const texto = linha.textContent.toLowerCase(); // ← usa textContent, não innerText
-        linha.style.display = texto.includes(termo) ? "" : "none";
+
+        const nome = linha.querySelector('input[id^="nome-"]').value.toLowerCase();
+        const fracao = linha.children[1].innerText.toLowerCase();
+
+        const corresponde = 
+            nome.includes(termo) ||
+            fracao.includes(termo);
+
+        linha.style.display = corresponde ? "" : "none";
     });
 });
+
 
 
 
