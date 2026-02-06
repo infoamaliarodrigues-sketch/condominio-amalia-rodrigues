@@ -29,6 +29,17 @@ const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov"
 
 let ultimoReciboGerado = null;
 
+// -----------------------------------------
+// FORMA DE PAGAMENTO (mostrar/esconder data)
+// -----------------------------------------
+const formaPagamentoSelect = document.getElementById("formaPagamento");
+const dataTransferenciaBox = document.getElementById("dataTransferenciaBox");
+
+formaPagamentoSelect.addEventListener("change", () => {
+    dataTransferenciaBox.style.display =
+        formaPagamentoSelect.value === "transferencia" ? "block" : "none";
+});
+
 // ------------------------------------------------------------
 // Carregar frações
 // ------------------------------------------------------------
