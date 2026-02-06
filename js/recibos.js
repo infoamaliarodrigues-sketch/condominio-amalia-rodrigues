@@ -3,7 +3,10 @@ import {
     collection,
     doc,
     getDoc,
-    getDocs
+    getDocs,
+    setDoc,
+    updateDoc,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
 const fracaoSelect = document.getElementById("fracaoSelect");
@@ -12,20 +15,24 @@ const anoInicio = document.getElementById("anoInicio");
 const mesFim = document.getElementById("mesFim");
 const anoFim = document.getElementById("anoFim");
 const btnGerar = document.getElementById("btnGerar");
+const btnImprimir = document.getElementById("btnImprimir");
 const btnEnviar = document.getElementById("btnEnviar");
 const reciboContainer = document.getElementById("reciboContainer");
 const reciboOriginal = document.getElementById("reciboOriginal");
 const reciboDuplicado = document.getElementById("reciboDuplicado");
+const tabelaRecibosBody = document.querySelector("#tabelaRecibos tbody");
 
 const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
 
+let ultimoReciboGerado = null;
+
 // ------------------------------------------------------------
-// 1) Carregar frações
+// Carregar frações
 // ------------------------------------------------------------
 async function carregarFracoes() {
     const snap = await getDocs(collection(db, "condominos"));
-    snap.forEach(doc => {
-        const d = doc.data();
+    snap.forEach(docSnap => {
+        const d = docSnap.data();
         const opt = document.createElement("option");
         opt.value = d.fracao;
         opt.textContent = `${d.fracao} (${d.letra})`;
@@ -34,7 +41,7 @@ async function carregarFracoes() {
 }
 
 // ------------------------------------------------------------
-// 2) Carregar meses e anos
+// Carregar meses e anos
 // ------------------------------------------------------------
 function carregarMesesAnos() {
     for (let i = 0; i < 12; i++) {
@@ -69,7 +76,7 @@ function carregarMesesAnos() {
 }
 
 // ------------------------------------------------------------
-// 3) Converter valor para extenso (PT-PT)
+// Valor por extenso
 // ------------------------------------------------------------
 function valorPorExtenso(valor) {
     const unidades = ["zero","um","dois","três","quatro","cinco","seis","sete","oito","nove"];
@@ -104,9 +111,28 @@ function valorPorExtenso(valor) {
 }
 
 // ------------------------------------------------------------
-// 4) Calcular total entre datas
+// Número sequencial
 // ------------------------------------------------------------
-async function calcularTotal(fracao, anoI, mesI, anoF, mesF) {
+async function obterNumeroRecibo() {
+    const ref = doc(db, "recibos_meta", "sequencia");
+    const snap = await getDoc(ref);
+
+    let numero = 1;
+
+    if (snap.exists()) {
+        numero = snap.data().ultimo + 1;
+    }
+
+    await setDoc(ref, { ultimo: numero });
+
+    return numero;
+}
+
+// ------------------------------------------------------------
+// Calcular linhas (apenas meses pagos)
+// ------------------------------------------------------------
+async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
+    const linhas = [];
     let total = 0;
 
     for (let ano = anoI; ano <= anoF; ano++) {
@@ -132,15 +158,88 @@ async function calcularTotal(fracao, anoI, mesI, anoF, mesF) {
             const vQ = Number(cfg.quotas[mesNome] || 0) * fator;
             const vE = Number(cfg.extras[mesNome] || 0) * fator;
 
-            total += vQ + vE;
+            const pagoQ = pag.quotas && pag.quotas[mesNome] === true;
+            const pagoE = pag.extras && pag.extras[mesNome] === true;
+
+            if (pagoQ && vQ > 0) {
+                linhas.push({
+                    descricao: `Quota ${mesNome.toUpperCase()} ${ano}`,
+                    valor: vQ
+                });
+                total += vQ;
+            }
+
+            if (pagoE && vE > 0) {
+                linhas.push({
+                    descricao: `Extra ${mesNome.toUpperCase()} ${ano}`,
+                    valor: vE
+                });
+                total += vE;
+            }
         }
     }
 
-    return total;
+    return { linhas, total };
 }
 
 // ------------------------------------------------------------
-// 5) Gerar recibo
+// Guardar recibo
+// ------------------------------------------------------------
+async function guardarReciboBD(dados) {
+    const ref = doc(collection(db, "recibos"));
+    await setDoc(ref, dados);
+    return ref.id;
+}
+
+// ------------------------------------------------------------
+// Carregar recibos (CRUD)
+// ------------------------------------------------------------
+async function carregarRecibosTabela() {
+    tabelaRecibosBody.innerHTML = "";
+    const snap = await getDocs(collection(db, "recibos"));
+
+    snap.forEach(docSnap => {
+        const r = docSnap.data();
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${r.numero}</td>
+            <td>${r.dataEmissao}</td>
+            <td>${r.fracao}</td>
+            <td>${r.titular}</td>
+            <td>${r.periodo}</td>
+            <td>${r.total.toFixed(2)} €</td>
+            <td>${r.estado || "Válido"}</td>
+            <td>
+                <button data-id="${docSnap.id}" class="btn-anular">Anular</button>
+                <button data-id="${docSnap.id}" class="btn-apagar">Apagar</button>
+            </td>
+        `;
+
+        tabelaRecibosBody.appendChild(tr);
+    });
+
+    document.querySelectorAll(".btn-anular").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+            await updateDoc(doc(db, "recibos", id), { estado: "Anulado" });
+            carregarRecibosTabela();
+        });
+    });
+
+    document.querySelectorAll(".btn-apagar").forEach(btn => {
+        btn.addEventListener("click", async () => {
+            const id = btn.dataset.id;
+            if (confirm("Tem a certeza que pretende apagar este recibo?")) {
+                await deleteDoc(doc(db, "recibos", id));
+                carregarRecibosTabela();
+            }
+        });
+    });
+}
+
+// ------------------------------------------------------------
+// Gerar recibo
 // ------------------------------------------------------------
 async function gerarRecibo() {
     const fracao = fracaoSelect.value;
@@ -154,36 +253,134 @@ async function gerarRecibo() {
     const condSnap = await getDoc(doc(db, "condominos", fracao));
     const cond = condSnap.data();
 
-    const total = await calcularTotal(fracao, anoI, mesI, anoF, mesF);
+    const numero = await obterNumeroRecibo();
+    const dataHoje = new Date().toLocaleDateString("pt-PT");
+
+    const { linhas, total } = await calcularLinhas(fracao, anoI, mesI, anoF, mesF);
     const extenso = valorPorExtenso(total);
 
     const periodo = `${String(mesI).padStart(2,"0")}/${anoI} a ${String(mesF).padStart(2,"0")}/${anoF}`;
 
-    const html = `
-        <p><b>Condomínio do Prédio sito na Avenida Amália Rodrigues, Lote 28</b><br>
-        NIF 901842931</p>
+    let detalheHTML = "";
+    linhas.forEach(l => {
+        detalheHTML += `
+            <tr>
+                <td></td>
+                <td colspan="2">${l.descricao}</td>
+                <td>${l.valor.toFixed(2)} €</td>
+            </tr>
+        `;
+    });
 
-        <p><b>Fração:</b> ${fracao} (${cond.letra})<br>
-        <b>Nome:</b> ${cond.nome}<br>
-        <b>NIF:</b> ${cond.nif}</p>
+    const htmlTabela = `
+        <table class="recibo-tabela">
+            <tr><th></th><th colspan="2">RECIBO</th><th>Nº ${numero}</th></tr>
 
-        <p><b>Período:</b> ${periodo}</p>
+            <tr><td colspan="4">
+                CONDOMÍNIO DO PRÉDIO: AV. AMÁLIA RODRIGUES Nº 28 – JARDIM AMOREIRA<br>
+                NIF: 901 842 931
+            </td></tr>
 
-        <p><b>Valor:</b> ${total.toFixed(2)} €<br>
-        <b>Por extenso:</b> ${extenso}</p>
+            <tr><td>Fração:</td><td colspan="2">${fracao} (${cond.letra})</td><td></td></tr>
+            <tr><td>Titular:</td><td colspan="2">${cond.nome}</td><td></td></tr>
+            <tr><td>Relativo a:</td><td colspan="2">Pagamento de quotas</td><td></td></tr>
+
+            <tr><td>Descrição</td><td colspan="2"></td><td>Valor</td></tr>
+
+            ${detalheHTML}
+
+            <tr><td></td><td colspan="2"><b>Total</b></td><td><b>${total.toFixed(2)} €</b></td></tr>
+
+            <tr><td>Data:</td><td>${dataHoje}</td><td>Processado</td><td>por computador</td></tr>
+        </table>
+
+        <p><b>Valor por extenso:</b> ${extenso}</p>
+        <p style="margin-top:30px; font-size:12px; opacity:0.5; text-align:right;">
+            A Administração
+        </p>
     `;
 
-    reciboOriginal.innerHTML = html;
-    reciboDuplicado.innerHTML = html;
+    reciboOriginal.innerHTML = htmlTabela;
+    reciboDuplicado.innerHTML = htmlTabela;
 
     reciboContainer.style.display = "block";
     btnEnviar.disabled = false;
+    btnImprimir.disabled = false;
 
-    return { total, extenso, cond, periodo };
+    ultimoReciboGerado = {
+        numero,
+        dataEmissao: dataHoje,
+        fracao,
+        titular: cond.nome,
+        periodo,
+        total,
+        html: htmlTabela
+    };
+
+    await guardarReciboBD({
+        numero,
+        dataEmissao: dataHoje,
+        fracao,
+        titular: cond.nome,
+        periodo,
+        total,
+        estado: "Válido"
+    });
+
+    carregarRecibosTabela();
 }
 
 // ------------------------------------------------------------
-// 6) Enviar por email (mailto simples)
+// Imprimir PDF (via janela de impressão)
+// ------------------------------------------------------------
+btnImprimir.addEventListener("click", () => {
+    if (!ultimoReciboGerado) return;
+
+    const win = window.open("", "_blank");
+    win.document.write(`
+        <html>
+        <head>
+            <title>Recibo Nº ${ultimoReciboGerado.numero}</title>
+            <style>
+                body { font-family: Arial, sans-serif; font-size: 12px; }
+                .recibo-via { margin-bottom: 40px; }
+                .recibo-tabela { width: 100%; border-collapse: collapse; }
+                .recibo-tabela th, .recibo-tabela td {
+                    border: 1px solid #000;
+                    padding: 4px;
+                    font-size: 11px;
+                }
+                .marca-agua {
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    font-size: 10px;
+                    opacity: 0.4;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="recibo-via">
+                <h3>RECIBO – ORIGINAL</h3>
+                ${ultimoReciboGerado.html}
+            </div>
+            <hr>
+            <div class="recibo-via">
+                <h3>RECIBO – DUPLICADO</h3>
+                ${ultimoReciboGerado.html}
+            </div>
+            <div class="marca-agua">A Administração</div>
+            <script>
+                window.print();
+            </script>
+        </body>
+        </html>
+    `);
+    win.document.close();
+});
+
+// ------------------------------------------------------------
+// Enviar por email (mailto)
 // ------------------------------------------------------------
 btnEnviar.addEventListener("click", async () => {
     const fracao = fracaoSelect.value;
@@ -197,12 +394,10 @@ btnEnviar.addEventListener("click", async () => {
 });
 
 // ------------------------------------------------------------
-// 7) Eventos
+// Inicialização
 // ------------------------------------------------------------
 btnGerar.addEventListener("click", gerarRecibo);
 
-// ------------------------------------------------------------
-// 8) Inicialização
-// ------------------------------------------------------------
 carregarFracoes();
 carregarMesesAnos();
+carregarRecibosTabela();
