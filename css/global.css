@@ -380,3 +380,21 @@ table th {
     white-space: nowrap;
 }
 
+#tabela-dashboard td:nth-child(4),
+#tabela-dashboard th:nth-child(4) {
+    width: 90px;
+    text-align: right;
+}
+
+#tabela-dashboard td:nth-child(3),
+#tabela-dashboard th:nth-child(3) {
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#tabela-dashboard th,
+#tabela-dashboard td {
+    font-size: 13px !important;
+}
