@@ -3,6 +3,16 @@ import { collection, doc, getDoc, onSnapshot } from "https://www.gstatic.com/fir
 
 const tabela = document.querySelector("#tabela-dashboard tbody");
 
+// Data atual
+const hoje = new Date();
+const anoAtual = hoje.getFullYear();
+const mesAtual = hoje.getMonth() + 1;
+
+// Fim da dívida = mês anterior
+const fimAno = mesAtual === 1 ? anoAtual - 1 : anoAtual;
+const fimMes = mesAtual === 1 ? 12 : mesAtual - 1;
+const fimChave = `${fimAno}-${String(fimMes).padStart(2, "0")}`;
+
 onSnapshot(collection(db, "condominos"), async (snapshot) => {
     tabela.innerHTML = "";
 
@@ -14,11 +24,13 @@ onSnapshot(collection(db, "condominos"), async (snapshot) => {
         const quotasSnap = await getDoc(quotasRef);
         const quotas = quotasSnap.exists() ? quotasSnap.data() : {};
 
-        const totaisAno = { 2024: 0, 2025: 0, 2026: 0 };
+        let totalDivida = 0;
         let inicioDivida = null;
-        let fimDivida = null;
 
-        for (const ano of [2024, 2025, 2026]) {
+        // Percorrer todos os anos e meses existentes
+        const anos = [2024, 2025, 2026, 2027, 2028];
+
+        for (const ano of anos) {
             for (let mes = 1; mes <= 12; mes++) {
 
                 const chave = `${ano}-${String(mes).padStart(2, "0")}`;
@@ -29,31 +41,28 @@ onSnapshot(collection(db, "condominos"), async (snapshot) => {
                 const pago = info.pago === true;
                 const valor = Number(info.valor ?? 0);
 
-                if (!pago) {
-                    totaisAno[ano] += valor;
+                // Só conta dívida até ao mês anterior ao atual
+                const dentroDoPeriodo =
+                    ano < fimAno ||
+                    (ano === fimAno && mes <= fimMes);
+
+                if (!pago && dentroDoPeriodo) {
+
+                    totalDivida += valor;
 
                     if (!inicioDivida) inicioDivida = chave;
-                    fimDivida = chave;
                 }
             }
         }
-
-        const totalDivida =
-            totaisAno[2024] +
-            totaisAno[2025] +
-            totaisAno[2026];
 
         tabela.innerHTML += `
             <tr>
                 <td>${c.letra}</td>
                 <td>${fracao}</td>
                 <td>${c.nome}</td>
-                <td>${totaisAno[2024].toFixed(2)} €</td>
-                <td>${totaisAno[2025].toFixed(2)} €</td>
-                <td>${totaisAno[2026].toFixed(2)} €</td>
                 <td><b>${totalDivida.toFixed(2)} €</b></td>
                 <td>${inicioDivida ?? "-"}</td>
-                <td>${fimDivida ?? "-"}</td>
+                <td>${totalDivida > 0 ? fimChave : "-"}</td>
             </tr>
         `;
     }
