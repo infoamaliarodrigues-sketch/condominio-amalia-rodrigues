@@ -46,29 +46,39 @@ async function criarBlocos(ano) {
         bloco.innerHTML = `
             <h2>Fração ${fracao} (${letra})</h2>
 
+            <!-- Valor base -->
+            <label>Valor mensal base (€):</label>
+            <div style="display:flex; gap:10px; align-items:center; margin-bottom:15px;">
+                <input type="number" id="valorBase-${fracao}" min="0" value="0" style="width:120px;">
+                <button class="btn-primario" onclick="aplicarValorBase('${fracao}')">Aplicar a todos os meses</button>
+            </div>
+
+            <!-- QUOTAS -->
             <div class="secao-titulo">Quotas Mensais</div>
             <div class="linha-meses" id="q-${fracao}">
                 ${MESES.map(m => `
-                    <div>
-                        <label>${m}</label>
-                        <input type="number" id="q-${fracao}-${m}" value="0">
-                    </div>
+                    <input type="number" id="q-${fracao}-${m}" value="0">
                 `).join("")}
             </div>
 
-            <label>Isenção 50%:
-                <input type="checkbox" id="isen-${fracao}">
-            </label>
+            <!-- Isenção -->
+            <div style="display:flex; align-items:center; gap:10px; margin-top:10px;">
+                <label style="display:flex; align-items:center; gap:6px;">
+                    <input type="checkbox" id="isen-${fracao}">
+                    Isento
+                </label>
+
+                <input type="number" id="isenPercent-${fracao}" min="0" max="100" value="0" style="width:80px;">
+                <span>%</span>
+            </div>
 
             <textarea id="obsQ-${fracao}" class="obs-box" placeholder="Observações das quotas"></textarea>
 
+            <!-- EXTRAS -->
             <div class="secao-titulo">Extras</div>
             <div class="linha-meses" id="e-${fracao}">
                 ${MESES.map(m => `
-                    <div>
-                        <label>${m}</label>
-                        <input type="number" id="e-${fracao}-${m}" value="0">
-                    </div>
+                    <input type="number" id="e-${fracao}-${m}" value="0">
                 `).join("")}
             </div>
 
@@ -82,7 +92,18 @@ async function criarBlocos(ano) {
 }
 
 // ------------------------------------------------------------
-// 3) Carregar valores já guardados no Firestore
+// 3) Aplicar valor base a todos os meses
+// ------------------------------------------------------------
+window.aplicarValorBase = function(fracao) {
+    const base = Number(document.getElementById(`valorBase-${fracao}`).value);
+
+    MESES.forEach(m => {
+        document.getElementById(`q-${fracao}-${m}`).value = base;
+    });
+};
+
+// ------------------------------------------------------------
+// 4) Carregar valores já guardados no Firestore
 // ------------------------------------------------------------
 async function carregarValoresExistentes(ano) {
     const snap = await getDocs(collection(db, `config_ano/${ano}/fracoes`));
@@ -97,13 +118,15 @@ async function carregarValoresExistentes(ano) {
         });
 
         document.getElementById(`isen-${fracao}`).checked = dados.isencao;
+        document.getElementById(`isenPercent-${fracao}`).value = dados.isencaoPercent ?? 0;
+
         document.getElementById(`obsQ-${fracao}`).value = dados.obsQuotas;
         document.getElementById(`obsE-${fracao}`).value = dados.obsExtras;
     });
 }
 
 // ------------------------------------------------------------
-// 4) Guardar configuração do ano
+// 5) Guardar configuração do ano
 // ------------------------------------------------------------
 async function guardarConfiguracao() {
     const ano = anoSelect.value;
@@ -123,6 +146,8 @@ async function guardarConfiguracao() {
         });
 
         const isencao = document.getElementById(`isen-${fracao}`).checked;
+        const isencaoPercent = Number(document.getElementById(`isenPercent-${fracao}`).value);
+
         const obsQ = document.getElementById(`obsQ-${fracao}`).value;
         const obsE = document.getElementById(`obsE-${fracao}`).value;
 
@@ -130,6 +155,7 @@ async function guardarConfiguracao() {
             quotas,
             extras,
             isencao,
+            isencaoPercent,
             obsQuotas: obsQ,
             obsExtras: obsE
         });
