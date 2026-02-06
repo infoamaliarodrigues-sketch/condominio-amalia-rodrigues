@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="css/global.css">
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/global.css">
 </head>
+
 <body>
 
 <header class="navbar">
@@ -20,20 +21,36 @@
     <a href="index.html">🏠 Saír</a>
 </div>
 
+<div class="main-container">
 
-  
-<div class="container">
-  <h2>Bem-vindo ao Sistema</h2>
-  <p>Login efetuado com sucesso.</p>
+    <h2>Resumo de Dívidas</h2>
+
+    <table id="tabela-dashboard">
+        <thead>
+            <tr>
+                <th>Letra</th>
+                <th>Fração</th>
+                <th>Nome</th>
+                <th>Total 2024</th>
+                <th>Total 2025</th>
+                <th>Total 2026</th>
+                <th>Total Dívida</th>
+                <th>Início Dívida</th>
+                <th>Fim Dívida</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
 </div>
 
-<script type="module" src="js/auth-guard.js"></script>
+<script type="module" src="js/dashboard.js"></script>
 
- <script>
+<script>
     document.getElementById("menuBtn").addEventListener("click", () => {
         document.getElementById("sideMenu").classList.toggle("open");
     });
 </script>
- 
+
 </body>
 </html>
