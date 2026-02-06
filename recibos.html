@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Emissão de Recibos</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR SUPERIOR -->
+    <div class="navbar">
+        <span class="menu-icon" onclick="toggleMenu()">☰</span>
+        <span class="logo">Condomínio Amália Rodrigues</span>
+    </div>
+
+    <!-- MENU LATERAL -->
+    <div id="sideMenu" class="side-menu">
+        <a href="dashboard.html">📊 Dashboard</a>
+        <a href="condominos.html">👥 Condóminos</a>
+        <a href="quotas.html">💰 Quotas</a>
+        <a href="configurar.html">⚙️ Configurar</a>
+        <a href="recibos.html" class="ativo">🧾 Recibos</a>
+        <a href="index.html">🏠 Saír</a>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="main-container">
+
+        <h2>Emissão de Recibos</h2>
+
+        <!-- SELEÇÃO DE FRAÇÃO -->
+        <div class="recibo-form">
+            <label for="fracaoSelect">Fração:</label>
+            <select id="fracaoSelect"></select>
+        </div>
+
+        <!-- PERÍODO -->
+        <div class="recibo-form" style="display:flex; gap:20px; margin-top:10px;">
+            <div>
+                <label>Início:</label><br>
+                <select id="mesInicio"></select>
+                <select id="anoInicio"></select>
+            </div>
+
+            <div>
+                <label>Fim:</label><br>
+                <select id="mesFim"></select>
+                <select id="anoFim"></select>
+            </div>
+        </div>
+
+        <!-- BOTÕES -->
+        <div style="margin-top:20px; display:flex; gap:15px;">
+            <button id="btnGerar" class="btn-primario">Gerar Recibo</button>
+            <button id="btnEnviar" class="btn-primario" disabled>Enviar por Email</button>
+        </div>
+
+        <!-- ÁREA DO RECIBO GERADO -->
+        <div id="reciboContainer" style="margin-top:30px; display:none;">
+
+            <div class="recibo-via">
+                <h3>RECIBO – ORIGINAL</h3>
+                <div id="reciboOriginal"></div>
+            </div>
+
+            <hr class="linha-corte">
+
+            <div class="recibo-via">
+                <h3>RECIBO – DUPLICADO</h3>
+                <div id="reciboDuplicado"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("sideMenu").classList.toggle("open");
+        }
+    </script>
+
+    <script type="module" src="js/recibos.js"></script>
+
+</body>
+</html>
