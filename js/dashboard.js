@@ -17,11 +17,14 @@ const fimChave = `${fimAno}-${String(fimMes).padStart(2, "0")}`;
 async function carregarDashboard() {
     tabela.innerHTML = "";
 
-    // Obter todos os anos configurados
+    // Ler todos os anos configurados entre 2020 e 2050
     const anosSnap = await getDocs(collection(db, "config_ano"));
-    const anos = anosSnap.docs.map(d => Number(d.id)).sort();
+    const anos = anosSnap.docs
+        .map(d => Number(d.id))
+        .filter(a => a >= 2020 && a <= 2050)
+        .sort((a,b) => a - b);
 
-    // Carregar condóminos
+    // Ler condóminos
     const condSnap = await getDocs(collection(db, "condominos"));
 
     for (const docSnap of condSnap.docs) {
@@ -33,10 +36,12 @@ async function carregarDashboard() {
 
         for (const ano of anos) {
 
+            // Configuração do ano
             const cfgSnap = await getDocs(collection(db, `config_ano/${ano}/fracoes`));
             const cfg = cfgSnap.docs.find(d => d.id === fracao)?.data();
             if (!cfg) continue;
 
+            // Pagamentos do ano
             const pagSnap = await getDocs(collection(db, `pagamentos/${ano}/fracoes`));
             const pag = pagSnap.docs.find(d => d.id === fracao)?.data() || { quotas:{}, extras:{} };
 
