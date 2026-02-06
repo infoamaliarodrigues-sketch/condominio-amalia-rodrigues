@@ -146,10 +146,11 @@ async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
         if (!cfgSnap.exists()) continue;
         const cfg = cfgSnap.data();
 
-        // LER PAGAMENTOS (meses)
+       // LER PAGAMENTOS (meses)
         const pagRef = doc(db, `pagamentos/${ano}/fracoes/${fracao}`);
         const pagSnap = await getDoc(pagRef);
         const pag = pagSnap.exists() ? pagSnap.data() : { meses:{} };
+
 
         const isento = cfg.isencao === true;
         const percent = Number(cfg.isencaoPercent || 0);
