@@ -73,6 +73,7 @@ async function criarBlocos(ano) {
         const quotasPagas = pagamentos.quotas || {};
         const extrasPagas = pagamentos.extras || {};
         const obs = pagamentos.obs || "";
+        const ultimaAtualizacao = pagamentos.ultimaAtualizacao || null;
 
         estado.fracoes[fracao] = {
             quotasValores,
@@ -107,8 +108,11 @@ async function criarBlocos(ano) {
         estadoDiv.id = `estado-${fracao}`;
         estadoDiv.className = "estado-guardado";
         estadoDiv.style = "margin-top:8px; font-size:13px; color:#555;";
-        estadoDiv.textContent = "Ainda não guardado";
+        estadoDiv.textContent = ultimaAtualizacao
+            ? `Guardado em ${ultimaAtualizacao}`
+            : "Ainda não guardado";
         bloco.appendChild(estadoDiv);
+
 
         criarLinhaMeses(fracao, "quotas");
         criarLinhaMeses(fracao, "extras");
@@ -242,14 +246,16 @@ async function guardarFracao(fracao, silencioso = false) {
     });
 
     await setDoc(
-        doc(db, `pagamentos/${ano}/fracao/${fracao}`),
-        {
-            quotas: fr.quotasPagas,
-            extras: fr.extrasPagas,
-            obs
-        },
-        { merge: true }
-    );
+    doc(db, `pagamentos/${ano}/fracao/${fracao}`),
+    {
+        quotas: fr.quotasPagas,
+        extras: fr.extrasPagas,
+        obs,
+        ultimaAtualizacao: `${data} ${horas}`
+    },
+    { merge: true }
+);
+
 
     const agora = new Date();
     const data = agora.toLocaleDateString("pt-PT");
