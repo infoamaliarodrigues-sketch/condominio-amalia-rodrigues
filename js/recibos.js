@@ -28,6 +28,8 @@ const chkExtra = document.getElementById("chkExtra");
 const formaPagamentoSelect = document.getElementById("formaPagamento");
 const dataTransferenciaBox = document.getElementById("dataTransferenciaBox");
 
+const observacoesInput = document.getElementById("observacoes");
+
 formaPagamentoSelect.addEventListener("change", () => {
     dataTransferenciaBox.style.display =
         formaPagamentoSelect.value === "transferencia" ? "block" : "none";
@@ -140,7 +142,7 @@ async function obterNumeroRecibo() {
 }
 
 // ------------------------------------------------------------
-// Calcular linhas (apenas configuração + checkboxes)
+// Calcular linhas
 // ------------------------------------------------------------
 async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
     const linhas = [];
@@ -198,7 +200,7 @@ async function guardarReciboBD(dados) {
 }
 
 // ------------------------------------------------------------
-// Carregar recibos (CRUD)
+// Carregar recibos
 // ------------------------------------------------------------
 async function carregarRecibosTabela() {
     tabelaRecibosBody.innerHTML = "";
@@ -282,6 +284,8 @@ async function gerarRecibo() {
         `;
     });
 
+    const obsTexto = observacoesInput.value.trim();
+
     const htmlTabela = `
         <table class="recibo-tabela">
             <tr><th></th><th colspan="2">RECIBO</th><th>Nº ${numero}</th></tr>
@@ -326,6 +330,9 @@ async function gerarRecibo() {
         </table>
 
         <p><b>Valor por extenso:</b> ${extenso}</p>
+
+        ${obsTexto ? `<p><b>Observações:</b><br>"${obsTexto}"</p>` : ""}
+
         <p style="margin-top:30px; font-size:12px; opacity:0.5; text-align:right;">
             A Administração
         </p>
@@ -368,51 +375,48 @@ async function gerarRecibo() {
 }
 
 // ------------------------------------------------------------
-// Imprimir PDF
+// Imprimir PDF (A4, Original + Duplicado em páginas separadas)
 // ------------------------------------------------------------
 btnImprimir.addEventListener("click", () => {
     if (!ultimoReciboGerado) return;
 
     const win = window.open("", "_blank");
+
     win.document.write(`
         <html>
         <head>
             <title>Recibo Nº ${ultimoReciboGerado.numero}</title>
             <style>
-                body { font-family: Arial, sans-serif; font-size: 12px; }
-                .recibo-via { margin-bottom: 40px; }
+                body { font-family: Arial, sans-serif; font-size: 12px; margin: 40px; }
+                .page { page-break-after: always; }
                 .recibo-tabela { width: 100%; border-collapse: collapse; }
                 .recibo-tabela th, .recibo-tabela td {
                     border: 1px solid #000;
                     padding: 4px;
                     font-size: 11px;
                 }
-                .marca-agua {
-                    position: fixed;
-                    bottom: 20px;
-                    right: 20px;
-                    font-size: 10px;
-                    opacity: 0.4;
-                }
             </style>
         </head>
         <body>
-            <div class="recibo-via">
+
+            <div class="page">
                 <h3>RECIBO – ORIGINAL</h3>
                 ${ultimoReciboGerado.html}
             </div>
-            <hr>
-            <div class="recibo-via">
+
+            <div class="page">
                 <h3>RECIBO – DUPLICADO</h3>
                 ${ultimoReciboGerado.html}
             </div>
-            <div class="marca-agua">A Administração</div>
+
             <script>
                 window.print();
             </script>
+
         </body>
         </html>
     `);
+
     win.document.close();
 });
 
@@ -431,6 +435,28 @@ btnEnviar.addEventListener("click", async () => {
 });
 
 // ------------------------------------------------------------
+// Limpar contador (Testes) com PIN
+// ------------------------------------------------------------
+document.getElementById("btnResetContador").addEventListener("click", async () => {
+
+    const pinCorreto = "1234"; // ALTERA AQUI O TEU PIN
+
+    const pin = prompt("Introduza o código de 4 dígitos para limpar o contador:");
+
+    if (pin === null) return;
+
+    if (pin !== pinCorreto) {
+        alert("Código incorreto. Operação cancelada.");
+        return;
+    }
+
+    await setDoc(doc(db, "recibos_meta", "sequencia"), { ultimo: 0 });
+
+    alert("Contador de recibos limpo com sucesso!");
+    location.reload();
+});
+
+// ------------------------------------------------------------
 // Inicialização
 // ------------------------------------------------------------
 btnGerar.addEventListener("click", gerarRecibo);
@@ -438,3 +464,6 @@ btnGerar.addEventListener("click", gerarRecibo);
 carregarFracoes();
 carregarMesesAnos();
 carregarRecibosTabela();
+
+// Ativar DataTables
+new DataTable("#tabelaRecibos");
