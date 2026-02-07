@@ -8,7 +8,7 @@ import {
     doc
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-const tabela = document.querySelector("#tabela tbody");
+const tabela = document.getElementById("tabela-fornecedores").querySelector("tbody");
 const filtro = document.getElementById("filtro");
 const btnNovo = document.getElementById("btnNovo");
 
