@@ -1,4 +1,6 @@
-/* BASE */
+/* ============================
+   BASE
+============================ */
 body {
     font-family: Arial, sans-serif;
     background: #f5f5f5;
@@ -11,7 +13,9 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* LOGIN */
+/* ============================
+   LOGIN
+============================ */
 .container {
     width: 350px;
     margin: 80px auto;
@@ -22,7 +26,9 @@ h2 {
     text-align: center;
 }
 
-/* INPUTS GLOBAIS */
+/* ============================
+   INPUTS GLOBAIS
+============================ */
 input, select, textarea {
     width: 100%;
     padding: 8px;
@@ -32,7 +38,9 @@ input, select, textarea {
     box-sizing: border-box;
 }
 
-/* NAVBAR */
+/* ============================
+   NAVBAR
+============================ */
 .navbar {
     display: flex;
     align-items: center;
@@ -55,9 +63,11 @@ input, select, textarea {
     font-weight: bold;
 }
 
-/* MENU LATERAL */
+/* ============================
+   MENU LATERAL
+============================ */
 .side-menu {
-    position: absolute;
+    position: fixed;
     top: 60px;
     left: 20px;
     background: #1e3a8a;
@@ -96,16 +106,23 @@ input, select, textarea {
     background: rgba(255,255,255,0.25);
 }
 
-/* CONTEÚDO CENTRAL */
+/* ============================
+   CONTEÚDO CENTRAL
+============================ */
 .main-container {
     max-width: 1100px;
     margin: 0 auto;
     padding: 20px;
+    min-height: 80vh;
+    background: #ffffff;
+    border-radius: 8px;
     position: relative;
-    z-index: 1000;
+    z-index: 1;
 }
 
-/* TABELAS GERAIS */
+/* ============================
+   TABELAS GERAIS
+============================ */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -132,7 +149,9 @@ th, td {
     font-size: 14px;
 }
 
-/* BOTÕES GLOBAIS */
+/* ============================
+   BOTÕES GLOBAIS
+============================ */
 button,
 .btn-primario {
     background: #1e3a8a;
@@ -141,9 +160,7 @@ button,
     border-radius: 6px;
     border: none;
     cursor: pointer;
-    text-decoration: none;
     font-weight: bold;
-    display: inline-block;
 }
 
 button:hover,
@@ -151,7 +168,7 @@ button:hover,
     background: #162c6a;
 }
 
-/* BOTÕES CRUD */
+/* Botões CRUD */
 td button {
     font-size: 10px;
     padding: 3px 5px;
@@ -161,819 +178,96 @@ td button {
     min-width: 60px;
 }
 
-.btn-edit {
-    background: #1e3a8a;
-    color: white;
-}
+.btn-save { background: #22c55e !important; }
+.btn-save:hover { background: #1a9e4b !important; }
 
-.btn-edit:hover {
-    background: #162c6a;
-}
+.btn-delete, .btn-perigo { background: #ef4444 !important; }
+.btn-delete:hover, .btn-perigo:hover { background: #c53030 !important; }
 
-.btn-save {
-    background: #22c55e !important;
-    color: white;
-}
-
-.btn-save:hover {
-    background: #1a9e4b !important;
-}
-
-.btn-delete {
-    background: #ef4444 !important;
-    color: white;
-}
-
-.btn-delete:hover {
-    background: #c53030 !important;
-}
-
-/* INPUTS EM TABELAS */
-td input {
-    padding: 3px 4px;
-    font-size: 11px;
-    margin: 0;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-td input[type="number"] {
-    width: 55px;
-    text-align: center;
-}
-
-td input[type="checkbox"] {
-    transform: scale(1.2);
-    cursor: pointer;
-}
-
-/* CAMPOS ESPECÍFICOS */
-td input.telefone-input,
-td input.nif-input {
-    width: 95px;
-    font-size: 11px;
-}
-
-td input[type="text"],
-td input[type="email"] {
-    width: 150px;
-    font-size: 11px;
-}
-
-/* LARGURA DAS COLUNAS — CONDÓMINOS */
-th:nth-child(1) { width: 45px; }   /* Letra */
-th:nth-child(2) { width: 55px; }   /* Fração */
-th:nth-child(3) { width: 70px; }   /* Permilagem */
-th:nth-child(4) { width: 180px; }  /* Nome */
-th:nth-child(5) { width: 100px; }  /* NIF */
-th:nth-child(6) { width: 100px; }  /* Telefone */
-th:nth-child(7) { width: 160px; }  /* Email */
-th:nth-child(8) { width: 60px; }   /* Isento */
-th:nth-child(9) { width: 80px; }   /* % Isenção */
-th:nth-child(10) { width: 180px; } /* Ações */
-
-/* QUOTAS E CONFIGURAR */
-.fracao-bloco {
-    background: white;
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-top: 25px;
-    border-radius: 6px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-.secao-titulo,
-.linha-titulo {
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 15px;
-}
-
-.linha-meses {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 6px;
-    margin-bottom: 10px;
-}
-
-.linha-meses input {
-    padding: 6px;
-    text-align: center;
-    background: #fafafa;
-}
-
-.mes {
-    width: 55px;
-    min-height: 55px;
-    padding: 4px;
-    text-align: center;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    border: 1px solid #ccc;
-    background: #fafafa;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.mes-label {
-    font-size: 11px;
-    margin-bottom: 2px;
-    color: #333;
-}
-
-.mes-valor {
-    font-size: 12px;
-    color: #1e3a8a;
-}
-
-.mes.pago {
-    background: #c8f7c5;
-    border-color: #8cd98c;
-}
-
-.mes.nao-pago {
-    background: #f7c5c5;
-    border-color: #d98c8c;
-}
-
-.obs-box {
-    width: 100%;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    margin-top: 10px;
-    background: #fafafa;
-}
-
-.caixa-total {
-    margin-top: 40px;
-    padding: 15px;
-    background: #e8e8e8;
-    border-radius: 6px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-
-/* AJUSTE FINAL — TABELA CONDÓMINOS */
-table {
-    table-layout: fixed;
-}
-
-td button {
-    min-width: 60px;
-    font-size: 10px;
-    padding: 3px 5px;
-}
-
-/* Inputs compactos */
-td input {
-    font-size: 11px !important;
-    padding: 3px 4px !important;
-}
-
-/* 3 primeiras colunas com letra menor */
-th:nth-child(1),
-th:nth-child(2),
-th:nth-child(3),
-td:nth-child(1),
-td:nth-child(2),
-td:nth-child(3) {
-    font-size: 11px !important;
-}
-
-td:last-child {
-    overflow: visible !important;
-}
-
-th:nth-child(10),
-td:nth-child(10) {
-    width: 200px !important;
-}
-table th {
-    font-size: 10px !important;
-    padding: 6px !important;
-}
-
-#filtro {
-    width: 400px;
-    padding: 6px 8px;
-    font-size: 12px;
-}
-
-#tabela-dashboard th,
-#tabela-dashboard td {
-    padding: 8px;
-    font-size: 13px;
-    border-bottom: 1px solid #ddd;
-    white-space: nowrap;
-}
-
-#tabela-dashboard th,
-#tabela-dashboard td {
-    padding: 8px;
-    font-size: 13px;
-    border-bottom: 1px solid #ddd;
-    white-space: nowrap;
-}
-
-#tabela-dashboard td:nth-child(4),
-#tabela-dashboard th:nth-child(4) {
-    width: 90px;
-    text-align: right;
-}
-
-#tabela-dashboard td:nth-child(3),
-#tabela-dashboard th:nth-child(3) {
-    max-width: 260px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-#tabela-dashboard th,
-#tabela-dashboard td {
-    font-size: 13px !important;
-}
-
-.recibo-form label {
-    font-weight: bold;
-}
-
-.recibo-via {
-    padding: 15px;
-    border: 1px solid #ccc;
-    margin-bottom: 25px;
-    background: #fff;
-}
-
-.linha-corte {
-    border: none;
-    border-top: 2px dashed #999;
-    margin: 30px 0;
-}
-
-/* Área do recibo */
-.recibo-via {
-    padding: 15px;
-    border: 1px solid #ccc;
-    margin-bottom: 25px;
-    background: #fff;
-}
-
-.linha-corte {
-    border: none;
-    border-top: 2px dashed #999;
-    margin: 30px 0;
-}
-
-/* Tabela do recibo */
-.recibo-tabela {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.recibo-tabela th,
-.recibo-tabela td {
-    border: 1px solid #000;
-    padding: 6px;
-    font-size: 13px;
-}
-
-/* Tabela CRUD */
-#tabelaRecibos {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-#tabelaRecibos th,
-#tabelaRecibos td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    font-size: 13px;
-}
-
-#tabelaRecibos th {
-    background: #f2f2f2;
-}
-
-#tabelaRecibos tr:nth-child(even) {
-    background: #fafafa;
-}
-
-.btn-anular,
-.btn-apagar {
-    padding: 4px 8px;
-    font-size: 12px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-}
-
-.btn-anular {
-    background: #ffcc00;
-}
-
-.btn-apagar {
-    background: #ff6666;
-    color: white;
-}
-
-/* Marca de água no PDF */
-.marca-agua {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 10px;
-    opacity: 0.4;
-}
-
-.linha-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    margin-top: 15px;
-}
-
-/* Fração mais estreita */
-#tabelaRecibos th:nth-child(3),
-#tabelaRecibos td:nth-child(3) {
-    width: 60px;
-    text-align: center;
-}
-
-/* Estado mais estreito */
-#tabelaRecibos th:nth-child(7),
-#tabelaRecibos td:nth-child(7) {
-    width: 80px;
-    text-align: center;
-}
-
-/* Coluna Ações com largura fixa e sem quebras */
-#tabelaRecibos th:nth-child(8),
-#tabelaRecibos td:nth-child(8) {
-    width: 150px;
-    white-space: nowrap;
-    text-align: center;
-}
-
-/* Botões mais compactos */
-#tabelaRecibos button {
-    padding: 3px 6px;
-    font-size: 12px;
-    margin: 0 3px;
-}
-
-.dashboard-container {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.dashboard-card {
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 18px 22px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-    transition: 0.2s;
-}
-
-.dashboard-card:hover {
-    background: #f7f7f7;
-}
-
-.dashboard-topo {
-    display: flex;
-    justify-content: space-between;
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.dashboard-nome {
-    color: #333;
-}
-
-.dashboard-fracao {
-    color: #666;
-}
-
-.dashboard-valores {
-    margin-top: 10px;
-    font-size: 15px;
-    line-height: 1.5;
-}
-
-.dashboard-valores span {
-    font-weight: bold;
-}
-
-.dashboard-datas {
-    margin-top: 12px;
-    font-size: 14px;
-    color: #555;
-}
-
-.dashboard-datas b {
-    color: #333;
-}
-
-.dashboard-card.sem-divida {
-    border-left: 6px solid #4CAF50;
-}
-
-.dashboard-card.com-divida {
-    border-left: 6px solid #E53935;
-}
-
-.dashboard-actions {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.dashboard-total {
-    background: #f0f0f0;
-    padding: 12px 18px;
-    border-radius: 8px;
-    font-size: 18px;
-    margin-bottom: 15px;
-    border-left: 6px solid #000;
-}
-
-/* Inputs usados nas tabelas CRUD */
-.input-tabela {
-    width: 100%;
-    padding: 4px 6px;
-    font-size: 11px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: #fafafa;
-    box-sizing: border-box;
-}
-
-.input-tabela:disabled {
-    background: #eee;
-    color: #555;
-}
-
-/* Botões pequenos iguais aos condóminos */
-.btn-sm {
-    padding: 4px 8px !important;
-    font-size: 11px !important;
-    border-radius: 4px !important;
-}
-
-/* Botão secundário (Cancelar) */
-.btn-secundario {
-    background: #6b7280;
-    color: white;
-    padding: 10px 16px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.btn-secundario:hover {
-    background: #4b5563;
-}
-
-/* Coluna de ações com largura fixa */
-td.acoes {
-    white-space: nowrap;
-    width: 150px;
-}
-
-/* ================================
-   TABELA DE FORNECEDORES — COLUNAS
-   ================================ */
-
-#tabela th:nth-child(1),
-#tabela td:nth-child(1) {
-    width: 160px; /* Empresa */
-}
-
-#tabela th:nth-child(2),
-#tabela td:nth-child(2) {
-    width: 120px; /* Categoria */
-}
-
-#tabela th:nth-child(3),
-#tabela td:nth-child(3) {
-    width: 150px; /* Contacto */
-}
-
-#tabela th:nth-child(4),
-#tabela td:nth-child(4) {
-    width: 120px; /* Telefone */
-}
-
-#tabela th:nth-child(5),
-#tabela td:nth-child(5) {
-    width: 180px; /* Email */
-}
-
-#tabela th:nth-child(6),
-#tabela td:nth-child(6) {
-    width: 200px; /* Observações */
-}
-
-#tabela th:nth-child(7),
-#tabela td:nth-child(7) {
-    width: 150px;
-    white-space: nowrap;
-    text-align: center; /* Ações */
-}
-
-/* ================================
-   INPUTS DA TABELA
-   ================================ */
-
-.input-tabela {
-    width: 100%;
-    padding: 4px 6px;
-    font-size: 11px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: #fafafa;
-    box-sizing: border-box;
-}
-
-.input-tabela:disabled {
-    background: #eee;
-    color: #555;
-}
-
-/* ================================
-   BOTÕES PEQUENOS
-   ================================ */
-
-.btn-sm {
-    padding: 4px 8px !important;
-    font-size: 11px !important;
-    border-radius: 4px !important;
-}
-
-/* ================================
-   BOTÕES CRUD — CORES
-   ================================ */
-
-/* Azul — Editar */
-.btn-edit,
-.btn-primario {
-    background: #1e3a8a !important;
-    color: white !important;
-}
-
-.btn-edit:hover,
-.btn-primario:hover {
-    background: #162c6a !important;
-}
-
-/* Verde — Guardar */
-.btn-save {
-    background: #22c55e !important;
-    color: white !important;
-}
-
-.btn-save:hover {
-    background: #1a9e4b !important;
-}
-
-/* Vermelho — Apagar */
-.btn-delete,
-.btn-perigo {
-    background: #ef4444 !important;
-    color: white !important;
-}
-
-.btn-delete:hover,
-.btn-perigo:hover {
-    background: #c53030 !important;
-}
-
-/* Cinzento — Cancelar */
 .btn-secundario {
     background: #6b7280 !important;
     color: white !important;
 }
-
 .btn-secundario:hover {
     background: #4b5563 !important;
 }
 
-/* ================================
-   COLUNA AÇÕES
-   ================================ */
+.btn-sm {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+}
 
-td.acoes {
-    white-space: nowrap;
-    text-align: center;
+/* ============================
+   INPUTS EM TABELAS
+============================ */
+.input-tabela {
+    width: 100%;
+    padding: 4px 6px;
+    font-size: 11px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fafafa;
+    box-sizing: border-box;
+}
+
+.input-tabela:disabled {
+    background: #eee;
+    color: #555;
+}
+
+/* ============================
+   CONDÓMINOS (ISOLADO)
+============================ */
+#tabela-condominos th:nth-child(1) { width: 45px; }
+#tabela-condominos th:nth-child(2) { width: 55px; }
+#tabela-condominos th:nth-child(3) { width: 70px; }
+#tabela-condominos th:nth-child(4) { width: 180px; }
+#tabela-condominos th:nth-child(5) { width: 100px; }
+#tabela-condominos th:nth-child(6) { width: 100px; }
+#tabela-condominos th:nth-child(7) { width: 160px; }
+#tabela-condominos th:nth-child(8) { width: 60px; }
+#tabela-condominos th:nth-child(9) { width: 80px; }
+#tabela-condominos th:nth-child(10) { width: 180px; }
+
+/* ============================
+   FORNECEDORES (ISOLADO)
+============================ */
+#tabela-fornecedores th:nth-child(1) { width: 160px; }
+#tabela-fornecedores th:nth-child(2) { width: 120px; }
+#tabela-fornecedores th:nth-child(3) { width: 150px; }
+#tabela-fornecedores th:nth-child(4) { width: 120px; }
+#tabela-fornecedores th:nth-child(5) { width: 180px; }
+#tabela-fornecedores th:nth-child(6) { width: 200px; }
+#tabela-fornecedores th:nth-child(7) {
     width: 150px;
+    text-align: center;
+    white-space: nowrap;
 }
 
-/* ================================
-   TABELA DE MANUTENÇÃO — COLUNAS
-   ================================ */
-
-#tabela-manutencao th:nth-child(1),
-#tabela-manutencao td:nth-child(1) {
-    width: 160px; /* Tipo de manutenção */
-}
-
-#tabela-manutencao th:nth-child(2),
-#tabela-manutencao td:nth-child(2) {
-    width: 150px; /* Empresa */
-}
-
-#tabela-manutencao th:nth-child(3),
-#tabela-manutencao td:nth-child(3) {
-    width: 140px; /* Contacto */
-}
-
-#tabela-manutencao th:nth-child(4),
-#tabela-manutencao td:nth-child(4) {
-    width: 180px; /* Email */
-}
-
+/* ============================
+   MANUTENÇÃO (ISOLADO)
+============================ */
+#tabela-manutencao th:nth-child(1) { width: 160px; }
+#tabela-manutencao th:nth-child(2) { width: 150px; }
+#tabela-manutencao th:nth-child(3) { width: 140px; }
+#tabela-manutencao th:nth-child(4) { width: 180px; }
 #tabela-manutencao th:nth-child(5),
-#tabela-manutencao td:nth-child(5) {
-    width: 110px; /* Data início */
-    text-align: center;
-}
-
+#tabela-manutencao td:nth-child(5) { width: 110px; text-align: center; }
 #tabela-manutencao th:nth-child(6),
-#tabela-manutencao td:nth-child(6) {
-    width: 110px; /* Data fim */
-    text-align: center;
-}
-
-#tabela-manutencao th:nth-child(7),
-#tabela-manutencao td:nth-child(7) {
-    width: 200px; /* Observações */
-}
-
-#tabela-manutencao th:nth-child(8),
-#tabela-manutencao td:nth-child(8) {
-    width: 150px; /* Ações */
-    white-space: nowrap;
-    text-align: center;
-}
-
-/* ================================
-   INPUTS DA TABELA
-   ================================ */
-
-.input-tabela {
-    width: 100%;
-    padding: 4px 6px;
-    font-size: 11px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background: #fafafa;
-    box-sizing: border-box;
-}
-
-.input-tabela:disabled {
-    background: #eee;
-    color: #555;
-}
-
-/* ================================
-   BOTÕES PEQUENOS
-   ================================ */
-
-.btn-sm {
-    padding: 4px 8px !important;
-    font-size: 11px !important;
-    border-radius: 4px !important;
-}
-
-/* ================================
-   BOTÕES CRUD — CORES
-   ================================ */
-
-/* Azul — Editar */
-.btn-edit,
-.btn-primario {
-    background: #1e3a8a !important;
-    color: white !important;
-}
-
-.btn-edit:hover,
-.btn-primario:hover {
-    background: #162c6a !important;
-}
-
-/* Verde — Guardar */
-.btn-save {
-    background: #22c55e !important;
-    color: white !important;
-}
-
-.btn-save:hover {
-    background: #1a9e4b !important;
-}
-
-/* Vermelho — Apagar */
-.btn-delete,
-.btn-perigo {
-    background: #ef4444 !important;
-    color: white !important;
-}
-
-.btn-delete:hover,
-.btn-perigo:hover {
-    background: #c53030 !important;
-}
-
-/* Cinzento — Cancelar */
-.btn-secundario {
-    background: #6b7280 !important;
-    color: white !important;
-}
-
-.btn-secundario:hover {
-    background: #4b5563 !important;
-}
-
-/* ================================
-   COLUNA AÇÕES
-   ================================ */
-
-td.acoes {
-    white-space: nowrap;
-    text-align: center;
+#tabela-manutencao td:nth-child(6) { width: 110px; text-align: center; }
+#tabela-manutencao th:nth-child(7) { width: 200px; }
+#tabela-manutencao th:nth-child(8) {
     width: 150px;
+    text-align: center;
+    white-space: nowrap;
 }
 
-/* ================================
-   ALERTA DE PRAZO — DATA FIM
-   ================================ */
-
-/* Verde — dentro do prazo */
+/* Alertas */
 .manut-ok {
     background: #c8f7c5 !important;
     border-left: 4px solid #22c55e !important;
 }
 
-/* Vermelho — faltam 2 meses ou menos */
-.manut-alerta {
-    background: #f7c5c5 !important;
-    border-left: 4px solid #ef4444 !important;
-}
-
-/* Painel sempre visível e com fundo */
-.main-container {
-    min-height: 80vh;
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    position: relative;
-    z-index: 1;
-}
-
-/* Menu lateral fixo para não empurrar o painel */
-.side-menu {
-    position: fixed;
-    top: 60px;
-    left: 20px;
-    z-index: 3000;
-}
-
-/* Tabela de manutenção com estrutura estável */
-#tabela-manutencao {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-}
-
-/* Linhas com altura mínima */
-#tabela-manutencao tbody tr {
-    height: 42px;
-}
-
-/* Garantir que as linhas não desaparecem quando recebem classes */
-.manut-ok,
-.manut-alerta {
-    display: table-row !important;
-}
-
-/* Verde — dentro do prazo */
-.manut-ok {
-    background: #c8f7c5 !important;
-    border-left: 4px solid #22c55e !important;
-}
-
-/* Vermelho — faltam 2 meses ou menos */
 .manut-alerta {
     background: #f7c5c5 !important;
     border-left: 4px solid #ef4444 !important;
