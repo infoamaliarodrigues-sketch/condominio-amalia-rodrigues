@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Emissão de Recibos</title>
+
+    <!-- CSS global -->
     <link rel="stylesheet" href="css/global.css">
 
-    <!-- DataTables -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.min.css">
+    <!-- DataTables moderno (sem jQuery) - CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.css">
 </head>
 
 <body>
@@ -93,7 +95,7 @@
         </div>
 
         <p style="font-size:12px; color:#555; margin-top:5px;">
-            Nota: Botão "Limpar Contador" Necessita código com credenciais informática
+            Nota: Botão "Limpar Contador" necessita código com credenciais informática
         </p>
 
         <!-- ÁREA DO RECIBO GERADO -->
@@ -140,14 +142,11 @@
         }
     </script>
 
-    <!-- DataTables moderno (sem jQuery) -->
-<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.css">
-<script src="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.js"></script>
+    <!-- DataTables moderno (sem jQuery) - JS -->
+    <script src="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.js"></script>
 
-<!-- JS dos recibos -->
-<script type="module" src="js/recibos.js"></script>
-
-
+    <!-- JS dos recibos -->
+    <script type="module" src="js/recibos.js"></script>
 
 </body>
 </html>
