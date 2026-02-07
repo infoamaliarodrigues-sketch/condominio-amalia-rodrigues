@@ -3,7 +3,6 @@ import {
     collection,
     doc,
     getDocs,
-    getDoc,
     setDoc
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
@@ -13,14 +12,14 @@ const totalCondominioDiv = document.getElementById("totalCondominio");
 
 const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
 
-// estado em memória
+// Estado em memória
 let estado = {
     ano: new Date().getFullYear(),
-    fracoes: {} // fracao -> { quotasValores, extrasValores, quotasPagas, extrasPagas, obs }
+    fracoes: {}
 };
 
 // ------------------------------------------------------------
-// 1) Carregar anos no seletor
+// 1) Carregar anos
 // ------------------------------------------------------------
 function carregarAnos() {
     for (let ano = 2020; ano <= 2050; ano++) {
@@ -33,7 +32,7 @@ function carregarAnos() {
 }
 
 // ------------------------------------------------------------
-// 2) Criar blocos por fração (a partir de condominos + config_ano + pagamentos)
+// 2) Criar blocos por fração
 // ------------------------------------------------------------
 async function criarBlocos(ano) {
     fracoesContainer.innerHTML = "";
@@ -55,42 +54,33 @@ async function criarBlocos(ano) {
         const fracao = dados.fracao;
         const letra = dados.letra;
 
-        const config = configMap[fracao] || null;
-if (!config) continue; // se não tiver configuração, ignora
+        const config = configMap[fracao];
+        if (!config) continue;
 
-// Ler isenção
-const isento = config.isencao === true;
-const percent = Number(config.isencaoPercent || 0);
-const fator = isento ? (1 - percent / 100) : 1;
+        const isento = config.isencao === true;
+        const percent = Number(config.isencaoPercent || 0);
+        const fator = isento ? (1 - percent / 100) : 1;
 
-// Valores originais
-const quotasValoresOrig = config.quotas || {};
-const extrasValoresOrig = config.extras || {};
+        const quotasValores = {};
+        const extrasValores = {};
 
-// Aplicar isenção aos valores
-const quotasValores = {};
-const extrasValores = {};
+        MESES.forEach(m => {
+            quotasValores[m] = Number(config.quotas[m] || 0) * fator;
+            extrasValores[m] = Number(config.extras[m] || 0) * fator;
+        });
 
-MESES.forEach(m => {
-    quotasValores[m] = Number(quotasValoresOrig[m] || 0) * fator;
-    extrasValores[m] = Number(extrasValoresOrig[m] || 0) * fator;
-});
+        const pagamentos = pagMap[fracao] || {};
+        const quotasPagas = pagamentos.quotas || {};
+        const extrasPagas = pagamentos.extras || {};
+        const obs = pagamentos.obs || "";
 
-// Pagamentos
-const pagamentos = pagMap[fracao] || {};
-const quotasPagas = pagamentos.quotas || {};
-const extrasPagas = pagamentos.extras || {};
-const obs = pagamentos.obs || "";
-
-// Guardar no estado
-estado.fracoes[fracao] = {
-    quotasValores,
-    extrasValores,
-    quotasPagas,
-    extrasPagas,
-    obs
-};
-
+        estado.fracoes[fracao] = {
+            quotasValores,
+            extrasValores,
+            quotasPagas,
+            extrasPagas,
+            obs
+        };
 
         const bloco = document.createElement("div");
         bloco.className = "fracao-bloco";
@@ -112,18 +102,25 @@ estado.fracoes[fracao] = {
 
         fracoesContainer.appendChild(bloco);
 
+        // Linha "Guardado em..."
+        const estadoDiv = document.createElement("div");
+        estadoDiv.id = `estado-${fracao}`;
+        estadoDiv.className = "estado-guardado";
+        estadoDiv.style = "margin-top:8px; font-size:13px; color:#555;";
+        estadoDiv.textContent = "Ainda não guardado";
+        bloco.appendChild(estadoDiv);
+
         criarLinhaMeses(fracao, "quotas");
         criarLinhaMeses(fracao, "extras");
         atualizarInfoFracao(fracao);
 
-        document
-            .getElementById(`guardar-${fracao}`)
+        document.getElementById(`guardar-${fracao}`)
             .addEventListener("click", () => guardarFracao(fracao));
     }
 }
 
 // ------------------------------------------------------------
-// 3) Criar linha de meses (quotas ou extras)
+// 3) Criar linha de meses
 // ------------------------------------------------------------
 function criarLinhaMeses(fracao, tipo) {
     const linhaId = tipo === "quotas" ? `linha-q-${fracao}` : `linha-e-${fracao}`;
@@ -143,30 +140,28 @@ function criarLinhaMeses(fracao, tipo) {
         const pago = pagos[m] === true;
 
         const mesDiv = document.createElement("div");
-mesDiv.className = "mes " + (pago ? "pago" : "nao-pago");
-mesDiv.dataset.fracao = fracao;
-mesDiv.dataset.tipo = tipo;
-mesDiv.dataset.mes = m;
+        mesDiv.className = "mes " + (pago ? "pago" : "nao-pago");
+        mesDiv.dataset.fracao = fracao;
+        mesDiv.dataset.tipo = tipo;
+        mesDiv.dataset.mes = m;
 
-mesDiv.innerHTML = `
-    <div class="mes-label">${m.toUpperCase()}</div>
-    <div class="mes-valor">${valor}</div>
-`;
+        mesDiv.innerHTML = `
+            <div class="mes-label">${m.toUpperCase()}</div>
+            <div class="mes-valor">${valor}</div>
+        `;
 
-mesDiv.addEventListener("click", onClickMes);
-
-linhaDiv.appendChild(mesDiv);
-
+        mesDiv.addEventListener("click", onClickMes);
+        linhaDiv.appendChild(mesDiv);
     });
 }
 
 // ------------------------------------------------------------
-// 4) Clique num mês (toggle pago/não pago + gravação imediata)
+// 4) Clique num mês
 // ------------------------------------------------------------
 async function onClickMes(e) {
     const div = e.currentTarget;
     const fracao = div.dataset.fracao;
-    const tipo = div.dataset.tipo; // "quotas" ou "extras"
+    const tipo = div.dataset.tipo;
     const mes = div.dataset.mes;
 
     const fr = estado.fracoes[fracao];
@@ -183,11 +178,11 @@ async function onClickMes(e) {
     div.classList.toggle("nao-pago", !pago);
 
     atualizarInfoFracao(fracao);
-    await guardarFracao(fracao, true); // true = auto-save silencioso
+    await guardarFracao(fracao, true);
 }
 
 // ------------------------------------------------------------
-// 5) Atualizar info (Pago / Dívida) de uma fração
+// 5) Atualizar info da fração
 // ------------------------------------------------------------
 function atualizarInfoFracao(fracao) {
     const fr = estado.fracoes[fracao];
@@ -200,7 +195,7 @@ function atualizarInfoFracao(fracao) {
     let atraso = 0;
 
     const hoje = new Date();
-    const mesAtual = hoje.getMonth() + 1; // 1–12
+    const mesAtual = hoje.getMonth() + 1;
     const ultimoMesAtraso = mesAtual - 1;
 
     MESES.forEach((m, index) => {
@@ -224,23 +219,15 @@ function atualizarInfoFracao(fracao) {
         }
     });
 
-    const infoQ = document.getElementById(`info-q-${fracao}`);
-    const infoE = document.getElementById(`info-e-${fracao}`);
+    document.getElementById(`info-q-${fracao}`).textContent =
+        `Pago: ${pagoQuotas.toFixed(2)} € | Dívida Ano: ${dividaQuotas.toFixed(2)} € | Atraso: ${atraso.toFixed(2)} €`;
 
-    infoQ.textContent =
-        `Pago: ${pagoQuotas.toFixed(2)} € | ` +
-        `Dívida Ano: ${dividaQuotas.toFixed(2)} € | ` +
-        `Atraso: ${atraso.toFixed(2)} €`;
-
-    infoE.textContent =
-        `Pago: ${pagoExtras.toFixed(2)} € | ` +
-        `Dívida Ano: ${dividaExtras.toFixed(2)} € | ` +
-        `Atraso: ${atraso.toFixed(2)} €`;
+    document.getElementById(`info-e-${fracao}`).textContent =
+        `Pago: ${pagoExtras.toFixed(2)} € | Dívida Ano: ${dividaExtras.toFixed(2)} € | Atraso: ${atraso.toFixed(2)} €`;
 }
 
-
 // ------------------------------------------------------------
-// 6) Guardar fração no Firestore
+// 6) Guardar fração
 // ------------------------------------------------------------
 async function guardarFracao(fracao, silencioso = false) {
     const fr = estado.fracoes[fracao];
@@ -249,13 +236,11 @@ async function guardarFracao(fracao, silencioso = false) {
     const ano = estado.ano;
     const obs = document.getElementById(`obs-${fracao}`).value;
 
-    // GARANTIR QUE TODOS OS MESES EXISTEM
     MESES.forEach(m => {
         if (fr.quotasPagas[m] === undefined) fr.quotasPagas[m] = false;
         if (fr.extrasPagas[m] === undefined) fr.extrasPagas[m] = false;
     });
 
-    // CORREÇÃO CRÍTICA: gravar em "fracao" e não "fracoes"
     await setDoc(
         doc(db, `pagamentos/${ano}/fracao/${fracao}`),
         {
@@ -266,13 +251,20 @@ async function guardarFracao(fracao, silencioso = false) {
         { merge: true }
     );
 
+    const agora = new Date();
+    const data = agora.toLocaleDateString("pt-PT");
+    const horas = agora.toLocaleTimeString("pt-PT");
+
+    document.getElementById(`estado-${fracao}`).textContent =
+        `Guardado em ${data} - ${horas}`;
+
     if (!silencioso) {
         alert(`Fração ${fracao} guardada com sucesso.`);
     }
 }
 
 // ------------------------------------------------------------
-// 7) Recalcular total do condomínio (só quando chamado)
+// 7) Recalcular total do condomínio
 // ------------------------------------------------------------
 async function recalcularTotalCondominio() {
     const ano = estado.ano;
@@ -300,7 +292,6 @@ async function recalcularTotalCondominio() {
             const vQ = Number(cfg.quotas[m] || 0) * fator;
             const vE = Number(cfg.extras[m] || 0) * fator;
 
-
             if (pag.quotas && pag.quotas[m]) totalPago += vQ;
             else totalDivida += vQ;
 
@@ -316,30 +307,18 @@ async function recalcularTotalCondominio() {
 }
 
 // ------------------------------------------------------------
-// 8) Botão para recalcular total do condomínio (em baixo)
-// ------------------------------------------------------------
-(function criarBotaoRecalcular() {
-    const btn = document.createElement("button");
-    btn.textContent = "Recalcular Totais do Condomínio";
-    btn.className = "btn-primario";
-    btn.style.marginTop = "15px";
-    btn.addEventListener("click", recalcularTotalCondominio);
-    totalCondominioDiv.parentNode.insertBefore(btn, totalCondominioDiv.nextSibling);
-})();
-
-// ------------------------------------------------------------
-// 9) Botão de recalcular no topo
+// 8) Botão recalcular (topo)
 // ------------------------------------------------------------
 document.getElementById("btnRecalcularTopo")
     .addEventListener("click", recalcularTotalCondominio);
 
 // ------------------------------------------------------------
-// 10) Alteração do ano
+// 9) Alteração do ano
 // ------------------------------------------------------------
 anoSelect.addEventListener("change", () => criarBlocos(anoSelect.value));
 
 // ------------------------------------------------------------
-// 11) Inicialização
+// 10) Inicialização
 // ------------------------------------------------------------
 carregarAnos();
 criarBlocos(estado.ano);
