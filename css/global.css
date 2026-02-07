@@ -627,3 +627,12 @@ table th {
 #tabela-manutencao th:nth-child(7) { width: 200px; } /* Observações */
 #tabela-manutencao th:nth-child(8) { width: 140px; text-align: center; } /* Ações */
 
+/* Larguras — Manutenção */
+#tabela-manutencao th:nth-child(1) { width: 140px; } /* Tipo */
+#tabela-manutencao th:nth-child(2) { width: 140px; } /* Empresa */
+#tabela-manutencao th:nth-child(3) { width: 120px; } /* Contacto */
+#tabela-manutencao th:nth-child(4) { width: 180px; } /* Email */
+#tabela-manutencao th:nth-child(5) { width: 110px; text-align: center; } /* Data início */
+#tabela-manutencao th:nth-child(6) { width: 110px; text-align: center; } /* Data fim */
+#tabela-manutencao th:nth-child(7) { width: 200px; } /* Observações */
+#tabela-manutencao th:nth-child(8) { width: 150px; text-align: center; } /* Ações */
