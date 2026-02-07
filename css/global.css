@@ -257,3 +257,8 @@ td button {
     background: #f7c5c5 !important;
     border-left: 4px solid #ef4444 !important;
 }
+
+body {
+    outline: 5px solid red !important;
+}
+
