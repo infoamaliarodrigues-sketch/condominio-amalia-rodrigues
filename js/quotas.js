@@ -250,14 +250,15 @@ async function guardarFracao(fracao, silencioso = false) {
     const obs = document.getElementById(`obs-${fracao}`).value;
 
     await setDoc(
-        doc(db, `pagamentos/${ano}/fracoes`, fracao),
-        {
-            quotas: fr.quotasPagas,
-            extras: fr.extrasPagas,
-            obs
-        },
-        { merge: true }
-    );
+    doc(db, `pagamentos/${ano}/fracao/${fracao}`),
+    {
+        quotas: fr.quotasPagas,
+        extras: fr.extrasPagas,
+        obs
+    },
+    { merge: true }
+);
+
 
     if (!silencioso) {
         alert(`Fração ${fracao} guardada com sucesso.`);
