@@ -431,6 +431,9 @@ btnImprimir.addEventListener("click", () => {
 // ------------------------------------------------------------
 // Enviar por email (sem anexos, mailto)
 // ------------------------------------------------------------
+// ------------------------------------------------------------
+// Enviar por email
+// ------------------------------------------------------------
 btnEnviar.addEventListener("click", async () => {
     const fracao = fracaoSelect.value;
     const condSnap = await getDoc(doc(db, "condominos", fracao));
@@ -441,6 +444,7 @@ btnEnviar.addEventListener("click", async () => {
 
     window.location.href = `mailto:${cond.email}?subject=${assunto}&body=${corpo}`;
 });
+
 
 // ------------------------------------------------------------
 // Limpar contador (Testes) com PIN
