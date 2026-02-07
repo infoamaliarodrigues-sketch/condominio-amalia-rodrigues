@@ -607,3 +607,48 @@ table th {
     margin-bottom: 15px;
     border-left: 6px solid #000;
 }
+
+/* Inputs usados nas tabelas CRUD */
+.input-tabela {
+    width: 100%;
+    padding: 4px 6px;
+    font-size: 11px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fafafa;
+    box-sizing: border-box;
+}
+
+.input-tabela:disabled {
+    background: #eee;
+    color: #555;
+}
+
+/* Botões pequenos iguais aos condóminos */
+.btn-sm {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    border-radius: 4px !important;
+}
+
+/* Botão secundário (Cancelar) */
+.btn-secundario {
+    background: #6b7280;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-secundario:hover {
+    background: #4b5563;
+}
+
+/* Coluna de ações com largura fixa */
+td.acoes {
+    white-space: nowrap;
+    width: 150px;
+}
+
