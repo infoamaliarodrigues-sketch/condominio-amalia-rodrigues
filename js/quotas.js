@@ -419,9 +419,21 @@ document.getElementById("btnExportExcel")
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.aoa_to_sheet(linhasComCabecalho);
 
+        // Largura automática das colunas
+        ws['!cols'] = tabela.cabecalhos.map(() => ({ wch: 15 }));
+
+        // Filtros automáticos
+        ws['!autofilter'] = {
+            ref: `A1:${String.fromCharCode(65 + tabela.cabecalhos.length - 1)}1`
+        };
+
+        // Congelar cabeçalho
+        ws['!freeze'] = { xSplit: 0, ySplit: 1 };
+
         XLSX.utils.book_append_sheet(wb, ws, "Quotas");
         XLSX.writeFile(wb, "quotas_modelo_B.xlsx");
     });
+
 
 
 document.getElementById("btnExportPDF")
@@ -434,7 +446,15 @@ document.getElementById("btnExportPDF")
         doc.autoTable({
             head: [tabela.cabecalhos],
             body: tabela.linhas,
-            styles: { fontSize: 7 }
+            styles: {
+                fontSize: 7,
+                cellWidth: 'wrap'
+            },
+            columnStyles: {
+                0: { cellWidth: 18 } // Fração mais estreita
+            },
+            margin: { top: 10 },
+            tableWidth: 'auto'
         });
 
         doc.save("quotas_modelo_B.pdf");
