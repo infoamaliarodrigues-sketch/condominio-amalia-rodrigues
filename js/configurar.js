@@ -224,8 +224,12 @@ function calcularTotais() {
 // Eventos
 // ------------------------------------------------------------
 anoSelect.addEventListener("change", () => criarBlocos(anoSelect.value));
-guardarBtn.addEventListener("click", guardarConfiguracao);
 
+document.getElementById("guardarBtnTopo").addEventListener("click", guardarConfiguracao);
+document.getElementById("guardarBtn").addEventListener("click", guardarConfiguracao);
+
+// ------------------------------------------------------------
 // Inicialização
+// ------------------------------------------------------------
 carregarAnos();
 criarBlocos(anoSelect.value = new Date().getFullYear());
