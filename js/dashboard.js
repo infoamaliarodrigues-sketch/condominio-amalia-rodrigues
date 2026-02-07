@@ -17,16 +17,14 @@ const fimChave = `${fimAno}-${String(fimMes).padStart(2, "0")}`;
 async function carregarDashboard() {
     lista.innerHTML = "";
 
-    let totalGeral = 0; // acumulador do total geral
+    let totalGeral = 0;
 
-    // Ler anos configurados
     const anosSnap = await getDocs(collection(db, "config_ano"));
     const anos = anosSnap.docs
         .map(d => Number(d.id))
         .filter(a => a >= 2020 && a <= 2050)
         .sort((a,b) => a - b);
 
-    // Ler condóminos
     const condSnap = await getDocs(collection(db, "condominos"));
 
     for (const docSnap of condSnap.docs) {
@@ -39,18 +37,15 @@ async function carregarDashboard() {
 
         for (const ano of anos) {
 
-            // Configuração do ano
             const cfgRef = doc(db, `config_ano/${ano}/fracoes/${fracao}`);
             const cfgSnap = await getDoc(cfgRef);
             const cfg = cfgSnap.exists() ? cfgSnap.data() : null;
             if (!cfg) continue;
 
-            // Pagamentos do ano
             const pagRef = doc(db, `pagamentos/${ano}/fracao/${fracao}`);
             const pagSnap = await getDoc(pagRef);
             const pag = pagSnap.exists() ? pagSnap.data() : { quotas:{}, extras:{} };
 
-            // Isenção
             const isento = cfg.isencao === true;
             const percent = Number(cfg.isencaoPercent || 0);
             const fator = isento ? (1 - percent / 100) : 1;
@@ -83,7 +78,7 @@ async function carregarDashboard() {
         }
 
         const totalDivida = totalQuota + totalExtra;
-        totalGeral += totalDivida; // acumular total geral
+        totalGeral += totalDivida;
 
         const classe = totalDivida > 0 ? "dashboard-card com-divida" : "dashboard-card sem-divida";
 
@@ -108,7 +103,6 @@ async function carregarDashboard() {
         `;
     }
 
-    // Inserir cartão do total geral no topo
     lista.insertAdjacentHTML("afterbegin", `
         <div class="dashboard-card com-divida" style="border-left: 6px solid #000;">
             <div class="dashboard-topo">
@@ -124,3 +118,74 @@ async function carregarDashboard() {
 }
 
 carregarDashboard();
+
+
+// ----------------------------
+// EXPORTAR EXCEL
+// ----------------------------
+document.getElementById("btnExcel").addEventListener("click", () => {
+    const linhas = [];
+
+    linhas.push(["Fração", "Letra", "Nome", "Quotas (€)", "Extras (€)", "Total (€)", "Início Dívida", "Fim Dívida"]);
+
+    document.querySelectorAll(".dashboard-card:not(:first-child)").forEach(card => {
+        const nome = card.querySelector(".dashboard-nome").textContent;
+        const fracao = card.querySelector(".dashboard-fracao").textContent.split(" — ")[0];
+        const letra = card.querySelector(".dashboard-fracao").textContent.split(" — ")[1];
+
+        const quotas = card.querySelector(".dashboard-valores div:nth-child(1) span").textContent.replace(" €","");
+        const extras = card.querySelector(".dashboard-valores div:nth-child(2) span").textContent.replace(" €","");
+        const total = card.querySelector(".dashboard-valores div:nth-child(3) span").textContent.replace(" €","");
+
+        const inicio = card.querySelector(".dashboard-datas div:nth-child(1) b").textContent;
+        const fim = card.querySelector(".dashboard-datas div:nth-child(2) b").textContent;
+
+        linhas.push([fracao, letra, nome, quotas, extras, total, inicio, fim]);
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(linhas);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Dashboard");
+
+    XLSX.writeFile(wb, "dashboard_condominio.xlsx");
+});
+
+
+// ----------------------------
+// EXPORTAR PDF
+// ----------------------------
+document.getElementById("btnPDF").addEventListener("click", () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Resumo de Dívidas - Condomínio Amália Rodrigues", 14, 20);
+
+    const linhas = [];
+
+    document.querySelectorAll(".dashboard-card:not(:first-child)").forEach(card => {
+        const nome = card.querySelector(".dashboard-nome").textContent;
+        const fracao = card.querySelector(".dashboard-fracao").textContent.split(" — ")[0];
+        const letra = card.querySelector(".dashboard-fracao").textContent.split(" — ")[1];
+
+        const quotas = card.querySelector(".dashboard-valores div:nth-child(1) span").textContent;
+        const extras = card.querySelector(".dashboard-valores div:nth-child(2) span").textContent;
+        const total = card.querySelector(".dashboard-valores div:nth-child(3) span").textContent;
+
+        const inicio = card.querySelector(".dashboard-datas div:nth-child(1) b").textContent;
+        const fim = card.querySelector(".dashboard-datas div:nth-child(2) b").textContent;
+
+        linhas.push([fracao, letra, nome, quotas, extras, total, inicio, fim]);
+    });
+
+    doc.autoTable({
+        startY: 30,
+        head: [["Fração", "Letra", "Nome", "Quotas", "Extras", "Total", "Início", "Fim"]],
+        body: linhas,
+        styles: { fontSize: 10, cellPadding: 3 },
+        headStyles: { fillColor: [40, 40, 40], textColor: 255 },
+        alternateRowStyles: { fillColor: [240, 240, 240] }
+    });
+
+    doc.save("dashboard_condominio.pdf");
+});
