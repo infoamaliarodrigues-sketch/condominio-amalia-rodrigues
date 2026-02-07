@@ -636,3 +636,12 @@ table th {
 #tabela-manutencao th:nth-child(6) { width: 110px; text-align: center; } /* Data fim */
 #tabela-manutencao th:nth-child(7) { width: 200px; } /* Observações */
 #tabela-manutencao th:nth-child(8) { width: 150px; text-align: center; } /* Ações */
+
+#tabela-manutencao td:nth-child(7),
+#tabela-manutencao th:nth-child(7) {
+    white-space: normal !important;
+    word-wrap: break-word;
+    word-break: break-word;
+    height: auto;
+}
+
