@@ -437,7 +437,7 @@ btnEnviar.addEventListener("click", async () => {
     const cond = condSnap.data();
 
     const assunto = encodeURIComponent("Recibo de Quotas do Condomínio");
-const corpo = encodeURIComponent( `Estimado(a) ${cond.nome}, Condomino, somos a enviar por esta via o respetivo recibo referente ao pagamento das quotas do condomínio. RECIBO Nº ${ultimoReciboGerado.numero} ${reciboOriginal.innerText} Com os melhores cumprimentos, A Administração` );;
+    const corpo = encodeURIComponent(reciboOriginal.innerText);
 
     window.location.href = `mailto:${cond.email}?subject=${assunto}&body=${corpo}`;
 });
