@@ -94,15 +94,15 @@ window.guardar = async function(id) {
     const tr = document.getElementById(`linha-${id}`);
     const inputs = tr.querySelectorAll("input");
 
-    const dados = {
-        tipo: inputs[0].value,
-        empresa: inputs[1].value,
-        contacto: inputs[2].value,
-        email: inputs[3].value,
-        dataInicio: inputs[4].value,
-        dataFim: inputs[5].value,
-        obs: inputs[6].value
-    };
+   const dados = {
+    tipo: inputs[0].value,
+    empresa: inputs[1].value,
+    contacto: inputs[2].value,
+    email: inputs[3].value,
+    dataInicio: inputs[4].value,
+    dataFim: inputs[5].value
+};
+
 
     await updateDoc(doc(db, "manutencao", id), dados);
     carregar();
