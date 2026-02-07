@@ -17,7 +17,7 @@ const fimChave = `${fimAno}-${String(fimMes).padStart(2, "0")}`;
 async function carregarDashboard() {
     tabela.innerHTML = "";
 
-    // Ler anos configurados
+    // Ler anos configurados (agora funciona porque 2025 e 2026 existem)
     const anosSnap = await getDocs(collection(db, "config_ano"));
     const anos = anosSnap.docs
         .map(d => Number(d.id))
@@ -37,18 +37,18 @@ async function carregarDashboard() {
 
         for (const ano of anos) {
 
-            // Configuração do ano (correto)
+            // Configuração do ano
             const cfgRef = doc(db, `config_ano/${ano}/fracoes/${fracao}`);
             const cfgSnap = await getDoc(cfgRef);
             const cfg = cfgSnap.exists() ? cfgSnap.data() : null;
             if (!cfg) continue;
 
-            // Pagamentos do ano (correto)
+            // Pagamentos do ano
             const pagRef = doc(db, `pagamentos/${ano}/fracao/${fracao}`);
             const pagSnap = await getDoc(pagRef);
             const pag = pagSnap.exists() ? pagSnap.data() : { quotas:{}, extras:{} };
 
-            // Isenção (correto)
+            // Isenção
             const isento = cfg.isencao === true;
             const percent = Number(cfg.isencaoPercent || 0);
             const fator = isento ? (1 - percent / 100) : 1;
