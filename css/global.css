@@ -598,3 +598,12 @@ table th {
     gap: 10px;
     margin-bottom: 20px;
 }
+
+.dashboard-total {
+    background: #f0f0f0;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 18px;
+    margin-bottom: 15px;
+    border-left: 6px solid #000;
+}
