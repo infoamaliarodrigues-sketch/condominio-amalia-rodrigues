@@ -140,13 +140,13 @@ thead {
 }
 
 th, td {
-    padding: 8px;
+    padding: 6px;
     border-bottom: 1px solid #ddd;
     text-align: left;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 /* ============================
@@ -156,7 +156,7 @@ button,
 .btn-primario {
     background: #1e3a8a;
     color: white;
-    padding: 10px 16px;
+    padding: 8px 12px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
@@ -174,34 +174,21 @@ td button {
     margin-right: 3px;
     border-radius: 4px;
     cursor: pointer;
-    min-width: 60px;
+    min-width: 55px;
 }
 
 .btn-save { background: #22c55e !important; }
 .btn-save:hover { background: #1a9e4b !important; }
 
-.btn-delete, .btn-perigo { background: #ef4444 !important; }
-.btn-delete:hover, .btn-perigo:hover { background: #c53030 !important; }
-
-.btn-secundario {
-    background: #6b7280 !important;
-    color: white !important;
-}
-.btn-secundario:hover {
-    background: #4b5563 !important;
-}
-
-.btn-sm {
-    padding: 4px 8px !important;
-    font-size: 11px !important;
-}
+.btn-delete { background: #ef4444 !important; }
+.btn-delete:hover { background: #c53030 !important; }
 
 /* ============================
    INPUTS EM TABELAS
 ============================ */
 .input-tabela {
     width: 100%;
-    padding: 4px 6px;
+    padding: 3px 4px;
     font-size: 11px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -217,16 +204,16 @@ td button {
 /* ============================
    CONDÓMINOS (ISOLADO)
 ============================ */
-#tabela-condominos th:nth-child(1) { width: 45px; }
+#tabela-condominos th:nth-child(1) { width: 40px; }
 #tabela-condominos th:nth-child(2) { width: 55px; }
-#tabela-condominos th:nth-child(3) { width: 70px; }
-#tabela-condominos th:nth-child(4) { width: 180px; }
-#tabela-condominos th:nth-child(5) { width: 100px; }
-#tabela-condominos th:nth-child(6) { width: 100px; }
-#tabela-condominos th:nth-child(7) { width: 160px; }
-#tabela-condominos th:nth-child(8) { width: 60px; }
-#tabela-condominos th:nth-child(9) { width: 80px; }
-#tabela-condominos th:nth-child(10) { width: 180px; }
+#tabela-condominos th:nth-child(3) { width: 65px; }
+#tabela-condominos th:nth-child(4) { width: 170px; }
+#tabela-condominos th:nth-child(5) { width: 90px; }
+#tabela-condominos th:nth-child(6) { width: 90px; }
+#tabela-condominos th:nth-child(7) { width: 150px; }
+#tabela-condominos th:nth-child(8) { width: 55px; }
+#tabela-condominos th:nth-child(9) { width: 70px; }
+#tabela-condominos th:nth-child(10) { width: 150px; }
 
 #tabela-condominos th:nth-child(1),
 #tabela-condominos th:nth-child(2),
@@ -234,51 +221,31 @@ td button {
 #tabela-condominos td:nth-child(1),
 #tabela-condominos td:nth-child(2),
 #tabela-condominos td:nth-child(3) {
-    font-size: 11px !important;
+    font-size: 10px !important;
 }
 
 /* ============================
    FORNECEDORES (ISOLADO)
 ============================ */
-#tabela-fornecedores th:nth-child(1) { width: 160px; }
+#tabela-fornecedores th:nth-child(1) { width: 150px; }
 #tabela-fornecedores th:nth-child(2) { width: 120px; }
 #tabela-fornecedores th:nth-child(3) { width: 150px; }
 #tabela-fornecedores th:nth-child(4) { width: 120px; }
 #tabela-fornecedores th:nth-child(5) { width: 180px; }
 #tabela-fornecedores th:nth-child(6) { width: 200px; }
-#tabela-fornecedores th:nth-child(7) {
-    width: 150px;
-    text-align: center;
-    white-space: nowrap;
-}
+#tabela-fornecedores th:nth-child(7) { width: 150px; }
 
 /* ============================
    MANUTENÇÃO (ISOLADO)
 ============================ */
-#tabela-manutencao th:nth-child(1) { width: 160px; }
-#tabela-manutencao th:nth-child(2) { width: 150px; }
-#tabela-manutencao th:nth-child(3) { width: 140px; }
-#tabela-manutencao th:nth-child(4) { width: 180px; }
-
-#tabela-manutencao th:nth-child(5),
-#tabela-manutencao td:nth-child(5) {
-    width: 110px;
-    text-align: center;
-}
-
-#tabela-manutencao th:nth-child(6),
-#tabela-manutencao td:nth-child(6) {
-    width: 110px;
-    text-align: center;
-}
-
-#tabela-manutencao th:nth-child(7) { width: 200px; }
-
-#tabela-manutencao th:nth-child(8) {
-    width: 150px;
-    text-align: center;
-    white-space: nowrap;
-}
+#tabela-manutencao th:nth-child(1) { width: 150px; }
+#tabela-manutencao th:nth-child(2) { width: 140px; }
+#tabela-manutencao th:nth-child(3) { width: 130px; }
+#tabela-manutencao th:nth-child(4) { width: 170px; }
+#tabela-manutencao th:nth-child(5) { width: 100px; text-align: center; }
+#tabela-manutencao th:nth-child(6) { width: 100px; text-align: center; }
+#tabela-manutencao th:nth-child(7) { width: 180px; }
+#tabela-manutencao th:nth-child(8) { width: 140px; text-align: center; }
 
 /* Alertas */
 .manut-ok {
