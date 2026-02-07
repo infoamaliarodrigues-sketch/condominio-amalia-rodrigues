@@ -419,19 +419,16 @@ document.getElementById("btnExportExcel")
         const wb = XLSX.utils.book_new();
         const ws = XLSX.utils.aoa_to_sheet(linhasComCabecalho);
 
-        // Largura automática das colunas
         ws['!cols'] = tabela.cabecalhos.map(() => ({ wch: 15 }));
-
-        // Filtros automáticos
-        ws['!autofilter'] = {
-            ref: `A1:${String.fromCharCode(65 + tabela.cabecalhos.length - 1)}1`
-        };
-
-        // Congelar cabeçalho
+        ws['!autofilter'] = { ref: `A1:${XLSX.utils.encode_col(tabela.cabecalhos.length - 1)}1` };
         ws['!freeze'] = { xSplit: 0, ySplit: 1 };
 
         XLSX.utils.book_append_sheet(wb, ws, "Quotas");
-        XLSX.writeFile(wb, "quotas_modelo_B.xlsx");
+
+        XLSX.writeFile(wb, "quotas_modelo_B.xlsx", {
+            bookType: "xlsx",
+            compression: true
+        });
     });
 
 
@@ -441,7 +438,11 @@ document.getElementById("btnExportPDF")
         const tabela = gerarTabelaTabular();
 
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ orientation: "landscape" });
+        const doc = new jsPDF({
+            orientation: "landscape",
+            unit: "pt",
+            format: "a3"   // página maior → não corta
+        });
 
         doc.autoTable({
             head: [tabela.cabecalhos],
@@ -450,11 +451,11 @@ document.getElementById("btnExportPDF")
                 fontSize: 7,
                 cellWidth: 'wrap'
             },
+            tableWidth: 'wrap',
+            margin: { top: 20, left: 10, right: 10 },
             columnStyles: {
-                0: { cellWidth: 18 } // Fração mais estreita
-            },
-            margin: { top: 10 },
-            tableWidth: 'auto'
+                0: { cellWidth: 40 } // Fração
+            }
         });
 
         doc.save("quotas_modelo_B.pdf");
