@@ -313,9 +313,8 @@ document.getElementById("btnRecalcularTopo")
     .addEventListener("click", recalcularTotalCondominio);
 
 // ------------------------------------------------------------
-// Tabela excel
+// Tabela Modelo B (estrutura base)
 // ------------------------------------------------------------
-
 function gerarTabelaModeloB() {
     const linhas = [];
 
@@ -366,18 +365,59 @@ function gerarTabelaModeloB() {
     return linhas;
 }
 
+// ------------------------------------------------------------
+// Estrutura tabular final (para Excel e PDF)
+// ------------------------------------------------------------
+function gerarTabelaTabular() {
+    const dados = gerarTabelaModeloB();
+
+    const cabecalhos = [
+        "Fração","Jan Quota","Jan Extra","Fev Quota","Fev Extra","Mar Quota","Mar Extra",
+        "Abr Quota","Abr Extra","Mai Quota","Mai Extra","Jun Quota","Jun Extra",
+        "Jul Quota","Jul Extra","Ago Quota","Ago Extra","Set Quota","Set Extra",
+        "Out Quota","Out Extra","Nov Quota","Nov Extra","Dez Quota","Dez Extra",
+        "Total Quotas","Total Extras","Total Geral","Total Pago","Total Dívida","Observações"
+    ];
+
+    const linhas = dados.map(l => [
+        l.fracao,
+        l.janQ, l.janE,
+        l.fevQ, l.fevE,
+        l.marQ, l.marE,
+        l.abrQ, l.abrE,
+        l.maiQ, l.maiE,
+        l.junQ, l.junE,
+        l.julQ, l.julE,
+        l.agoQ, l.agoE,
+        l.setQ, l.setE,
+        l.outQ, l.outE,
+        l.novQ, l.novE,
+        l.dezQ, l.dezE,
+        l.totalQuotas,
+        l.totalExtras,
+        l.totalGeral,
+        l.totalPago,
+        l.totalDivida,
+        l.obs
+    ]);
+
+    return { cabecalhos, linhas };
+}
+
+// ------------------------------------------------------------
+// Botões Exportar Excel e PDF
+// ------------------------------------------------------------
 document.getElementById("btnExportExcel")
     .addEventListener("click", () => {
-        const tabela = gerarTabelaModeloB();
-        console.log("Exportar Excel:", tabela);
+        const tabela = gerarTabelaTabular();
+        console.log("Excel pronto:", tabela);
     });
 
 document.getElementById("btnExportPDF")
     .addEventListener("click", () => {
-        const tabela = gerarTabelaModeloB();
-        console.log("Exportar PDF:", tabela);
+        const tabela = gerarTabelaTabular();
+        console.log("PDF pronto:", tabela);
     });
-
 
 // ------------------------------------------------------------
 // 9) Alteração do ano
