@@ -607,3 +607,23 @@ table th {
     margin-bottom: 15px;
     border-left: 6px solid #000;
 }
+
+/* Larguras — Fornecedores */
+#tabela-fornecedores th:nth-child(1) { width: 160px; } /* Empresa */
+#tabela-fornecedores th:nth-child(2) { width: 120px; } /* Categoria */
+#tabela-fornecedores th:nth-child(3) { width: 140px; } /* Contacto */
+#tabela-fornecedores th:nth-child(4) { width: 110px; } /* Telefone */
+#tabela-fornecedores th:nth-child(5) { width: 180px; } /* Email */
+#tabela-fornecedores th:nth-child(6) { width: 200px; } /* Observações */
+#tabela-fornecedores th:nth-child(7) { width: 150px; } /* Ações */
+
+/* Larguras — Manutenção */
+#tabela-manutencao th:nth-child(1) { width: 150px; } /* Tipo */
+#tabela-manutencao th:nth-child(2) { width: 140px; } /* Empresa */
+#tabela-manutencao th:nth-child(3) { width: 130px; } /* Contacto */
+#tabela-manutencao th:nth-child(4) { width: 180px; } /* Email */
+#tabela-manutencao th:nth-child(5) { width: 100px; text-align: center; } /* Data início */
+#tabela-manutencao th:nth-child(6) { width: 100px; text-align: center; } /* Data fim */
+#tabela-manutencao th:nth-child(7) { width: 200px; } /* Observações */
+#tabela-manutencao th:nth-child(8) { width: 140px; text-align: center; } /* Ações */
+
