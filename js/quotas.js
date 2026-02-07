@@ -405,18 +405,18 @@ function gerarTabelaTabular() {
 }
 
 // ------------------------------------------------------------
-// Botões Exportar Excel e PDF
+// Botões Exportar Excel e PDF (funções reais)
 // ------------------------------------------------------------
 document.getElementById("btnExportExcel")
     .addEventListener("click", () => {
         const tabela = gerarTabelaTabular();
-        console.log("Excel pronto:", tabela);
+        exportarExcel(tabela.cabecalhos, tabela.linhas, "quotas_modelo_B");
     });
 
 document.getElementById("btnExportPDF")
     .addEventListener("click", () => {
         const tabela = gerarTabelaTabular();
-        console.log("PDF pronto:", tabela);
+        exportarPDF(tabela.cabecalhos, tabela.linhas, "quotas_modelo_B");
     });
 
 // ------------------------------------------------------------
