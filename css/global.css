@@ -931,3 +931,50 @@ td.acoes {
     border-left: 4px solid #ef4444 !important;
 }
 
+/* Painel sempre visível e com fundo */
+.main-container {
+    min-height: 80vh;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Menu lateral fixo para não empurrar o painel */
+.side-menu {
+    position: fixed;
+    top: 60px;
+    left: 20px;
+    z-index: 3000;
+}
+
+/* Tabela de manutenção com estrutura estável */
+#tabela-manutencao {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+/* Linhas com altura mínima */
+#tabela-manutencao tbody tr {
+    height: 42px;
+}
+
+/* Garantir que as linhas não desaparecem quando recebem classes */
+.manut-ok,
+.manut-alerta {
+    display: table-row !important;
+}
+
+/* Verde — dentro do prazo */
+.manut-ok {
+    background: #c8f7c5 !important;
+    border-left: 4px solid #22c55e !important;
+}
+
+/* Vermelho — faltam 2 meses ou menos */
+.manut-alerta {
+    background: #f7c5c5 !important;
+    border-left: 4px solid #ef4444 !important;
+}
