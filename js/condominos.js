@@ -217,7 +217,8 @@ window.limpar = async (fracao) => {
 // ----------------------
 document.getElementById("filtro").addEventListener("input", () => {
     const termo = document.getElementById("filtro").value.toLowerCase();
-    const linhas = document.querySelectorAll("#tabela tbody tr");
+    const linhas = document.querySelectorAll("#tabela-condominos tbody tr");
+
 
     linhas.forEach(linha => {
 
