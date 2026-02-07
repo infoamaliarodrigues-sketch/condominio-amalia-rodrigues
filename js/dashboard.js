@@ -103,18 +103,11 @@ async function carregarDashboard() {
         `;
     }
 
-    lista.insertAdjacentHTML("afterbegin", `
-        <div class="dashboard-card com-divida" style="border-left: 6px solid #000;">
-            <div class="dashboard-topo">
-                <div class="dashboard-nome">Total Geral de Dívida</div>
-                <div class="dashboard-fracao">Condomínio</div>
-            </div>
-
-            <div class="dashboard-valores">
-                <div>Total em Dívida: <span>${totalGeral.toFixed(2)} €</span></div>
-            </div>
-        </div>
-    `);
+   lista.insertAdjacentHTML("afterbegin", `
+    <div class="dashboard-total">
+        Total Geral de Dívida: <b>${totalGeral.toFixed(2)} €</b>
+    </div>
+`);
 }
 
 carregarDashboard();
