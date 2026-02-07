@@ -34,13 +34,13 @@ async function carregar() {
     <td><input class="input-tabela" value="${m.email}" disabled></td>
     <td><input class="input-tabela" type="date" value="${m.dataInicio}" disabled></td>
     <td><input class="input-tabela" type="date" value="${m.dataFim}" disabled></td>
-    <td><input class="input-tabela" value="${m.obs || ""}" disabled></td>
 
     <td class="acoes">
         <button class="btn-edit" onclick="editar('${d.id}')">Editar</button>
         <button class="btn-delete" onclick="apagar('${d.id}')">Apagar</button>
     </td>
 `;
+
 
 
         tabela.appendChild(tr);
