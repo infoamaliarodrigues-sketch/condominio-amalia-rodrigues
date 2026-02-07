@@ -410,14 +410,36 @@ function gerarTabelaTabular() {
 document.getElementById("btnExportExcel")
     .addEventListener("click", () => {
         const tabela = gerarTabelaTabular();
-        exportarExcel(tabela.cabecalhos, tabela.linhas, "quotas_modelo_B");
+
+        const linhasComCabecalho = [
+            tabela.cabecalhos,
+            ...tabela.linhas
+        ];
+
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.aoa_to_sheet(linhasComCabecalho);
+
+        XLSX.utils.book_append_sheet(wb, ws, "Quotas");
+        XLSX.writeFile(wb, "quotas_modelo_B.xlsx");
     });
+
 
 document.getElementById("btnExportPDF")
     .addEventListener("click", () => {
         const tabela = gerarTabelaTabular();
-        exportarPDF(tabela.cabecalhos, tabela.linhas, "quotas_modelo_B");
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ orientation: "landscape" });
+
+        doc.autoTable({
+            head: [tabela.cabecalhos],
+            body: tabela.linhas,
+            styles: { fontSize: 7 }
+        });
+
+        doc.save("quotas_modelo_B.pdf");
     });
+
 
 // ------------------------------------------------------------
 // 9) Alteração do ano
