@@ -453,7 +453,7 @@ btnEnviar.addEventListener("click", async () => {
     const corpo = encodeURIComponent(
 `Estimado(a) ${cond.nome},
 
-Somos por esta via a enviar o respetivo recibo de quitação referente ao vosso pagamento:
+Somos por esta via a enviar em anexo o respetivo recibo de quitação referente ao vosso pagamento:
 
 ${textoRecibo}
 
