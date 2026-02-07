@@ -95,35 +95,37 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
         const isento = c.isento === true;
         const perc = c.percentagemIsencao ?? 0;
 
-        tabela.innerHTML += `
-            <tr>
-                <td>${c.letra}</td>
-                <td>${c.fracao}</td>
-                <td>${c.permilagem}</td>
+        const linha = document.createElement("tr");
 
-                <td><input class="input-tabela" id="nome-${c.fracao}" value="${c.nome}" disabled></td>
-                <td><input class="input-tabela nif-input" id="nif-${c.fracao}" value="${c.nif ?? ""}" disabled></td>
-                <td><input class="input-tabela telefone-input" id="tel-${c.fracao}" value="${c.telefone}" disabled></td>
-                <td><input class="input-tabela email-input" id="email-${c.fracao}" value="${c.email}" disabled></td>
+        linha.innerHTML = `
+            <td>${c.letra}</td>
+            <td>${c.fracao}</td>
+            <td>${c.permilagem}</td>
 
+            <td><input class="input-tabela" id="nome-${c.fracao}" value="${c.nome}" disabled></td>
+            <td><input class="input-tabela nif-input" id="nif-${c.fracao}" value="${c.nif ?? ""}" disabled></td>
+            <td><input class="input-tabela telefone-input" id="tel-${c.fracao}" value="${c.telefone}" disabled></td>
+            <td><input class="input-tabela email-input" id="email-${c.fracao}" value="${c.email}" disabled></td>
 
-                <td>
-                    <input type="checkbox" id="isento-${c.fracao}" ${isento ? "checked" : ""} disabled>
-                </td>
+            <td>
+                <input type="checkbox" id="isento-${c.fracao}" ${isento ? "checked" : ""} disabled>
+            </td>
 
-                <td>
-                    <input type="number" id="perc-${c.fracao}" value="${perc}" min="0" max="100" disabled>
-                </td>
+            <td>
+                <input type="number" id="perc-${c.fracao}" value="${perc}" min="0" max="100" disabled>
+            </td>
 
-                <td>
-                    <button class="btn-edit" onclick="editar('${c.fracao}')">Editar</button>
-                    <button class="btn-save" onclick="guardar('${c.fracao}')">Guardar</button>
-                    <button class="btn-delete" onclick="limpar('${c.fracao}')">Apagar</button>
-                </td>
-            </tr>
+            <td>
+                <button class="btn-edit" onclick="editar('${c.fracao}')">Editar</button>
+                <button class="btn-save" onclick="guardar('${c.fracao}')">Guardar</button>
+                <button class="btn-delete" onclick="limpar('${c.fracao}')">Apagar</button>
+            </td>
         `;
+
+        tabela.appendChild(linha);
     });
 });
+;
 
 
 // EDITAR
