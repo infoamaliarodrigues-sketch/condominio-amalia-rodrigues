@@ -245,24 +245,27 @@ async function guardarFracao(fracao, silencioso = false) {
         if (fr.extrasPagas[m] === undefined) fr.extrasPagas[m] = false;
     });
 
-    await setDoc(
-    doc(db, `pagamentos/${ano}/fracao/${fracao}`),
-    {
-        quotas: fr.quotasPagas,
-        extras: fr.extrasPagas,
-        obs,
-        ultimaAtualizacao: `${data} ${horas}`
-    },
-    { merge: true }
-);
-
-
+    // ✔ Criar data e horas ANTES de usar
     const agora = new Date();
     const data = agora.toLocaleDateString("pt-PT");
     const horas = agora.toLocaleTimeString("pt-PT");
+    const ultimaAtualizacao = `${data} ${horas}`;
 
+    // ✔ Gravar no Firebase incluindo ultimaAtualizacao
+    await setDoc(
+        doc(db, `pagamentos/${ano}/fracao/${fracao}`),
+        {
+            quotas: fr.quotasPagas,
+            extras: fr.extrasPagas,
+            obs,
+            ultimaAtualizacao
+        },
+        { merge: true }
+    );
+
+    // ✔ Atualizar texto no ecrã
     document.getElementById(`estado-${fracao}`).textContent =
-        `Guardado em ${data} - ${horas}`;
+        `Guardado em ${ultimaAtualizacao}`;
 
     if (!silencioso) {
         alert(`Fração ${fracao} guardada com sucesso.`);
