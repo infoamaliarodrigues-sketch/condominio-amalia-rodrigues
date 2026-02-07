@@ -24,18 +24,49 @@
 
 <div class="main-container">
 
+    <!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="menu-icon" id="menuBtn">☰</div>
+    <div class="logo">Condomínio Amália Rodrigues</div>
+</header>
+
+<div id="sideMenu" class="side-menu">
+    <a href="dashboard.html" class="ativo">📊 Dashboard</a>
+    <a href="condominos.html">👥 Condóminos</a>
+    <a href="quotas.html">💰 Quotas</a>
+    <a href="configurar.html">⚙️ Configurar</a>
+    <a href="recibos.html">🧾 Recibos</a>
+    <a href="index.html">🏠 Saír</a>
+</div>
+
+<div class="main-container">
+
     <h2>Resumo de Dívidas</h2>
 
-  <div id="dashboard-lista" class="dashboard-container"></div>
-
     <div class="dashboard-actions">
-    <button id="btnExcel" class="btn-primario">Exportar Excel</button>
-    <button id="btnPDF" class="btn-primario">Exportar PDF</button>
+        <button id="btnExcel" class="btn-primario">Exportar Excel</button>
+        <button id="btnPDF" class="btn-primario">Exportar PDF</button>
+    </div>
+
+    <div id="dashboard-lista" class="dashboard-container"></div>
+
 </div>
 
-
-</div>
+<!-- Bibliotecas necessárias -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+<!-- O teu JS -->
 <script type="module" src="js/dashboard.js"></script>
 
 <script>
