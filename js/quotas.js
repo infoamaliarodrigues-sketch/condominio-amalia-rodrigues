@@ -313,6 +313,73 @@ document.getElementById("btnRecalcularTopo")
     .addEventListener("click", recalcularTotalCondominio);
 
 // ------------------------------------------------------------
+// Tabela excel
+// ------------------------------------------------------------
+
+function gerarTabelaModeloB() {
+    const linhas = [];
+
+    for (const fracao in estado.fracoes) {
+        const fr = estado.fracoes[fracao];
+
+        const totalQuotas = Object.values(fr.quotasValores).reduce((a,b)=>a+b,0);
+        const totalExtras = Object.values(fr.extrasValores).reduce((a,b)=>a+b,0);
+        const totalGeral = totalQuotas + totalExtras;
+
+        let totalPago = 0;
+        let totalDivida = 0;
+
+        MESES.forEach(m => {
+            const vQ = fr.quotasValores[m] || 0;
+            const vE = fr.extrasValores[m] || 0;
+
+            if (fr.quotasPagas[m]) totalPago += vQ;
+            else totalDivida += vQ;
+
+            if (fr.extrasPagas[m]) totalPago += vE;
+            else totalDivida += vE;
+        });
+
+        linhas.push({
+            fracao,
+            janQ: fr.quotasValores.jan, janE: fr.extrasValores.jan,
+            fevQ: fr.quotasValores.fev, fevE: fr.extrasValores.fev,
+            marQ: fr.quotasValores.mar, marE: fr.extrasValores.mar,
+            abrQ: fr.quotasValores.abr, abrE: fr.extrasValores.abr,
+            maiQ: fr.quotasValores.mai, maiE: fr.extrasValores.mai,
+            junQ: fr.quotasValores.jun, junE: fr.extrasValores.jun,
+            julQ: fr.quotasValores.jul, julE: fr.extrasValores.jul,
+            agoQ: fr.quotasValores.ago, agoE: fr.extrasValores.ago,
+            setQ: fr.quotasValores.set, setE: fr.extrasValores.set,
+            outQ: fr.quotasValores.out, outE: fr.extrasValores.out,
+            novQ: fr.quotasValores.nov, novE: fr.extrasValores.nov,
+            dezQ: fr.quotasValores.dez, dezE: fr.extrasValores.dez,
+            totalQuotas,
+            totalExtras,
+            totalGeral,
+            totalPago,
+            totalDivida,
+            obs: fr.obs || ""
+        });
+    }
+
+    return linhas;
+}
+
+document.getElementById("btnExportExcel")
+    .addEventListener("click", () => {
+        const tabela = gerarTabelaModeloB();
+        console.log("Exportar Excel:", tabela);
+    });
+
+document.getElementById("btnExportPDF")
+    .addEventListener("click", () => {
+        const tabela = gerarTabelaModeloB();
+        console.log("Exportar PDF:", tabela);
+    });
+
+
+// ------------------------------------------------------------
 // 9) Alteração do ano
 // ------------------------------------------------------------
 anoSelect.addEventListener("change", () => criarBlocos(anoSelect.value));
