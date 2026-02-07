@@ -593,3 +593,8 @@ table th {
     border-left: 6px solid #E53935;
 }
 
+.dashboard-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
