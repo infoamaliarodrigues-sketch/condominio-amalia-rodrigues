@@ -22,14 +22,14 @@ async function carregar() {
         tr.id = `linha-${d.id}`;
 
         tr.innerHTML = `
-            <td><input value="${f.empresa}" disabled></td>
-            <td><input value="${f.categoria}" disabled></td>
-            <td><input value="${f.contacto}" disabled></td>
-            <td><input value="${f.telefone}" disabled></td>
-            <td><input value="${f.email}" disabled></td>
-            <td><input value="${f.obs || ""}" disabled></td>
+            <td><input class="input-tabela" value="${f.empresa}" disabled></td>
+            <td><input class="input-tabela" value="${f.categoria}" disabled></td>
+            <td><input class="input-tabela" value="${f.contacto}" disabled></td>
+            <td><input class="input-tabela" value="${f.telefone}" disabled></td>
+            <td><input class="input-tabela" value="${f.email}" disabled></td>
+            <td><input class="input-tabela" value="${f.obs || ""}" disabled></td>
             <td class="acoes">
-               <button class="btn-primario btn-sm" onclick="editar('${d.id}')">Editar</button>
+                <button class="btn-primario btn-sm" onclick="editar('${d.id}')">Editar</button>
                 <button class="btn-perigo btn-sm" onclick="apagar('${d.id}')">Apagar</button>
             </td>
         `;
@@ -45,10 +45,10 @@ window.editar = function(id) {
 
     inputs.forEach(i => i.disabled = false);
 
-   acoes.innerHTML = `
-    <button class="btn-primario btn-sm" onclick="guardar('${id}')">Guardar</button>
-    <button class="btn-secundario btn-sm" onclick="cancelar('${id}')">Cancelar</button>
-`;
+    acoes.innerHTML = `
+        <button class="btn-primario btn-sm" onclick="guardar('${id}')">Guardar</button>
+        <button class="btn-secundario btn-sm" onclick="cancelar('${id}')">Cancelar</button>
+    `;
 };
 
 window.cancelar = function(id) {
