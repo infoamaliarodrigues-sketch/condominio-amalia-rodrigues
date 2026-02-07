@@ -249,16 +249,22 @@ async function guardarFracao(fracao, silencioso = false) {
     const ano = estado.ano;
     const obs = document.getElementById(`obs-${fracao}`).value;
 
-    await setDoc(
-    doc(db, `pagamentos/${ano}/fracao/${fracao}`),
-    {
-        quotas: fr.quotasPagas,
-        extras: fr.extrasPagas,
-        obs
-    },
-    { merge: true }
-);
+    // GARANTIR QUE TODOS OS MESES EXISTEM
+    MESES.forEach(m => {
+        if (fr.quotasPagas[m] === undefined) fr.quotasPagas[m] = false;
+        if (fr.extrasPagas[m] === undefined) fr.extrasPagas[m] = false;
+    });
 
+    // CORREÇÃO CRÍTICA: gravar em "fracao" e não "fracoes"
+    await setDoc(
+        doc(db, `pagamentos/${ano}/fracao/${fracao}`),
+        {
+            quotas: fr.quotasPagas,
+            extras: fr.extrasPagas,
+            obs
+        },
+        { merge: true }
+    );
 
     if (!silencioso) {
         alert(`Fração ${fracao} guardada com sucesso.`);
