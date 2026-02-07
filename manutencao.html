@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestão de Manutenção</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="menu-icon" id="menuBtn">☰</div>
+    <div class="logo">Condomínio Amália Rodrigues</div>
+</header>
+
+<div id="sideMenu" class="side-menu">
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="condominos.html">👥 Condóminos</a>
+    <a href="quotas.html">💰 Quotas</a>
+    <a href="configurar.html">⚙️ Configurar</a>
+    <a href="fornecedores.html">🏢 Fornecedores</a>
+    <a href="manutencao.html" class="ativo">🛠️ Manutenção</a>
+    <a href="recibos.html">🧾 Recibos</a>
+    <a href="index.html">🏠 Sair</a>
+</div>
+
+<div class="main-container">
+
+    <h2>Gestão de Manutenção</h2>
+
+    <button id="btnNovo" class="btn-primario">Novo Registo</button>
+
+    <input id="filtro" placeholder="Filtrar por tipo, empresa ou contacto">
+
+    <table id="tabela-manutencao">
+        <thead>
+            <tr>
+                <th>Manutenção Tipo</th>
+                <th>Empresa</th>
+                <th>Contacto</th>
+                <th>Email</th>
+                <th>Data Início</th>
+                <th>Data Fim</th>
+                <th>Observações</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+
+<script type="module" src="js/manutencao.js"></script>
+
+<script>
+    document.getElementById("menuBtn").addEventListener("click", () => {
+        document.getElementById("sideMenu").classList.toggle("open");
+    });
+</script>
+
+</body>
+</html>
