@@ -446,12 +446,16 @@ btnEnviar.addEventListener("click", async () => {
 
     const assunto = encodeURIComponent("Recibo de Quotas do Condomínio");
 
+    // texto do recibo sem a última linha "A Administração"
+    let textoRecibo = reciboOriginal.innerText.trim();
+    textoRecibo = textoRecibo.replace(/A Administração\s*$/i, "");
+
     const corpo = encodeURIComponent(
 `Estimado(a) ${cond.nome},
 
 Somos por esta via a enviar o respetivo recibo de quitação referente ao vosso pagamento:
 
-${reciboOriginal.innerText}
+${textoRecibo}
 
 Com os melhores cumprimentos,
 A Administração`
@@ -459,6 +463,7 @@ A Administração`
 
     window.location.href = `mailto:${cond.email}?subject=${assunto}&body=${corpo}`;
 });
+
 
 // ------------------------------------------------------------
 // Limpar contador
