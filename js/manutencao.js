@@ -122,14 +122,13 @@ window.apagar = async function(id) {
 ============================ */
 btnNovo.addEventListener("click", async () => {
     const id = (await addDoc(collection(db, "manutencao"), {
-        tipo: "",
-        empresa: "",
-        contacto: "",
-        email: "",
-        dataInicio: "",
-        dataFim: "",
-        obs: ""
-    })).id;
+    tipo: "",
+    empresa: "",
+    contacto: "",
+    email: "",
+    dataInicio: "",
+    dataFim: ""
+})).id;
 
     carregar();
 
