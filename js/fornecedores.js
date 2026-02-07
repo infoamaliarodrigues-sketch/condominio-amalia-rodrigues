@@ -19,15 +19,16 @@ async function carregar() {
     snap.forEach(d => {
         const f = d.data();
         const tr = document.createElement("tr");
+        tr.id = `linha-${d.id}`;
 
         tr.innerHTML = `
-            <td>${f.empresa}</td>
-            <td>${f.categoria}</td>
-            <td>${f.contacto}</td>
-            <td>${f.telefone}</td>
-            <td>${f.email}</td>
-            <td>${f.obs || ""}</td>
-            <td>
+            <td><input value="${f.empresa}" disabled></td>
+            <td><input value="${f.categoria}" disabled></td>
+            <td><input value="${f.contacto}" disabled></td>
+            <td><input value="${f.telefone}" disabled></td>
+            <td><input value="${f.email}" disabled></td>
+            <td><input value="${f.obs || ""}" disabled></td>
+            <td class="acoes">
                 <button class="btn-primario" onclick="editar('${d.id}')">Editar</button>
                 <button class="btn-perigo" onclick="apagar('${d.id}')">Apagar</button>
             </td>
@@ -37,23 +38,37 @@ async function carregar() {
     });
 }
 
-window.editar = async function(id) {
-    const ref = doc(db, "fornecedores", id);
-    const snap = await getDocs(collection(db, "fornecedores"));
-    const dados = snap.docs.find(x => x.id === id).data();
+window.editar = function(id) {
+    const tr = document.getElementById(`linha-${id}`);
+    const inputs = tr.querySelectorAll("input");
+    const acoes = tr.querySelector(".acoes");
 
-    const empresa = prompt("Empresa:", dados.empresa);
-    if (!empresa) return;
+    inputs.forEach(i => i.disabled = false);
 
-    await updateDoc(ref, {
-        empresa,
-        categoria: prompt("Categoria:", dados.categoria),
-        contacto: prompt("Nome de contacto:", dados.contacto),
-        telefone: prompt("Telefone:", dados.telefone),
-        email: prompt("Email:", dados.email),
-        obs: prompt("Observações:", dados.obs || "")
-    });
+    acoes.innerHTML = `
+        <button class="btn-primario" onclick="guardar('${id}')">Guardar</button>
+        <button class="btn-secundario" onclick="cancelar('${id}')">Cancelar</button>
+    `;
+};
 
+window.cancelar = function(id) {
+    carregar();
+};
+
+window.guardar = async function(id) {
+    const tr = document.getElementById(`linha-${id}`);
+    const inputs = tr.querySelectorAll("input");
+
+    const dados = {
+        empresa: inputs[0].value,
+        categoria: inputs[1].value,
+        contacto: inputs[2].value,
+        telefone: inputs[3].value,
+        email: inputs[4].value,
+        obs: inputs[5].value
+    };
+
+    await updateDoc(doc(db, "fornecedores", id), dados);
     carregar();
 };
 
@@ -64,19 +79,18 @@ window.apagar = async function(id) {
 };
 
 btnNovo.addEventListener("click", async () => {
-    const empresa = prompt("Empresa:");
-    if (!empresa) return;
-
-    await addDoc(collection(db, "fornecedores"), {
-        empresa,
-        categoria: prompt("Categoria:"),
-        contacto: prompt("Nome de contacto:"),
-        telefone: prompt("Telefone:"),
-        email: prompt("Email:"),
-        obs: prompt("Observações:")
-    });
+    const id = (await addDoc(collection(db, "fornecedores"), {
+        empresa: "",
+        categoria: "",
+        contacto: "",
+        telefone: "",
+        email: "",
+        obs: ""
+    })).id;
 
     carregar();
+
+    setTimeout(() => editar(id), 200);
 });
 
 filtro.addEventListener("input", () => {
