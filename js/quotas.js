@@ -42,7 +42,7 @@ async function criarBlocos(ano) {
 
     const condSnap = await getDocs(collection(db, "condominos"));
     const configSnap = await getDocs(collection(db, `config_ano/${ano}/fracoes`));
-    const pagSnap = await getDocs(collection(db, `pagamentos/${ano}/fracoes`));
+    const pagSnap = await getDocs(collection(db, `pagamentos/${ano}/fracao`));
 
     const configMap = {};
     configSnap.forEach(d => configMap[d.id] = d.data());
@@ -280,7 +280,7 @@ async function recalcularTotalCondominio() {
     let totalDivida = 0;
 
     const configSnap = await getDocs(collection(db, `config_ano/${ano}/fracoes`));
-    const pagSnap = await getDocs(collection(db, `pagamentos/${ano}/fracoes`));
+    const pagSnap = await getDocs(collection(db, `pagamentos/${ano}/fracao`));
 
     const configMap = {};
     configSnap.forEach(d => configMap[d.id] = d.data());
