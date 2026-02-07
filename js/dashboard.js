@@ -1,7 +1,7 @@
 import { db } from "./firebase-config.js";
 import { collection, doc, getDocs, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-const tabela = document.querySelector("#tabela-dashboard tbody");
+const lista = document.getElementById("dashboard-lista");
 const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
 
 // Data atual
@@ -15,9 +15,9 @@ const fimMes = mesAtual === 1 ? 12 : mesAtual - 1;
 const fimChave = `${fimAno}-${String(fimMes).padStart(2, "0")}`;
 
 async function carregarDashboard() {
-    tabela.innerHTML = "";
+    lista.innerHTML = "";
 
-    // Ler anos configurados (agora funciona porque 2025 e 2026 existem)
+    // Ler anos configurados
     const anosSnap = await getDocs(collection(db, "config_ano"));
     const anos = anosSnap.docs
         .map(d => Number(d.id))
@@ -82,19 +82,26 @@ async function carregarDashboard() {
 
         const totalDivida = totalQuota + totalExtra;
 
-        tabela.innerHTML += `
-            <tr>
-                <td>${c.letra}</td>
-                <td>${fracao}</td>
-                <td>${c.nome}</td>
-                <td>
-                    <div><b>Quotas:</b> ${totalQuota.toFixed(2)} €</div>
-                    <div><b>Extras:</b> ${totalExtra.toFixed(2)} €</div>
-                    <div><b>Total:</b> ${totalDivida.toFixed(2)} €</div>
-                </td>
-                <td>${inicioDivida ?? "-"}</td>
-                <td>${totalDivida > 0 ? fimChave : "-"}</td>
-            </tr>
+        const classe = totalDivida > 0 ? "dashboard-card com-divida" : "dashboard-card sem-divida";
+
+        lista.innerHTML += `
+            <div class="${classe}">
+                <div class="dashboard-topo">
+                    <div class="dashboard-nome">${c.nome}</div>
+                    <div class="dashboard-fracao">${fracao} — ${c.letra}</div>
+                </div>
+
+                <div class="dashboard-valores">
+                    <div>Quotas: <span>${totalQuota.toFixed(2)} €</span></div>
+                    <div>Extras: <span>${totalExtra.toFixed(2)} €</span></div>
+                    <div>Total: <span>${totalDivida.toFixed(2)} €</span></div>
+                </div>
+
+                <div class="dashboard-datas">
+                    <div>Início da Dívida: <b>${inicioDivida ?? "-"}</b></div>
+                    <div>Fim da Dívida: <b>${totalDivida > 0 ? fimChave : "-"}</b></div>
+                </div>
+            </div>
         `;
     }
 }
