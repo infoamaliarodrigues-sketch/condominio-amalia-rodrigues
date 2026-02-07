@@ -496,5 +496,39 @@ carregarFracoes();
 carregarMesesAnos();
 carregarRecibosTabela();
 
-// DataTables moderno
-new DataTable("#tabelaRecibos");
+
+// ------------------------------------------------------------
+// Filtro por texto
+// ------------------------------------------------------------
+document.getElementById("filtroTabela").addEventListener("keyup", function () {
+    const termo = this.value.toLowerCase();
+    const linhas = document.querySelectorAll("#tabelaRecibos tbody tr");
+
+    linhas.forEach(linha => {
+        const texto = linha.innerText.toLowerCase();
+        linha.style.display = texto.includes(termo) ? "" : "none";
+    });
+});
+
+
+// ------------------------------------------------------------
+// Ordenação ao clicar nos cabeçalhos
+// ------------------------------------------------------------
+document.querySelectorAll("#tabelaRecibos th").forEach((th, index) => {
+    th.style.cursor = "pointer";
+    th.addEventListener("click", () => ordenarTabela(index));
+});
+
+function ordenarTabela(coluna) {
+    const tbody = document.querySelector("#tabelaRecibos tbody");
+    const linhas = Array.from(tbody.querySelectorAll("tr"));
+
+    const ordenado = linhas.sort((a, b) => {
+        const A = a.children[coluna].innerText.toLowerCase();
+        const B = b.children[coluna].innerText.toLowerCase();
+        return A.localeCompare(B, "pt");
+    });
+
+    tbody.innerHTML = "";
+    ordenado.forEach(l => tbody.appendChild(l));
+}
