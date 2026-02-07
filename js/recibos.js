@@ -245,7 +245,6 @@ async function carregarRecibosTabela() {
         });
     });
 }
-
 // ------------------------------------------------------------
 // Gerar recibo
 // ------------------------------------------------------------
@@ -375,7 +374,7 @@ async function gerarRecibo() {
 }
 
 // ------------------------------------------------------------
-// Imprimir PDF (A4, Original + Duplicado em páginas separadas)
+// Imprimir PDF (A4, Original em cima + Duplicado em baixo)
 // ------------------------------------------------------------
 btnImprimir.addEventListener("click", () => {
     if (!ultimoReciboGerado) return;
@@ -388,23 +387,32 @@ btnImprimir.addEventListener("click", () => {
             <title>Recibo Nº ${ultimoReciboGerado.numero}</title>
             <style>
                 body { font-family: Arial, sans-serif; font-size: 12px; margin: 40px; }
-                .page { page-break-after: always; }
                 .recibo-tabela { width: 100%; border-collapse: collapse; }
                 .recibo-tabela th, .recibo-tabela td {
                     border: 1px solid #000;
                     padding: 4px;
                     font-size: 11px;
                 }
+                .metade {
+                    height: 48%;
+                    box-sizing: border-box;
+                }
+                .separador {
+                    border-top: 1px dashed #000;
+                    margin: 10px 0;
+                }
             </style>
         </head>
         <body>
 
-            <div class="page">
+            <div class="metade">
                 <h3>RECIBO – ORIGINAL</h3>
                 ${ultimoReciboGerado.html}
             </div>
 
-            <div class="page">
+            <div class="separador"></div>
+
+            <div class="metade">
                 <h3>RECIBO – DUPLICADO</h3>
                 ${ultimoReciboGerado.html}
             </div>
@@ -421,7 +429,7 @@ btnImprimir.addEventListener("click", () => {
 });
 
 // ------------------------------------------------------------
-// Enviar por email
+// Enviar por email (sem anexos, mailto)
 // ------------------------------------------------------------
 btnEnviar.addEventListener("click", async () => {
     const fracao = fracaoSelect.value;
