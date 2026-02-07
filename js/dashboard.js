@@ -49,8 +49,8 @@ async function carregarDashboard() {
             const pag = pagSnap.exists() ? pagSnap.data() : { quotas:{}, extras:{} };
 
             // Isenção (correto)
-            const isento = cfg.isento === true;
-            const percent = Number(cfg.percentagemIsencao || 0);
+            const isento = cfg.isencao === true;
+            const percent = Number(cfg.isencaoPercent || 0);
             const fator = isento ? (1 - percent / 100) : 1;
 
             MESES.forEach((m, index) => {
