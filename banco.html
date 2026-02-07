@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestão de Banco</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="menu-icon" id="menuBtn">☰</div>
+    <div class="logo">Condomínio Amália Rodrigues</div>
+</header>
+
+<div id="sideMenu" class="side-menu">
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="condominos.html">👥 Condóminos</a>
+    <a href="quotas.html">💰 Quotas</a>
+    <a href="configurar.html">⚙️ Configurar</a>
+    <a href="fornecedores.html">🏢 Fornecedores</a>
+    <a href="manutencao.html">🛠️ Manutenção</a>
+    <a href="recibos.html">🧾 Recibos</a>
+    <a href="banco.html" class="ativo">🏦 Banco</a>
+    <a href="index.html">🏠 Saír</a>
+</div>
+
+<div class="main-container">
+
+    <h2>Gestão de Banco</h2>
+
+    <!-- Card de saldo -->
+    <div class="banco-saldo-card">
+        <div class="banco-saldo-label">Saldo à data</div>
+        <div class="banco-saldo-valor" id="saldoAtual">€ 0,00</div>
+        <div class="banco-saldo-data" id="saldoData">(sem movimentos)</div>
+    </div>
+
+    <!-- Ações topo -->
+    <div class="banco-actions">
+        <div>
+            <label><strong>Importar Excel:</strong></label>
+            <input type="file" id="inputExcel" accept=".xlsx,.xls,.csv">
+        </div>
+
+        <div class="banco-filtros">
+            <div>
+                <label>Data início:</label>
+                <input type="date" id="filtroDataInicio">
+            </div>
+            <div>
+                <label>Data fim:</label>
+                <input type="date" id="filtroDataFim">
+            </div>
+            <div>
+                <label>Pesquisa:</label>
+                <input id="filtroTexto" placeholder="Descrição, notas, tratado...">
+            </div>
+        </div>
+
+        <div class="banco-export">
+            <button id="btnExportExcel" class="btn-primario">Exportar Excel</button>
+            <button id="btnExportPDF" class="btn-primario">Exportar PDF</button>
+        </div>
+    </div>
+
+    <table id="tabela-banco">
+        <thead>
+            <tr>
+                <th>Data Lançamento</th>
+                <th>Data Valor</th>
+                <th>Descrição</th>
+                <th>Montante</th>
+                <th>Saldo</th>
+                <th>Moeda</th>
+                <th>Notas</th>
+                <th>Tratado</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+
+<!-- Excel + PDF libs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+<script type="module" src="js/banco.js"></script>
+
+<script>
+    document.getElementById("menuBtn").addEventListener("click", () => {
+        document.getElementById("sideMenu").classList.toggle("open");
+    });
+</script>
+
+</body>
+</html>
