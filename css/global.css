@@ -650,3 +650,11 @@ table th {
     width: 140px !important;
 }
 
+/* Manutenção – cores por estado */
+.manut-ok {
+    background-color: #c8f7c5 !important;   /* verde claro */
+}
+
+.manut-alerta {
+    background-color: #f7c5c5 !important;   /* vermelho claro */
+}
