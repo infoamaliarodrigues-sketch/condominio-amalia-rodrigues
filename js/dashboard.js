@@ -103,11 +103,8 @@ async function carregarDashboard() {
         `;
     }
 
-   lista.insertAdjacentHTML("afterbegin", `
-    <div class="dashboard-total">
-        Total Geral de Dívida: <b>${totalGeral.toFixed(2)} €</b>
-    </div>
-`);
+  document.getElementById("total-geral").innerHTML =
+    `Total Geral de Dívida: <b>${totalGeral.toFixed(2)} €</b>`;
 }
 
 carregarDashboard();
