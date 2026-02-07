@@ -101,10 +101,11 @@ onSnapshot(collection(db, "condominos"), (snapshot) => {
                 <td>${c.fracao}</td>
                 <td>${c.permilagem}</td>
 
-                <td><input id="nome-${c.fracao}" value="${c.nome}" disabled></td>
-                <td><input id="nif-${c.fracao}" class="nif-input" value="${c.nif ?? ""}" disabled></td>
-                <td><input id="tel-${c.fracao}" value="${c.telefone}" disabled></td>
-                <td><input id="email-${c.fracao}" value="${c.email}" disabled></td>
+                <td><input class="input-tabela" id="nome-${c.fracao}" value="${c.nome}" disabled></td>
+                <td><input class="input-tabela nif-input" id="nif-${c.fracao}" value="${c.nif ?? ""}" disabled></td>
+                <td><input class="input-tabela telefone-input" id="tel-${c.fracao}" value="${c.telefone}" disabled></td>
+                <td><input class="input-tabela email-input" id="email-${c.fracao}" value="${c.email}" disabled></td>
+
 
                 <td>
                     <input type="checkbox" id="isento-${c.fracao}" ${isento ? "checked" : ""} disabled>
