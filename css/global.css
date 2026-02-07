@@ -168,7 +168,6 @@ button:hover,
     background: #162c6a;
 }
 
-/* Botões CRUD */
 td button {
     font-size: 10px;
     padding: 3px 5px;
@@ -229,6 +228,15 @@ td button {
 #tabela-condominos th:nth-child(9) { width: 80px; }
 #tabela-condominos th:nth-child(10) { width: 180px; }
 
+#tabela-condominos th:nth-child(1),
+#tabela-condominos th:nth-child(2),
+#tabela-condominos th:nth-child(3),
+#tabela-condominos td:nth-child(1),
+#tabela-condominos td:nth-child(2),
+#tabela-condominos td:nth-child(3) {
+    font-size: 11px !important;
+}
+
 /* ============================
    FORNECEDORES (ISOLADO)
 ============================ */
@@ -251,11 +259,21 @@ td button {
 #tabela-manutencao th:nth-child(2) { width: 150px; }
 #tabela-manutencao th:nth-child(3) { width: 140px; }
 #tabela-manutencao th:nth-child(4) { width: 180px; }
+
 #tabela-manutencao th:nth-child(5),
-#tabela-manutencao td:nth-child(5) { width: 110px; text-align: center; }
+#tabela-manutencao td:nth-child(5) {
+    width: 110px;
+    text-align: center;
+}
+
 #tabela-manutencao th:nth-child(6),
-#tabela-manutencao td:nth-child(6) { width: 110px; text-align: center; }
+#tabela-manutencao td:nth-child(6) {
+    width: 110px;
+    text-align: center;
+}
+
 #tabela-manutencao th:nth-child(7) { width: 200px; }
+
 #tabela-manutencao th:nth-child(8) {
     width: 150px;
     text-align: center;
