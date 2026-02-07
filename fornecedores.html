@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestão de Fornecedores</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="menu-icon" id="menuBtn">☰</div>
+    <div class="logo">Condomínio Amália Rodrigues</div>
+</header>
+
+<div id="sideMenu" class="side-menu">
+    <a href="dashboard.html">📊 Dashboard</a>
+    <a href="condominos.html">👥 Condóminos</a>
+    <a href="quotas.html">💰 Quotas</a>
+    <a href="configurar.html">⚙️ Configurar</a>
+    <a href="fornecedores.html" class="ativo">🏢 Fornecedores</a>
+    <a href="manutencao.html">🛠️ Manutenção</a>
+    <a href="recibos.html">🧾 Recibos</a>
+    <a href="index.html">🏠 Saír</a>
+</div>
+
+<div class="main-container">
+
+    <h2>Gestão de Fornecedores</h2>
+
+    <button id="btnNovo" class="btn-primario">Novo Fornecedor</button>
+
+    <input id="filtro" placeholder="Filtrar por empresa ou categoria">
+
+    <table id="tabela">
+        <thead>
+            <tr>
+                <th>Empresa</th>
+                <th>Categoria</th>
+                <th>Contacto</th>
+                <th>Telefone</th>
+                <th>Email</th>
+                <th>Observações</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+
+<script type="module" src="js/fornecedores.js"></script>
+
+<script>
+    document.getElementById("menuBtn").addEventListener("click", () => {
+        document.getElementById("sideMenu").classList.toggle("open");
+    });
+</script>
+
+</body>
+</html>
