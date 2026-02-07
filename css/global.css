@@ -645,3 +645,8 @@ table th {
     height: auto;
 }
 
+#tabela-manutencao th:nth-child(7),
+#tabela-manutencao td:nth-child(7) {
+    width: 140px !important;
+}
+
