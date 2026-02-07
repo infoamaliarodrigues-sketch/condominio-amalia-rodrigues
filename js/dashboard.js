@@ -17,6 +17,8 @@ const fimChave = `${fimAno}-${String(fimMes).padStart(2, "0")}`;
 async function carregarDashboard() {
     lista.innerHTML = "";
 
+    let totalGeral = 0; // acumulador do total geral
+
     // Ler anos configurados
     const anosSnap = await getDocs(collection(db, "config_ano"));
     const anos = anosSnap.docs
@@ -81,6 +83,7 @@ async function carregarDashboard() {
         }
 
         const totalDivida = totalQuota + totalExtra;
+        totalGeral += totalDivida; // acumular total geral
 
         const classe = totalDivida > 0 ? "dashboard-card com-divida" : "dashboard-card sem-divida";
 
@@ -104,6 +107,20 @@ async function carregarDashboard() {
             </div>
         `;
     }
+
+    // Inserir cartão do total geral no topo
+    lista.insertAdjacentHTML("afterbegin", `
+        <div class="dashboard-card com-divida" style="border-left: 6px solid #000;">
+            <div class="dashboard-topo">
+                <div class="dashboard-nome">Total Geral de Dívida</div>
+                <div class="dashboard-fracao">Condomínio</div>
+            </div>
+
+            <div class="dashboard-valores">
+                <div>Total em Dívida: <span>${totalGeral.toFixed(2)} €</span></div>
+            </div>
+        </div>
+    `);
 }
 
 carregarDashboard();
