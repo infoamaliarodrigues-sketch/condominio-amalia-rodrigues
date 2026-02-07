@@ -29,8 +29,8 @@ async function carregar() {
             <td><input value="${f.email}" disabled></td>
             <td><input value="${f.obs || ""}" disabled></td>
             <td class="acoes">
-                <button class="btn-primario" onclick="editar('${d.id}')">Editar</button>
-                <button class="btn-perigo" onclick="apagar('${d.id}')">Apagar</button>
+               <button class="btn-primario btn-sm" onclick="editar('${d.id}')">Editar</button>
+                <button class="btn-perigo btn-sm" onclick="apagar('${d.id}')">Apagar</button>
             </td>
         `;
 
@@ -45,10 +45,10 @@ window.editar = function(id) {
 
     inputs.forEach(i => i.disabled = false);
 
-    acoes.innerHTML = `
-        <button class="btn-primario" onclick="guardar('${id}')">Guardar</button>
-        <button class="btn-secundario" onclick="cancelar('${id}')">Cancelar</button>
-    `;
+   acoes.innerHTML = `
+    <button class="btn-primario btn-sm" onclick="guardar('${id}')">Guardar</button>
+    <button class="btn-secundario btn-sm" onclick="cancelar('${id}')">Cancelar</button>
+`;
 };
 
 window.cancelar = function(id) {
