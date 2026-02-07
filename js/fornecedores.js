@@ -29,9 +29,10 @@ async function carregar() {
             <td><input class="input-tabela" value="${f.email}" disabled></td>
             <td><input class="input-tabela" value="${f.obs || ""}" disabled></td>
             <td class="acoes">
-                <button class="btn-primario btn-sm" onclick="editar('${d.id}')">Editar</button>
-                <button class="btn-perigo btn-sm" onclick="apagar('${d.id}')">Apagar</button>
-            </td>
+            <button class="btn-edit" onclick="editar('${d.id}')">Editar</button>
+            <button class="btn-delete" onclick="apagar('${d.id}')">Apagar</button>
+        </td>
+
         `;
 
         tabela.appendChild(tr);
@@ -45,10 +46,11 @@ window.editar = function(id) {
 
     inputs.forEach(i => i.disabled = false);
 
-    acoes.innerHTML = `
-        <button class="btn-primario btn-sm" onclick="guardar('${id}')">Guardar</button>
-        <button class="btn-secundario btn-sm" onclick="cancelar('${id}')">Cancelar</button>
-    `;
+   acoes.innerHTML = `
+    <button class="btn-save" onclick="guardar('${id}')">Guardar</button>
+    <button class="btn-delete" onclick="cancelar('${id}')">Cancelar</button>
+`;
+
 };
 
 window.cancelar = function(id) {
