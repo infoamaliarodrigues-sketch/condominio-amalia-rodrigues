@@ -652,3 +652,131 @@ td.acoes {
     width: 150px;
 }
 
+/* ================================
+   TABELA DE FORNECEDORES — COLUNAS
+   ================================ */
+
+#tabela th:nth-child(1),
+#tabela td:nth-child(1) {
+    width: 160px; /* Empresa */
+}
+
+#tabela th:nth-child(2),
+#tabela td:nth-child(2) {
+    width: 120px; /* Categoria */
+}
+
+#tabela th:nth-child(3),
+#tabela td:nth-child(3) {
+    width: 150px; /* Contacto */
+}
+
+#tabela th:nth-child(4),
+#tabela td:nth-child(4) {
+    width: 120px; /* Telefone */
+}
+
+#tabela th:nth-child(5),
+#tabela td:nth-child(5) {
+    width: 180px; /* Email */
+}
+
+#tabela th:nth-child(6),
+#tabela td:nth-child(6) {
+    width: 200px; /* Observações */
+}
+
+#tabela th:nth-child(7),
+#tabela td:nth-child(7) {
+    width: 150px;
+    white-space: nowrap;
+    text-align: center; /* Ações */
+}
+
+/* ================================
+   INPUTS DA TABELA
+   ================================ */
+
+.input-tabela {
+    width: 100%;
+    padding: 4px 6px;
+    font-size: 11px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fafafa;
+    box-sizing: border-box;
+}
+
+.input-tabela:disabled {
+    background: #eee;
+    color: #555;
+}
+
+/* ================================
+   BOTÕES PEQUENOS
+   ================================ */
+
+.btn-sm {
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    border-radius: 4px !important;
+}
+
+/* ================================
+   BOTÕES CRUD — CORES
+   ================================ */
+
+/* Azul — Editar */
+.btn-edit,
+.btn-primario {
+    background: #1e3a8a !important;
+    color: white !important;
+}
+
+.btn-edit:hover,
+.btn-primario:hover {
+    background: #162c6a !important;
+}
+
+/* Verde — Guardar */
+.btn-save {
+    background: #22c55e !important;
+    color: white !important;
+}
+
+.btn-save:hover {
+    background: #1a9e4b !important;
+}
+
+/* Vermelho — Apagar */
+.btn-delete,
+.btn-perigo {
+    background: #ef4444 !important;
+    color: white !important;
+}
+
+.btn-delete:hover,
+.btn-perigo:hover {
+    background: #c53030 !important;
+}
+
+/* Cinzento — Cancelar */
+.btn-secundario {
+    background: #6b7280 !important;
+    color: white !important;
+}
+
+.btn-secundario:hover {
+    background: #4b5563 !important;
+}
+
+/* ================================
+   COLUNA AÇÕES
+   ================================ */
+
+td.acoes {
+    white-space: nowrap;
+    text-align: center;
+    width: 150px;
+}
+
