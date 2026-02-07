@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Emissão de Recibos</title>
     <link rel="stylesheet" href="css/global.css">
+
+    <!-- DataTables (filtros e pesquisa na tabela) -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.min.css">
 </head>
 
 <body>
@@ -29,55 +32,65 @@
 
         <h2>Emissão de Recibos</h2>
 
-<!-- FRAÇÃO -->
-<div class="recibo-form">
-    <label for="fracaoSelect">Fração:</label>
-    <select id="fracaoSelect"></select>
-</div>
+        <!-- FRAÇÃO -->
+        <div class="recibo-form">
+            <label for="fracaoSelect">Fração:</label>
+            <select id="fracaoSelect"></select>
+        </div>
 
-<!-- PERÍODO -->
-<div class="recibo-form" style="display:flex; gap:20px; margin-top:10px;">
-    <div>
-        <label>Início:</label><br>
-        <select id="mesInicio"></select>
-        <select id="anoInicio"></select>
-    </div>
+        <!-- PERÍODO -->
+        <div class="recibo-form" style="display:flex; gap:20px; margin-top:10px;">
+            <div>
+                <label>Início:</label><br>
+                <select id="mesInicio"></select>
+                <select id="anoInicio"></select>
+            </div>
 
-    <div>
-        <label>Fim:</label><br>
-        <select id="mesFim"></select>
-        <select id="anoFim"></select>
-    </div>
-</div>
+            <div>
+                <label>Fim:</label><br>
+                <select id="mesFim"></select>
+                <select id="anoFim"></select>
+            </div>
+        </div>
 
-<!-- FORMA DE PAGAMENTO -->
-<div class="recibo-form" style="margin-top:10px; display:flex; gap:20px;">
-    <div>
-        <label for="formaPagamento">Forma de Pagamento:</label><br>
-        <select id="formaPagamento">
-            <option value="numerario">Numerário</option>
-            <option value="transferencia">Transferência</option>
-        </select>
-    </div>
+        <!-- FORMA DE PAGAMENTO -->
+        <div class="recibo-form" style="margin-top:10px; display:flex; gap:20px;">
+            <div>
+                <label for="formaPagamento">Forma de Pagamento:</label><br>
+                <select id="formaPagamento">
+                    <option value="numerario">Numerário</option>
+                    <option value="transferencia">Transferência</option>
+                </select>
+            </div>
 
-    <div id="dataTransferenciaBox" style="display:none;">
-        <label for="dataTransferencia">Data da Transferência:</label><br>
-        <input type="date" id="dataTransferencia">
-    </div>
-</div>
+            <div id="dataTransferenciaBox" style="display:none;">
+                <label for="dataTransferencia">Data da Transferência:</label><br>
+                <input type="date" id="dataTransferencia">
+            </div>
+        </div>
 
-<!-- QUOTAS / EXTRAS -->
-<div class="linha-checkbox">
-    <label><input type="checkbox" id="chkQuota" checked> Quotas</label>
-    <label><input type="checkbox" id="chkExtra" checked> Extras</label>
-</div>
+        <!-- QUOTAS / EXTRAS -->
+        <div class="linha-checkbox">
+            <label><input type="checkbox" id="chkQuota" checked> Quotas</label>
+            <label><input type="checkbox" id="chkExtra" checked> Extras</label>
+        </div>
 
+        <!-- OBSERVAÇÕES -->
+        <div class="recibo-form" style="margin-top:10px;">
+            <label for="observacoes">Observações:</label><br>
+            <textarea id="observacoes" rows="3" style="width:100%;"></textarea>
+        </div>
 
         <!-- BOTÕES -->
         <div style="margin-top:20px; display:flex; gap:15px;">
             <button id="btnGerar" class="btn-primario">Gerar Recibo</button>
             <button id="btnImprimir" class="btn-primario" disabled>Imprimir PDF</button>
             <button id="btnEnviar" class="btn-primario" disabled>Enviar por Email</button>
+
+            <!-- Botão de testes -->
+            <button id="btnResetContador" class="btn-primario" style="background:#b71c1c;">
+                Limpar Contador (Testes)
+            </button>
         </div>
 
         <!-- ÁREA DO RECIBO GERADO -->
@@ -124,6 +137,10 @@
         }
     </script>
 
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
+
+    <!-- JS dos recibos -->
     <script type="module" src="js/recibos.js"></script>
 
 </body>
