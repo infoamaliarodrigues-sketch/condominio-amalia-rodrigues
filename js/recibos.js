@@ -13,29 +13,29 @@ const fracaoSelect = document.getElementById("fracaoSelect");
 const mesInicio = document.getElementById("mesInicio");
 const anoInicio = document.getElementById("anoInicio");
 const mesFim = document.getElementById("mesFim");
-const anoFim = document.getElementById("anoFim");
-const btnGerar = document.getElementById("btnGerar");
-const btnImprimir = document.getElementById("btnImprimir");
-const btnEnviar = document.getElementById("btnEnviar");
-const reciboContainer = document.getElementById("reciboContainer");
-const reciboOriginal = document.getElementById("reciboOriginal");
-const reciboDuplicado = document.getElementById("reciboDuplicado");
-const tabelaRecibosBody = document.querySelector("#tabelaRecibos tbody");
+ anoFim = document.getElementById("anoFim");
+ btnGerar = document.getElementById("btnGerar");
+ btnImprimir = document.getElementById("btnImprimir");
+ btnEnviar = document.getElementById("btnEnviar");
+ reciboContainer = document.getElementById("reciboContainer");
+ reciboOriginal = document.getElementById("reciboOriginal");
+ reciboDuplicado = document.getElementById("reciboDuplicado");
+ tabelaRecibosBody = document.querySelector("#tabelaRecibos tbody");
 
-const chkQuota = document.getElementById("chkQuota");
-const chkExtra = document.getElementById("chkExtra");
+ chkQuota = document.getElementById("chkQuota");
+ chkExtra = document.getElementById("chkExtra");
 
-const formaPagamentoSelect = document.getElementById("formaPagamento");
-const dataTransferenciaBox = document.getElementById("dataTransferenciaBox");
+ formaPagamentoSelect = document.getElementById("formaPagamento");
+ dataTransferenciaBox = document.getElementById("dataTransferenciaBox");
 
-const observacoesInput = document.getElementById("observacoes");
+ observacoesInput = document.getElementById("observacoes");
 
 formaPagamentoSelect.addEventListener("change", () => {
     dataTransferenciaBox.style.display =
         formaPagamentoSelect.value === "transferencia" ? "block" : "none";
 });
 
-const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+ MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
 
 let ultimoReciboGerado = null;
 
@@ -43,10 +43,10 @@ let ultimoReciboGerado = null;
 // Carregar frações
 // ------------------------------------------------------------
 async function carregarFracoes() {
-    const snap = await getDocs(collection(db, "condominos"));
+     snap = await getDocs(collection(db, "condominos"));
     snap.forEach(docSnap => {
-        const d = docSnap.data();
-        const opt = document.createElement("option");
+         d = docSnap.data();
+         opt = document.createElement("option");
         opt.value = d.fracao;
         opt.textContent = `${d.fracao} (${d.letra})`;
         fracaoSelect.appendChild(opt);
@@ -58,30 +58,30 @@ async function carregarFracoes() {
 // ------------------------------------------------------------
 function carregarMesesAnos() {
     for (let i = 0; i < 12; i++) {
-        const opt1 = document.createElement("option");
+         opt1 = document.createElement("option");
         opt1.value = i + 1;
         opt1.textContent = MESES[i].toUpperCase();
         mesInicio.appendChild(opt1);
 
-        const opt2 = document.createElement("option");
+         opt2 = document.createElement("option");
         opt2.value = i + 1;
         opt2.textContent = MESES[i].toUpperCase();
         mesFim.appendChild(opt2);
     }
 
     for (let ano = 2020; ano <= 2050; ano++) {
-        const opt1 = document.createElement("option");
+         opt1 = document.createElement("option");
         opt1.value = ano;
         opt1.textContent = ano;
         anoInicio.appendChild(opt1);
 
-        const opt2 = document.createElement("option");
+         opt2 = document.createElement("option");
         opt2.value = ano;
         opt2.textContent = ano;
         anoFim.appendChild(opt2);
     }
 
-    const atual = new Date().getFullYear();
+     atual = new Date().getFullYear();
     anoInicio.value = atual;
     anoFim.value = atual;
     mesInicio.value = 1;
@@ -92,30 +92,30 @@ function carregarMesesAnos() {
 // Valor por extenso
 // ------------------------------------------------------------
 function valorPorExtenso(valor) {
-    const unidades = ["zero","um","dois","três","quatro","cinco","seis","sete","oito","nove"];
-    const especiais = ["dez","onze","doze","treze","catorze","quinze","dezasseis","dezassete","dezoito","dezanove"];
-    const dezenas = ["","","vinte","trinta","quarenta","cinquenta","sessenta","setenta","oitenta","noventa"];
-    const centenas = ["","cento","duzentos","trezentos","quatrocentos","quinhentos","seiscentos","setecentos","oitocentos","novecentos"];
+     unidades = ["zero","um","dois","três","quatro","cinco","seis","sete","oito","nove"];
+     especiais = ["dez","onze","doze","treze","catorze","quinze","dezasseis","dezassete","dezoito","dezanove"];
+     dezenas = ["","","vinte","trinta","quarenta","cinquenta","sessenta","setenta","oitenta","noventa"];
+     centenas = ["","cento","duzentos","trezentos","quatrocentos","quinhentos","seiscentos","setecentos","oitocentos","novecentos"];
 
     function extenso(n) {
         if (n < 10) return unidades[n];
         if (n < 20) return especiais[n - 10];
         if (n < 100) {
-            const d = Math.floor(n / 10);
-            const u = n % 10;
+             d = Math.floor(n / 10);
+             u = n % 10;
             return dezenas[d] + (u ? " e " + unidades[u] : "");
         }
         if (n === 100) return "cem";
         if (n < 1000) {
-            const c = Math.floor(n / 100);
-            const r = n % 100;
+             c = Math.floor(n / 100);
+             r = n % 100;
             return centenas[c] + (r ? " e " + extenso(r) : "");
         }
         return "";
     }
 
-    const euros = Math.floor(valor);
-    const centimos = Math.round((valor - euros) * 100);
+     euros = Math.floor(valor);
+     centimos = Math.round((valor - euros) * 100);
 
     let frase = extenso(euros) + (euros === 1 ? " euro" : " euros");
     if (centimos > 0) frase += " e " + extenso(centimos) + (centimos === 1 ? " cêntimo" : " cêntimos");
@@ -127,8 +127,8 @@ function valorPorExtenso(valor) {
 // Número sequencial
 // ------------------------------------------------------------
 async function obterNumeroRecibo() {
-    const ref = doc(db, "recibos_meta", "sequencia");
-    const snap = await getDoc(ref);
+     ref = doc(db, "recibos_meta", "sequencia");
+     snap = await getDoc(ref);
 
     let numero = 1;
 
@@ -145,7 +145,7 @@ async function obterNumeroRecibo() {
 // Calcular linhas
 // ------------------------------------------------------------
 async function calcularLinhas(fracao, anoI, mesI, anoF, mesF) {
-    const linhas = [];
+     linhas = [];
     let total = 0;
 
     for (let ano = anoI; ano <= anoF; ano++) {
@@ -437,17 +437,7 @@ btnEnviar.addEventListener("click", async () => {
     const cond = condSnap.data();
 
     const assunto = encodeURIComponent("Recibo de Quotas do Condomínio");
-    const corpo = encodeURIComponent(
-`Estimado(a) ${titular},
-
-Somos por esta via a enviar o respetivo recibo de quitação referente ao vosso pagamento.
-
-RECIBO Nº ${numeroRecibo}
-${reciboOriginal.innerText.replace(/^RECIBO.*\n/, "")}
-
-Com os melhores cumprimentos,
-A Administração`
-);
+const corpo = encodeURIComponent( `Estimado(a) ${cond.nome}, Condomino, somos a enviar por esta via o respetivo recibo referente ao pagamento das quotas do condomínio. RECIBO Nº ${ultimoReciboGerado.numero} ${reciboOriginal.innerText} Com os melhores cumprimentos, A Administração` );;
 
     window.location.href = `mailto:${cond.email}?subject=${assunto}&body=${corpo}`;
 });
