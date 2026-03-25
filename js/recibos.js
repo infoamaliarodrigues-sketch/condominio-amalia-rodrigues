@@ -294,7 +294,7 @@ async function gerarRecibo() {
             <tr><th></th><th colspan="2">RECIBO</th><th>Nº ${numero}</th></tr>
 
             <tr><td colspan="4">
-                CONDOMÍNIO DO PRÉDIO: AV. AMÁLIA RODRIGUES Nº 28 – JARDIM AMOREIRA<br>
+                CONDOMÍNIO DO PRÉDIO: AV. AMÁLIA RODRIGUES Nº 10 – JARDIM AMOREIRA<br>
                 NIF: 901 842 931
             </td></tr>
 
